@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://iqsqtp6njiap"]
+[gd_scene load_steps=13 format=3 uid="uid://iqsqtp6njiap"]
 
 [ext_resource type="Texture2D" uid="uid://bvask8xje5fm4" path="res://Assets/Tiles/floor_nw.png" id="1_8xfmv"]
+[ext_resource type="Script" path="res://RoomSystem/Room.cs" id="1_rt4ef"]
 [ext_resource type="Texture2D" uid="uid://uixiq7ayjyvq" path="res://Assets/Tiles/floor_ne.png" id="2_2jwsx"]
 [ext_resource type="Texture2D" uid="uid://cs67863g0k31e" path="res://Assets/Tiles/floor_s.png" id="3_3sfe4"]
 [ext_resource type="Texture2D" uid="uid://dauwggid3t6s0" path="res://Assets/Tiles/floor_se.png" id="4_527dr"]
@@ -13,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://cmj16f01fss25" path="res://Assets/Tiles/wall_1.png" id="11_76jqf"]
 
 [node name="StartRoom" type="Node2D"]
+script = ExtResource("1_rt4ef")
 
 [node name="Floor" type="Node2D" parent="."]
 position = Vector2(54, 54)

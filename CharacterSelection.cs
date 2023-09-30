@@ -1,22 +1,21 @@
 using Godot;
 using System;
 
-public partial class Character : Node2D
+public partial class CharacterSelection : Node2D
 {
     private bool isLeftDown = false;
     private bool isSelecting = false;
     private Area2D area;
     private Area2D body;
     private Node2D selection;
+    public bool IsSelected { get; private set; }
 
     public override void _Ready()
     {
-        selection = GetNode<Node2D>("Selection");
-        area = GetNode<Area2D>("MouseOverArea");
-        body = GetNode<Area2D>("Body");
-
-        GD.Print(area);
-        GD.Print(body);
+        var parent = GetParent<Node2D>();
+        selection = GetNode<Node2D>("SelectionCircle");
+        area = parent.GetNode<Area2D>("MouseOverArea");
+        body = parent.GetNode<Area2D>("Body");
         base._Ready();
     }
 
@@ -34,18 +33,10 @@ public partial class Character : Node2D
                 {
                     isLeftDown = false;
                     selection.Visible = isSelecting;
-                    if (isSelecting)
-                    {
-                        GD.Print("Character selected");
-                    }
-                    else
-                    {
-                        GD.Print("Character unselected");
-                    }
+                    IsSelected = isSelecting;
                 }
             }
         }
-
         base._Input(e);
     }
 

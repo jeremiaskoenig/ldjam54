@@ -21,6 +21,7 @@ public partial class RoomGenerator : GodotObject
 				var newNode = roomTemplate.Duplicate() as Node2D;
 				newNode.Translate(new Vector2(126 * x, 126 * y));
 				newNode.Visible = true;
+				//newN
 
 				mainNode.AddChild(newNode);
 			}
