@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwwv77m441ywj"]
+
+[ext_resource type="Script" path="res://Main.cs" id="1_p0y2m"]
+[ext_resource type="PackedScene" uid="uid://iqsqtp6njiap" path="res://base_room.tscn" id="2_h84fs"]
+[ext_resource type="PackedScene" uid="uid://cij3m5lx6dv3n" path="res://character.tscn" id="3_t33pv"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_p0y2m")
+
+[node name="RoomTemplate" parent="." instance=ExtResource("2_h84fs")]
+visible = false
+
+[node name="Rooms" type="Node2D" parent="."]
+
+[node name="Character" parent="." instance=ExtResource("3_t33pv")]
+position = Vector2(43, 42)
+scale = Vector2(0.75, 0.75)
