@@ -1,42 +1,94 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
-public partial class RoomGenerator : GodotObject
+public partial class WorldGenerator : GodotObject
 {
-	private readonly Node2D mainNode;
-	private readonly Node2D roomTemplate;
+	private readonly Main main;
+	private readonly TileMap worldMap;
+	private readonly TileMap roomTemplate;
 
-	public RoomGenerator(Node2D mainNode, Node2D roomTemplate)
+	public AStar2D AStar { get; } = new AStar2D();
+	public List<Vector2I> WalkableTiles { get; } = new List<Vector2I>();
+
+	public WorldGenerator(Main main, TileMap worldMap, TileMap roomTemplate)
 	{
-		this.mainNode = mainNode;
+		this.main = main;
+		this.worldMap = worldMap;
 		this.roomTemplate = roomTemplate;
+
+		GD.Print(worldMap);
+		GD.Print(roomTemplate);
 	}
 
 	public void Generate()
 	{
+		var roomWidth = main.GetConfig<int>("roomWidth");
+		var roomHeight = main.GetConfig<int>("roomHeight");
+
 		for (int y = 0; y < 10; y++)
 		{
 			for (int x = 0; x < 10; x++)
 			{
-				var newNode = roomTemplate.Duplicate() as Node2D;
-				newNode.Translate(new Vector2(126 * x, 126 * y));
-				newNode.Visible = true;
-				//newN
+				var offsetX = x * roomWidth;
+				var offsetY = y * roomHeight;
 
-				mainNode.AddChild(newNode);
+				for (int layer = 0; layer < roomTemplate.GetLayersCount(); layer++)
+				{
+					var cells = roomTemplate.GetUsedCells(layer);
+
+					foreach (var cell in cells)
+					{
+						var cellPos = new Vector2I(offsetX + cell.X, offsetY + cell.Y);
+
+						var sourceId = roomTemplate.GetCellSourceId(layer, cell);
+						var atlasCoords = roomTemplate.GetCellAtlasCoords(layer, cell);
+
+						worldMap.SetCell(layer, cellPos, sourceId, atlasCoords);
+					}
+				}
 			}
 		}
 
-		// prep:
-		// create a list of "broken" rooms
+		var floorCells = worldMap.GetUsedCells(0);
+		var wallCells = worldMap.GetUsedCells(1);
+
+		foreach (var cell in floorCells)
+		{
+			if (wallCells.Contains(cell))
+				continue;
+			AStar.AddPoint(id(cell), cell, 0);
+			WalkableTiles.Add(cell);
+		}
+
+		foreach (var cell in floorCells)
+		{
+			foreach (var neighbour in neighbours)
+			{
+				var neighbourCell = cell + neighbour;
+				if (floorCells.Contains(neighbourCell))
+				{
+					AStar.ConnectPoints(id(cell), id(neighbourCell), false);
+				}
+			}
+		}
 
 
+		long id(Vector2 pos) => CalculateId(pos);
+	}
 
-		// get main node
-		// iterate from min to max width
-		// iterate from min to max height
-		// select and place random room from list
-		// if index is 0|0 create start room instead
+	private static readonly Vector2I[] neighbours = new[]
+	{
+		new	Vector2I(1,0),
+		new	Vector2I(-1,0),
+		new	Vector2I(0,1),
+		new	Vector2I(0,-1),
+	};
 
+	private long CalculateId(Vector2 pos)
+	{
+		var a = pos.X;
+		var b = pos.Y;
+		return (long)((a + b) * (a + b + 1) / 2 + b);
 	}
 }

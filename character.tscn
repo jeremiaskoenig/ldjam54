@@ -29,10 +29,6 @@ path_desired_distance = 5.0
 target_desired_distance = 3.0
 path_max_distance = 18.0
 
-[node name="Sprite2" type="Sprite2D" parent="Movement/NavigationAgent2D"]
-visible = false
-texture = ExtResource("1_tvq1m")
-
 [node name="Selection" type="Node2D" parent="."]
 script = ExtResource("1_0g4mv")
 

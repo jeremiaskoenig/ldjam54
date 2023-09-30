@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cta6vxim3mnx4"
-path="res://.godot/imported/wall_2.png-75be6a6ab22f794a83523d0ac896afb9.ctex"
+uid="uid://c3pxg6qraobok"
+path="res://.godot/imported/room_atlas.png-f05ee6f4bbac3208a02bfd9deed9fac9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Tiles/wall_2.png"
-dest_files=["res://.godot/imported/wall_2.png-75be6a6ab22f794a83523d0ac896afb9.ctex"]
+source_file="res://Assets/Tiles/room_atlas.png"
+dest_files=["res://.godot/imported/room_atlas.png-f05ee6f4bbac3208a02bfd9deed9fac9.ctex"]
 
 [params]
 

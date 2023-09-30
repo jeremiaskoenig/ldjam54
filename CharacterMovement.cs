@@ -8,84 +8,20 @@ public partial class CharacterMovement : Node2D
     private Queue<Vector2> currentPath = new();
     private Vector2? currentTarget;
     private Node2D parent;
-    private AStar2D astar = new AStar2D();
-    private List<(int id, Vector2 position)> nodeList = new();
-    private List<Room> calculatedRooms = new();
 
     private float speed = 0;
 
-    public override void _Process(double delta)
+    private long CalculateId(Vector2 pos)
     {
-        var nodes = GetTree().Root.GetNode<Node2D>("Main/Rooms").GetChildren().OfType<Room>().ToList();
-
-        if (nodes.Count != calculatedRooms.Count)
-        {
-            int id = nodeList.Any() ? nodeList.Max(node => node.id) : 0;
-            foreach (var room in nodes)
-            {
-                if (calculatedRooms.Contains(room))
-                    continue;
-
-                calculatedRooms.Add(room);
-
-                for (int y = 0; y < 7; y++)
-                {
-                    for (int x = 0; x < 7; x++)
-                    {
-                        var currentId = id++;
-                        var currentPosition = new Vector2(room.GlobalPosition.X + (x * 18), room.GlobalPosition.Y + (y * 18));
-                        var currentNode = (id: currentId, position: currentPosition);
-
-                        var weight = 0;
-                        if (x == 0 && y != 3)
-                            weight = Int32.MaxValue;
-                        if (y == 0 && x != 3)
-                            weight = Int32.MaxValue;
-
-                        if (weight != 0)
-                        {
-                            var collider = GetNode<Node2D>("TileCollider").Duplicate() as Node2D;
-                            GetTree().Root.AddChild(collider);
-                            collider.GlobalPosition = currentPosition;
-                            collider.Visible = true;
-                        }
-
-                        nodeList.Add(currentNode);
-                        astar.AddPoint(currentNode.id, currentNode.position, weight);
-                    }
-                }
-            }
-
-            foreach (var node in nodeList)
-            {
-                foreach (var otherNode in nodeList.Where(isNeighbour))
-                {
-                    astar.ConnectPoints(node.id, otherNode.id);
-                }
-
-                bool isNeighbour((int id, Vector2 position) otherNode)
-                {
-                    var validPositions = new[]
-                    {
-                    new Vector2(node.position.X - 18, node.position.Y),
-                    new Vector2(node.position.X + 18, node.position.Y),
-                    new Vector2(node.position.X, node.position.Y - 18),
-                    new Vector2(node.position.X, node.position.Y + 18),
-                };
-
-                    return validPositions.Contains(otherNode.position);
-                }
-            }
-        }
-
-        base._Process(delta);
+        var a = pos.X;
+        var b = pos.Y;
+        return (long)((a + b) * (a + b + 1) / 2 + b);
     }
 
     public override void _Ready()
     {
         parent = GetParent<Node2D>();
         speed = (float)GetMeta("moveSpeed");
-
         base._Ready();
     }
 
@@ -128,17 +64,25 @@ public partial class CharacterMovement : Node2D
 
     private void TriggerMovement(Vector2 target)
     {
-        var start = nodeList.OrderBy(node => parent.GlobalPosition.DistanceTo(node.position)).First();
-        var end = nodeList.OrderBy(node => target.DistanceTo(node.position)).First();
+        var main = GetTree().Root.GetNode <Main>("Main");
+        var worldGen = main.WorldGenerator;
+        int tileSize = main.GetConfig<int>("tileSize");
+        var start = worldGen.WalkableTiles.OrderBy(node => parent.GlobalPosition.DistanceTo(new Vector2(scaled(node.X), scaled(node.Y)))).First();
+        var end = worldGen.WalkableTiles.OrderBy(node => target.DistanceTo(new Vector2(scaled(node.X), scaled(node.Y)))).First();
 
-        var path = astar.GetIdPath(start.id, end.id);
+        var path = main.WorldGenerator.AStar.GetPointPath(CalculateId(start), CalculateId(end));
+
         currentPath.Clear();
-        foreach (var node in path.Select(id => nodeList.First(node => node.id == id)))
+        foreach (var node in path.Select(vec => new Vector2(scaled(vec.X), scaled(vec.Y))))
         {
-            currentPath.Enqueue(node.position);
+            currentPath.Enqueue(node);
         }
 
-        //currentPath.Enqueue(target);
+        float scaled(float tileCoord)
+        {
+            int tileSize = GetTree().Root.GetNode<Main>("Main").GetConfig<int>("tileSize");
+            return (tileSize * tileCoord) + (tileSize * 0.5f);
+        }
     }
 
     private bool IsCharacterSelected()

@@ -16,12 +16,15 @@ intakten Raum und musst dich von da an aufbauen.
 TODO:
 - Charakter System
 -- Charaktere auswählbar machen
--- A* Pathfinding -> hat Godot da was?
--- Sauerstoff außerhalb der Räume
+-- A* Pathfinding (DONE)
+-- Braucht sauerstoff außerhalb der Räume
 - Raum System
 -- Strom/Sauerstoff für die Räume
 -- Bauen von neuen Räumen
 -- Räume auf einem Grid
+-- Fog or War
+--- Aktueller Raum sichtbar
+--- Räume mit Strom bzw reparierte Räume sichtbar 
 - Scavenge System
 -- Fidnen von Resourcen
 -- Resource Management
