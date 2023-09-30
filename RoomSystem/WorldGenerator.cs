@@ -6,19 +6,24 @@ public partial class WorldGenerator : GodotObject
 {
 	private readonly Main main;
 	private readonly TileMap worldMap;
-	private readonly TileMap roomTemplate;
+	private readonly TileMap startRoom;
+	private readonly List<TileMap> rooms = new();
 
 	public AStar2D AStar { get; } = new AStar2D();
 	public List<Vector2I> WalkableTiles { get; } = new List<Vector2I>();
 
-	public WorldGenerator(Main main, TileMap worldMap, TileMap roomTemplate)
+	public WorldGenerator(Main main, TileMap worldMap, TileMap startRoom, Node roomTemplates)
 	{
 		this.main = main;
 		this.worldMap = worldMap;
-		this.roomTemplate = roomTemplate;
-
-		GD.Print(worldMap);
-		GD.Print(roomTemplate);
+		this.startRoom = startRoom;
+		foreach (var node in roomTemplates.GetChildren())
+		{
+			if (node is TileMap room)
+			{
+				rooms.Add(room);
+			}
+		}
 	}
 
 	public void Generate()
@@ -34,16 +39,28 @@ public partial class WorldGenerator : GodotObject
 				var offsetX = x * roomWidth;
 				var offsetY = y * roomHeight;
 
-				for (int layer = 0; layer < roomTemplate.GetLayersCount(); layer++)
+				TileMap room;
+
+				if (x == 5 && y == 5)
 				{
-					var cells = roomTemplate.GetUsedCells(layer);
+					room = startRoom;
+				}
+				else
+				{
+					GD.Randomize();
+					room = rooms[GD.RandRange(0, rooms.Count - 1)];
+				}
+
+				for (int layer = 0; layer < room.GetLayersCount(); layer++)
+				{
+					var cells = room.GetUsedCells(layer);
 
 					foreach (var cell in cells)
 					{
 						var cellPos = new Vector2I(offsetX + cell.X, offsetY + cell.Y);
 
-						var sourceId = roomTemplate.GetCellSourceId(layer, cell);
-						var atlasCoords = roomTemplate.GetCellAtlasCoords(layer, cell);
+						var sourceId = room.GetCellSourceId(layer, cell);
+						var atlasCoords = room.GetCellAtlasCoords(layer, cell);
 
 						worldMap.SetCell(layer, cellPos, sourceId, atlasCoords);
 					}

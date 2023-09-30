@@ -41,9 +41,10 @@ public partial class Main : Node2D
 			}
 		}
 
-		var roomTemplate = GetNode<TileMap>("RoomTemplate");
+		var roomTemplate = GetNode("RoomTemplates");
+		var startRoom = GetNode<TileMap>("StartRoom");
 		var worldMap = GetNode<TileMap>("World");
-		WorldGenerator = new WorldGenerator(this, worldMap, roomTemplate);
+		WorldGenerator = new WorldGenerator(this, worldMap, startRoom, roomTemplate);
 		WorldGenerator.Generate();
 	}
 }
