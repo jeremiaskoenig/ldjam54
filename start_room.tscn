@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cj1xe8vbx5ah"]
+[gd_scene load_steps=2 format=3 uid="uid://cj1xe8vbx5ah"]
 
 [ext_resource type="TileSet" uid="uid://dulfs1g0mindv" path="res://Assets/Tiles/room_tileset.tres" id="1_dj1ts"]
-[ext_resource type="Script" path="res://RoomSystem/Room.cs" id="2_opno8"]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource("1_dj1ts")
@@ -15,4 +14,3 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array(131072, 65537, 0, 5, 65537, 0, 393216, 65537, 0, 327680, 65537, 0, 8, 65537, 0, 7, 65537, 0, 524292, 65537, 0, 524293, 65537, 0, 524295, 65537, 0, 4, 65537, 0, 131084, 65537, 0, 196620, 65537, 0, 327692, 65537, 0, 196608, 65537, 0, 524296, 65537, 0, 393228, 65537, 0, 524300, 65537, 0, 524299, 65537, 0, 524298, 65537, 0, 524297, 65537, 0, 458764, 65537, 0, 65548, 65537, 0, 12, 65537, 0, 11, 65537, 0, 10, 65537, 0, 9, 65537, 0, 3, 65537, 0, 2, 65537, 0, 1, 65537, 0, 0, 65537, 0, 65536, 65537, 0, 458752, 65537, 0, 524288, 65537, 0, 524289, 65537, 0, 524290, 65537, 0, 524291, 65537, 0)
-script = ExtResource("2_opno8")

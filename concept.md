@@ -15,18 +15,19 @@ intakten Raum und musst dich von da an aufbauen.
 
 TODO:
 - Charakter System
--- Charaktere auswählbar machen
+-- Charaktere auswählbar machen (DONE)
+-- Mehrere Charaktere
 -- A* Pathfinding (DONE)
 -- Braucht sauerstoff außerhalb der Räume
 - Raum System
--- Strom/Sauerstoff für die Räume
+-- Strom/Sauerstoff für die Räume (DONE)
 -- Bauen von neuen Räumen
--- Räume auf einem Grid
--- Fog or War
---- Aktueller Raum sichtbar
---- Räume mit Strom bzw reparierte Räume sichtbar 
+-- Räume auf einem Grid (DONE)
+-- Fog or War (DONE)
+--- Aktueller Raum sichtbar (DONE)
+--- Räume mit Strom bzw reparierte Räume sichtbar  (DONE)
 - Scavenge System
--- Fidnen von Resourcen
+-- Finden von Resourcen
 -- Resource Management
 - UI
 - Camera

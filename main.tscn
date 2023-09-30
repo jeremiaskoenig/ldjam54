@@ -6,11 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://cij3m5lx6dv3n" path="res://character.tscn" id="3_t33pv"]
 
 [node name="Main" type="Node2D"]
+scale = Vector2(1, 0.992348)
 script = ExtResource("1_p0y2m")
 metadata/config_tileSize = 18
 metadata/config_roomWidth = 13
 metadata/config_roomHeight = 9
 metadata/config_worldSize = 10
+metadata/inactiveTile = Vector2i(5, 0)
+metadata/hiddenTile = Vector2i(4, 0)
 
 [node name="RoomTemplates" type="Node" parent="."]
 
@@ -99,7 +102,14 @@ layer_1/y_sort_enabled = false
 layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
+layer_2/name = "PoweredState"
+layer_2/enabled = true
+layer_2/modulate = Color(1, 1, 1, 1)
+layer_2/y_sort_enabled = false
+layer_2/y_sort_origin = 0
+layer_2/z_index = 0
+layer_2/tile_data = PackedInt32Array()
 
 [node name="Character" parent="." instance=ExtResource("3_t33pv")]
-position = Vector2(63, 63)
+position = Vector2(117, 81)
 scale = Vector2(0.75, 0.75)
