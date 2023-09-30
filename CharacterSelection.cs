@@ -43,9 +43,8 @@ public partial class CharacterSelection : Node2D
     public override void _PhysicsProcess(double delta)
     {
         if (isLeftDown)
-        {
-            Vector2 mousePosition = GetViewport().GetMousePosition();
-            area.GlobalPosition = mousePosition;
+        {   
+            area.GlobalPosition = GetGlobalMousePosition();
             isSelecting = area.OverlapsArea(body);
         }
         base._PhysicsProcess(delta);

@@ -25,10 +25,11 @@ public partial class WorldGenerator : GodotObject
 	{
 		var roomWidth = main.GetConfig<int>("roomWidth");
 		var roomHeight = main.GetConfig<int>("roomHeight");
+		var worldSize = main.GetConfig<int>("worldSize");
 
-		for (int y = 0; y < 10; y++)
+		for (int y = 0; y < worldSize; y++)
 		{
-			for (int x = 0; x < 10; x++)
+			for (int x = 0; x < worldSize; x++)
 			{
 				var offsetX = x * roomWidth;
 				var offsetY = y * roomHeight;

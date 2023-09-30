@@ -10,6 +10,7 @@ script = ExtResource("1_p0y2m")
 metadata/config_tileSize = 18
 metadata/config_roomWidth = 13
 metadata/config_roomHeight = 9
+metadata/config_worldSize = 10
 
 [node name="RoomTemplate" parent="." instance=ExtResource("2_h84fs")]
 visible = false
@@ -27,5 +28,5 @@ layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
 
 [node name="Character" parent="." instance=ExtResource("3_t33pv")]
-position = Vector2(43, 42)
+position = Vector2(63, 63)
 scale = Vector2(0.75, 0.75)

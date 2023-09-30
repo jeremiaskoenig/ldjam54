@@ -33,7 +33,7 @@ public partial class CharacterMovement : Node2D
             {
                 if (e.IsReleased())
                 {
-                    TriggerMovement(mouseButtonEvent.GlobalPosition);
+                    TriggerMovement(GetGlobalMousePosition());
                 }
             }
         }
