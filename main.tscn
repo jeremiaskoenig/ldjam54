@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" path="res://Main.cs" id="1_p0y2m"]
 [ext_resource type="PackedScene" uid="uid://3moy2x8x8ejw" path="res://Templates/room_templates.tscn" id="3_mlili"]
-[ext_resource type="TileSet" uid="uid://cs8m8o2p2hk0v" path="res://Assets/Tiles/room_tileset.tres" id="3_oilie"]
+[ext_resource type="TileSet" uid="uid://dulfs1g0mindv" path="res://Assets/Tiles/room_tileset.tres" id="3_oilie"]
 [ext_resource type="PackedScene" uid="uid://cij3m5lx6dv3n" path="res://character.tscn" id="3_t33pv"]
 [ext_resource type="PackedScene" uid="uid://tlidq2amq7s5" path="res://Templates/story_rooms.tscn" id="4_5lwbs"]
 [ext_resource type="Script" path="res://CameraSystem/CameraMovement.cs" id="5_6tk66"]
 [ext_resource type="PackedScene" uid="uid://dk8muclie2cyl" path="res://Templates/loot_node_prototypes.tscn" id="5_d1ta5"]
 [ext_resource type="PackedScene" uid="uid://b5kq6wicecemw" path="res://Templates/building_prototypes.tscn" id="6_tpjsc"]
 [ext_resource type="Script" path="res://GlobalSelection.cs" id="10_1x5kt"]
-[ext_resource type="PackedScene" uid="uid://brppm04i21tfx" path="res://user_interface.tscn" id="10_g0wfa"]
+[ext_resource type="PackedScene" path="res://user_interface.tscn" id="10_g0wfa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jqulp"]
 radius = 5.0
@@ -90,10 +90,10 @@ layer_2/tile_data = PackedInt32Array()
 
 [node name="WorldCamera" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
-limit_left = -126
-limit_top = -126
-limit_right = 1782
-limit_bottom = 2808
+limit_left = -104
+limit_top = -104
+limit_right = 2184
+limit_bottom = 1544
 drag_left_margin = 0.0
 drag_top_margin = 0.0
 drag_right_margin = 0.0

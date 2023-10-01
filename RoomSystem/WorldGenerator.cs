@@ -62,7 +62,45 @@ public partial class WorldGenerator
 				}
 				else
 				{
-					roomMap = rooms[GD.RandRange(0, rooms.Count - 1)];
+					string prefix = "";
+					if((x == 0 && y == 0)||(x == 0 && y == 9))
+                    {
+						prefix = "Corner1";
+                    }
+					else if(x == 0 && y == worldSize-1)
+                    {
+						prefix = "Corner4";
+					}
+					else if (x == worldSize - 1 && y == 0)
+					{
+						prefix = "Corner3";
+					}
+					else if (x == worldSize - 1 && y == worldSize - 1)
+					{
+						prefix = "Corner2";
+					}
+					else if ((x == 0)||(x == 1 && (y == 7 || y == 8)))
+                    {
+						prefix = "LSide";
+                    }
+					else if (x == worldSize - 1)
+					{
+						prefix = "RSide";
+					}
+					else if (y == 0)
+					{
+						prefix = "TSide";
+					}
+					else if (y == worldSize - 1)
+					{
+						prefix = "DSide";
+					}
+					else
+                    {
+						prefix = "Room";
+					}
+					var filteredRooms = rooms.Where(r => r.Name.ToString().StartsWith(prefix)).ToArray();
+					roomMap = filteredRooms[GD.RandRange(0, filteredRooms.Length - 1)];
 				}
 
 				var room = main.RoomManager.RegisterRoom(new Vector2I(x, y));

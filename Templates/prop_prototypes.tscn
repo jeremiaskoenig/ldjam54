@@ -1,3 +1,5 @@
 [gd_scene format=3 uid="uid://d231hdqe3kqbr"]
 
 [node name="PropPrototypes" type="Node"]
+
+[node name="Spaceship" type="Node2D" parent="."]
