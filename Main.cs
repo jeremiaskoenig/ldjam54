@@ -1,14 +1,17 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class Main : Node2D
 {
 	private TileMap worldMap;
+	private TileMap overlayMap;
 
 	public WorldGenerator WorldGenerator  { get; private set; }
 	public RoomManager RoomManager { get; private set; }
 	public CameraManager CameraManager { get; private set; }
+	public ResourceManager ResourceManager { get; private set; }
 
 	private readonly Dictionary<string, object> configuration = new();
 
@@ -17,6 +20,8 @@ public partial class Main : Node2D
 
 	private Room previousRoom;
 	private readonly List<Room> changedRooms = new();
+
+	public IEnumerable<Node2D> Characters => GetNode("Characters").GetChildren().OfType<Node2D>();
 
 	public T GetConfig<T>(string key)
 	{
@@ -40,26 +45,32 @@ public partial class Main : Node2D
 		base._Input(e);
 	}
 
-	private void UpdateRoomOverlayLayer(Room room, bool isHidden)
+	private void UpdateRoom(Room room, bool isHidden)
 	{
-		GD.Print($"room at {room.Coordinates}; powered: {room.IsPowered}; hidden: {isHidden}");
 		const int VISIBLE = 0;
 		const int INVISIBLE = -1;
 
 		foreach (var cell in room.WorldMapTiles)
 		{
 			var overlay = isHidden ? hiddenTileCoordinates : inactiveTileCoordinates;
-
 			int isOverlayVisible = room.IsPowered ? INVISIBLE : VISIBLE;
 
 			var sourceId = worldMap.GetCellSourceId(0, cell);
-			worldMap.SetCell(2, cell, sourceId, overlay, isOverlayVisible);
+			overlayMap.SetCell(2, cell, sourceId, overlay, isOverlayVisible);
+		}
+
+		foreach (Node2D lootNode in GetNode("LootNodes").GetChildren())
+		{
+			if (RoomManager.GetRoom(lootNode.GlobalPosition) == room)
+			{
+				lootNode.Visible = !isHidden;
+			}
 		}
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		var character = GetNode<Node2D>("Character");
+		var character = GetNode<Node2D>("Characters/Character");
 		var currentRoom = RoomManager.GetRoom(character.GlobalPosition);
 		
 
@@ -94,7 +105,7 @@ public partial class Main : Node2D
 
 		foreach (var room in changedRooms)
 		{
-			UpdateRoomOverlayLayer(room, room.IsPowered || room != currentRoom);
+			UpdateRoom(room, room.IsPowered || room != currentRoom);
 		}
 		changedRooms.Clear();
 
@@ -105,6 +116,7 @@ public partial class Main : Node2D
 	{
 		RoomManager = new(this);
 		CameraManager = new(this);
+		ResourceManager = new(this);
 
 		foreach (string key in GetMetaList())
 		{
@@ -137,11 +149,14 @@ public partial class Main : Node2D
 
 
 		var roomTemplate = GetNode("RoomTemplates");
+		var lootNodePrototypes = GetNode("LootNodePrototypes");
+		var lootNodeContainer = GetNode("LootNodes");
 		var startRoom = GetNode<TileMap>("StartRoom");
 		var startCamera = GetNode<Camera2D>("WorldCamera");
 		CameraManager.SetActiveCamera(startCamera);
 		worldMap = GetNode<TileMap>("World");
-		WorldGenerator = new WorldGenerator(this, worldMap, startRoom, roomTemplate);
+		overlayMap = GetNode<TileMap>("WorldOverlay");
+		WorldGenerator = new WorldGenerator(this, worldMap, startRoom, roomTemplate, lootNodePrototypes, lootNodeContainer);
 		WorldGenerator.InactiveTileCoordinates = inactiveTileCoordinates;
 		WorldGenerator.Generate();
 		changedRooms.AddRange(RoomManager.AllRooms);

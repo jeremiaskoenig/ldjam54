@@ -5,7 +5,9 @@ public class Room
 {
 	public Vector2I Coordinates { get; }
 
-	public List<Vector2I> WorldMapTiles { get; } = new();
+    public List<Vector2I> WorldMapTiles { get; } = new();
+    public List<Vector2I> BuildableWorldMapTiles { get; } = new();
+    public List<Vector2I> LootSpawnWorldMapTiles { get; } = new();
 
 	public bool IsPowered { get; set; }
 

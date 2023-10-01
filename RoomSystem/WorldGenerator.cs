@@ -1,22 +1,27 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class WorldGenerator
 {
 	private readonly Main main;
 	private readonly TileMap worldMap;
 	private readonly TileMap startRoom;
+	private readonly Node lootNodeContainer;
+	private readonly Node[] lootNodeTemplates;
 	private readonly List<TileMap> rooms = new();
 	public Vector2I InactiveTileCoordinates { get; set; }
 
 	public AStar2D AStar { get; } = new AStar2D();
 	public List<Vector2I> WalkableTiles { get; } = new List<Vector2I>();
 
-	public WorldGenerator(Main main, TileMap worldMap, TileMap startRoom, Node roomTemplates)
+	public WorldGenerator(Main main, TileMap worldMap, TileMap startRoom, Node roomTemplates, Node lootNodeTemplates, Node lootNodeContainer)
 	{
 		this.main = main;
 		this.worldMap = worldMap;
 		this.startRoom = startRoom;
+		this.lootNodeContainer = lootNodeContainer;
+		this.lootNodeTemplates = lootNodeTemplates.GetChildren().ToArray();
 		foreach (var node in roomTemplates.GetChildren())
 		{
 			if (node is TileMap room)
@@ -31,6 +36,7 @@ public partial class WorldGenerator
 		var roomWidth = main.GetConfig<int>("roomWidth");
 		var roomHeight = main.GetConfig<int>("roomHeight");
 		var worldSize = main.GetConfig<int>("worldSize");
+		var tileSize = main.GetConfig<int>("tileSize");
 
 		for (int y = 0; y < worldSize; y++)
 		{
@@ -39,46 +45,56 @@ public partial class WorldGenerator
 				var offsetX = x * roomWidth;
 				var offsetY = y * roomHeight;
 
-				TileMap room;
+				TileMap roomMap;
 				bool isPowered = false;
 
 				if (x == 5 && y == 5)
 				{
-					room = startRoom;
+					roomMap = startRoom;
 					isPowered = true;
 				}
 				else
 				{
-					room = rooms[GD.RandRange(0, rooms.Count - 1)];
+					roomMap = rooms[GD.RandRange(0, rooms.Count - 1)];
 				}
 
-				for (int layer = 0; layer < room.GetLayersCount(); layer++)
+				var room = main.RoomManager.RegisterRoom(new Vector2I(x, y));
+				room.IsPowered = isPowered;
+
+				for (int layer = 0; layer < roomMap.GetLayersCount(); layer++)
 				{
-					var layerCells = room.GetUsedCells(layer);
+					var layerCells = roomMap.GetUsedCells(layer);
 
 					foreach (var cell in layerCells)
 					{
 						var cellPos = new Vector2I(offsetX + cell.X, offsetY + cell.Y);
 
-						var sourceId = room.GetCellSourceId(layer, cell);
-						var atlasCoords = room.GetCellAtlasCoords(layer, cell);
+						if (layer == 0)
+							room.WorldMapTiles.Add(cellPos);
+
+						var sourceId = roomMap.GetCellSourceId(layer, cell);
+						var atlasCoords = roomMap.GetCellAtlasCoords(layer, cell);
+
+						var tileData = roomMap.GetCellTileData(layer, cell);
+						var canSpawnLoot = (bool)tileData.GetCustomData("canSpawnLoot");
+						var canBeBuiltOn = (bool)tileData.GetCustomData("canBeBuiltOn");
+
+						if (canSpawnLoot)
+						{
+							if (GD.Randf() <= 0.2f)
+							{
+								var lootNode = lootNodeTemplates[GD.RandRange(0, lootNodeTemplates.Length - 1)].Duplicate() as Node2D;
+								lootNode.Visible = true;
+								lootNode.GlobalPosition = (cellPos * tileSize) + new Vector2(tileSize * 0.5f, tileSize * 0.5f);
+								lootNodeContainer.AddChild(lootNode);
+							}
+							room.LootSpawnWorldMapTiles.Add(cellPos);
+						}
+
+						if (canBeBuiltOn)
+							room.BuildableWorldMapTiles.Add(cellPos);
 
 						worldMap.SetCell(layer, cellPos, sourceId, atlasCoords);
-					}
-				}
-
-				var roomObj = main.RoomManager.RegisterRoom(new Vector2I(x, y));
-				roomObj.IsPowered = isPowered;
-				var cells = room.GetUsedCells(0);
-
-				foreach (var cell in cells)
-				{
-					var cellPos = new Vector2I(offsetX + cell.X, offsetY + cell.Y);
-					roomObj.WorldMapTiles.Add(cellPos);
-					if (!isPowered)
-					{
-						var sourceId = room.GetCellSourceId(0, cell);
-						worldMap.SetCell(2, cellPos, sourceId, InactiveTileCoordinates);
 					}
 				}
 			}
@@ -95,18 +111,20 @@ public partial class WorldGenerator
 			WalkableTiles.Add(cell);
 		}
 
-		foreach (var cell in floorCells)
+		foreach (var cell in WalkableTiles)
 		{
 			foreach (var neighbour in neighbours)
 			{
 				var neighbourCell = cell + neighbour;
-				if (floorCells.Contains(neighbourCell))
+				if (WalkableTiles.Contains(neighbourCell))
 				{
 					AStar.ConnectPoints(id(cell), id(neighbourCell), false);
 				}
 			}
 		}
 
+		startRoom.QueueFree();
+		rooms.ForEach(room => room.QueueFree());
 
 		long id(Vector2 pos) => CalculateId(pos);
 	}

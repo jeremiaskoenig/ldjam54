@@ -33,3 +33,10 @@ TODO:
 - Camera
 -- Camera Zoom
 -- Camera Movement
+
+Resources:
+- Tools
+- Circuit Boards
+- Chemicals
+- Duct Tape
+- Building Parts

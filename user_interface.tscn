@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://brppm04i21tfx"]
+
+[ext_resource type="Script" path="res://UserInterface.cs" id="1_b0svi"]
+[ext_resource type="Texture2D" uid="uid://bjbyxww4yuduw" path="res://Assets/UI/menu_bottomLeft.png" id="2_x2hgf"]
+[ext_resource type="Texture2D" uid="uid://8vcpjp6ocp5n" path="res://Assets/UI/menu_leftCenter.png" id="3_ojfqf"]
+[ext_resource type="Texture2D" uid="uid://q2srafh4xmf0" path="res://Assets/UI/menu_center.png" id="4_llrxc"]
+[ext_resource type="Texture2D" uid="uid://b0tl3e3xsa3wu" path="res://Assets/UI/menu_bottomCenter.png" id="5_e7570"]
+
+[node name="UserInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b0svi")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_left = -88.0
+offset_top = 8.0
+offset_right = -56.0
+offset_bottom = 40.0
+texture = ExtResource("2_x2hgf")
+
+[node name="TextureRect2" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_left = -88.0
+offset_top = -24.0
+offset_right = -56.0
+offset_bottom = 8.0
+texture = ExtResource("3_ojfqf")
+
+[node name="TextureRect3" type="TextureRect" parent="Panel"]
+offset_left = -56.0
+offset_top = -24.0
+offset_right = 132.0
+offset_bottom = 8.0
+texture = ExtResource("4_llrxc")
+
+[node name="TextureRect4" type="TextureRect" parent="Panel"]
+offset_left = -56.0
+offset_top = 8.0
+offset_right = 132.0
+offset_bottom = 40.0
+texture = ExtResource("5_e7570")

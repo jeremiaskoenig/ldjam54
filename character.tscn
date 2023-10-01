@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://cij3m5lx6dv3n"]
 
-[ext_resource type="Script" path="res://CharacterSelection.cs" id="1_0g4mv"]
-[ext_resource type="Script" path="res://CharacterMovement.cs" id="1_f6np5"]
+[ext_resource type="Script" path="res://CharacterSystem/CharacterMovement.cs" id="1_7xi8l"]
 [ext_resource type="Texture2D" uid="uid://chq8wrhj0in76" path="res://Assets/Characters/character_0001.png" id="1_tvq1m"]
+[ext_resource type="Script" path="res://CharacterSystem/CharacterSelection.cs" id="2_r2amo"]
 [ext_resource type="Texture2D" uid="uid://ceu54web7uvra" path="res://Assets/selection.png" id="3_fe5gf"]
 [ext_resource type="Script" path="res://CameraSystem/CameraMovement.cs" id="5_agi4w"]
 
@@ -15,7 +15,7 @@ size = Vector2(7.5, 7.5)
 [node name="Character" type="Node2D"]
 
 [node name="Movement" type="Node2D" parent="."]
-script = ExtResource("1_f6np5")
+script = ExtResource("1_7xi8l")
 metadata/moveSpeed = 2.0
 
 [node name="TileCollider" type="Area2D" parent="Movement"]
@@ -31,7 +31,7 @@ target_desired_distance = 3.0
 path_max_distance = 18.0
 
 [node name="Selection" type="Node2D" parent="."]
-script = ExtResource("1_0g4mv")
+script = ExtResource("2_r2amo")
 
 [node name="SelectionCircle" type="Sprite2D" parent="Selection"]
 visible = false
