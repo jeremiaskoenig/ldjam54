@@ -63,7 +63,7 @@ public partial class WorldGenerator
 				else
 				{
 					string prefix = "";
-					if((x == 0 && y == 0)||(x == 0 && y == 9))
+					if((x == 0 && y == 0)||(x == 0 && y == 8))
                     {
 						prefix = "Corner1";
                     }
@@ -79,7 +79,7 @@ public partial class WorldGenerator
 					{
 						prefix = "Corner2";
 					}
-					else if ((x == 0)||(x == 1 && (y == 7 || y == 8)))
+					else if ((x == 0)||(x == 1 && (y == 6 || y == 7)))
                     {
 						prefix = "LSide";
                     }
