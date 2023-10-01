@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwwv77m441ywj"]
+[gd_scene load_steps=6 format=3 uid="uid://bwwv77m441ywj"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_p0y2m"]
 [ext_resource type="TileSet" uid="uid://dulfs1g0mindv" path="res://Assets/Tiles/room_tileset.tres" id="3_acihm"]
 [ext_resource type="PackedScene" uid="uid://cj1xe8vbx5ah" path="res://start_room.tscn" id="3_jmex7"]
 [ext_resource type="PackedScene" uid="uid://cij3m5lx6dv3n" path="res://character.tscn" id="3_t33pv"]
+[ext_resource type="Script" path="res://CameraSystem/CameraMovement.cs" id="5_6tk66"]
 
 [node name="Main" type="Node2D"]
 scale = Vector2(1, 0.992348)
@@ -113,3 +114,15 @@ layer_2/tile_data = PackedInt32Array()
 [node name="Character" parent="." instance=ExtResource("3_t33pv")]
 position = Vector2(117, 81)
 scale = Vector2(0.75, 0.75)
+
+[node name="WorldCamera" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+limit_left = -126
+limit_top = -126
+limit_right = 1386
+limit_bottom = 1386
+drag_left_margin = 0.0
+drag_top_margin = 0.0
+drag_right_margin = 0.0
+drag_bottom_margin = 0.0
+script = ExtResource("5_6tk66")

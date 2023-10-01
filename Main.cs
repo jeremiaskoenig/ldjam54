@@ -8,6 +8,7 @@ public partial class Main : Node2D
 
 	public WorldGenerator WorldGenerator  { get; private set; }
 	public RoomManager RoomManager { get; private set; }
+	public CameraManager CameraManager { get; private set; }
 
 	private readonly Dictionary<string, object> configuration = new();
 
@@ -60,6 +61,7 @@ public partial class Main : Node2D
 	{
 		var character = GetNode<Node2D>("Character");
 		var currentRoom = RoomManager.GetRoom(character.GlobalPosition);
+		
 
 		if (currentRoom != previousRoom)
 		{
@@ -69,6 +71,25 @@ public partial class Main : Node2D
 				changedRooms.Add(previousRoom);
 			}
 			previousRoom = currentRoom;
+		}
+
+		if(character.GetNode<CharacterSelection>("Selection").IsSelected)
+		{
+			if(CameraManager.GetActiveCamera() != character.GetNode<Camera2D>("PlayerCamera"))
+			{
+				Vector2 defaultier = Vector2.Zero;
+				CameraManager.SetActiveCamera(character.GetNode<Camera2D>("PlayerCamera"));
+				CameraManager.SetCameraPosition(defaultier);
+			}
+		}
+		else
+		{
+			if (CameraManager.GetActiveCamera() != GetNode<Camera2D>("WorldCamera"))
+			{
+				Vector2 defaultiest = CameraManager.GetActiveCamera().GlobalPosition;
+				CameraManager.SetActiveCamera(GetNode<Camera2D>("WorldCamera"));
+				CameraManager.SetGlobalCameraPosition(defaultiest);
+			}
 		}
 
 		foreach (var room in changedRooms)
@@ -83,6 +104,7 @@ public partial class Main : Node2D
 	public override void _Ready()
 	{
 		RoomManager = new(this);
+		CameraManager = new(this);
 
 		foreach (string key in GetMetaList())
 		{
@@ -116,6 +138,8 @@ public partial class Main : Node2D
 
 		var roomTemplate = GetNode("RoomTemplates");
 		var startRoom = GetNode<TileMap>("StartRoom");
+		var startCamera = GetNode<Camera2D>("WorldCamera");
+		CameraManager.SetActiveCamera(startCamera);
 		worldMap = GetNode<TileMap>("World");
 		WorldGenerator = new WorldGenerator(this, worldMap, startRoom, roomTemplate);
 		WorldGenerator.InactiveTileCoordinates = inactiveTileCoordinates;
