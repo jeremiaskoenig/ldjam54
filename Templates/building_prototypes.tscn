@@ -1,32 +1,32 @@
-[gd_scene load_steps=9 format=3 uid="uid://b5kq6wicecemw"]
+[gd_scene load_steps=6 format=3 uid="uid://b5kq6wicecemw"]
 
 [ext_resource type="Texture2D" uid="uid://bocc1w8qkludg" path="res://Assets/Objects/Antenna.png" id="1_h8jum"]
 [ext_resource type="Texture2D" uid="uid://d12o47bhcjy4g" path="res://Assets/Objects/Generator.png" id="2_4j2es"]
 [ext_resource type="Texture2D" uid="uid://cmad6hg1ru1tl" path="res://Assets/Objects/Machine2.png" id="3_biovo"]
 [ext_resource type="Texture2D" uid="uid://sx56t3ch02g2" path="res://Assets/Objects/MachineSmall2.png" id="4_afl0k"]
 [ext_resource type="Texture2D" uid="uid://cr0wprxqr1k15" path="res://Assets/Objects/Machine.png" id="5_dc4cc"]
-[ext_resource type="Texture2D" uid="uid://cpaxbfgd62wbf" path="res://Assets/Objects/Growbed.png" id="6_lph1e"]
-[ext_resource type="Texture2D" uid="uid://c06qqppct7o0r" path="res://Assets/Objects/Growbed2.png" id="7_2ycqe"]
-[ext_resource type="Texture2D" uid="uid://cv6gxi8d0yo1t" path="res://Assets/Objects/MachineSmall.png" id="8_3xlmh"]
 
 [node name="BuildingPrototypes" type="Node"]
 
 [node name="Antenna" type="Node2D" parent="."]
 visible = false
+metadata/buildableType = "antenna"
 
 [node name="Sprite" type="Sprite2D" parent="Antenna"]
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("1_h8jum")
 
-[node name="Generator" type="Node2D" parent="."]
+[node name="PowerGenerator" type="Node2D" parent="."]
 visible = false
+metadata/buildableType = "generator"
 
-[node name="Sprite" type="Sprite2D" parent="Generator"]
+[node name="Sprite" type="Sprite2D" parent="PowerGenerator"]
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("2_4j2es")
 
 [node name="OxygenGenerator" type="Node2D" parent="."]
 visible = false
+metadata/buildableType = "oxygenGenerator"
 
 [node name="Sprite" type="Sprite2D" parent="OxygenGenerator"]
 scale = Vector2(0.125, 0.125)
@@ -34,6 +34,7 @@ texture = ExtResource("3_biovo")
 
 [node name="FuelPump" type="Node2D" parent="."]
 visible = false
+metadata/buildableType = "fuelPump"
 
 [node name="Sprite" type="Sprite2D" parent="FuelPump"]
 scale = Vector2(0.125, 0.125)
@@ -41,28 +42,8 @@ texture = ExtResource("4_afl0k")
 
 [node name="ComputerSystem" type="Node2D" parent="."]
 visible = false
+metadata/buildableType = "computerSystem"
 
 [node name="Sprite" type="Sprite2D" parent="ComputerSystem"]
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("5_dc4cc")
-
-[node name="Growbed" type="Node2D" parent="."]
-visible = false
-
-[node name="Sprite" type="Sprite2D" parent="Growbed"]
-scale = Vector2(0.125, 0.125)
-texture = ExtResource("6_lph1e")
-
-[node name="Growbed2" type="Node2D" parent="."]
-visible = false
-
-[node name="Sprite" type="Sprite2D" parent="Growbed2"]
-scale = Vector2(0.125, 0.125)
-texture = ExtResource("7_2ycqe")
-
-[node name="PowerSwitch" type="Node2D" parent="."]
-visible = false
-
-[node name="Sprite" type="Sprite2D" parent="PowerSwitch"]
-scale = Vector2(0.125, 0.125)
-texture = ExtResource("8_3xlmh")

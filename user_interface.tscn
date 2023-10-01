@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://brppm04i21tfx"]
+[gd_scene load_steps=28 format=3 uid="uid://brppm04i21tfx"]
 
 [ext_resource type="Script" path="res://UserInterface.cs" id="1_b0svi"]
+[ext_resource type="Texture2D" uid="uid://ytyp5xa6mc6y" path="res://Assets/UI/menu_bottomRight.png" id="2_avoi1"]
 [ext_resource type="Texture2D" uid="uid://bjbyxww4yuduw" path="res://Assets/UI/menu_bottomLeft.png" id="2_x2hgf"]
 [ext_resource type="Texture2D" uid="uid://8vcpjp6ocp5n" path="res://Assets/UI/menu_leftCenter.png" id="3_ojfqf"]
+[ext_resource type="Texture2D" uid="uid://dqenfd446j885" path="res://Assets/UI/menu_rightCenter.png" id="3_w1oyj"]
 [ext_resource type="Texture2D" uid="uid://q2srafh4xmf0" path="res://Assets/UI/menu_center.png" id="4_llrxc"]
 [ext_resource type="Texture2D" uid="uid://b0tl3e3xsa3wu" path="res://Assets/UI/menu_bottomCenter.png" id="5_e7570"]
 [ext_resource type="Texture2D" uid="uid://br45pfo2xvlw5" path="res://Assets/UI/Icons/building_materials.png" id="6_xs06k"]
@@ -10,9 +12,28 @@
 [ext_resource type="Texture2D" uid="uid://cx7rphgpwc65r" path="res://Assets/UI/Icons/chemicals.png" id="8_owyxn"]
 [ext_resource type="Texture2D" uid="uid://dbkperevhg0tf" path="res://Assets/UI/Icons/tools.png" id="9_giagk"]
 [ext_resource type="Texture2D" uid="uid://cosc8cpo7vgx3" path="res://Assets/UI/Icons/circuitry.png" id="10_2gqbo"]
+[ext_resource type="Texture2D" uid="uid://cmfkaiiv7noee" path="res://Assets/UI/Icons/energy.png" id="11_u0jml"]
+[ext_resource type="Texture2D" uid="uid://mh4lt0fbdg51" path="res://Assets/UI/menu_topLeft.png" id="12_4o5s1"]
+[ext_resource type="Texture2D" uid="uid://dqmr48xaej62v" path="res://Assets/UI/menu_topCenter_full.png" id="13_40tuh"]
+[ext_resource type="Texture2D" uid="uid://bes01wet5x1tn" path="res://Assets/UI/menu_topCenter_transition.png" id="14_8v2b5"]
+[ext_resource type="Texture2D" uid="uid://cdbwvi01dbvll" path="res://Assets/UI/menu_topCenter_empty.png" id="15_s4q3v"]
+[ext_resource type="Texture2D" uid="uid://dowco64xqbrd5" path="res://Assets/UI/menu_topRight_empty.png" id="18_uxdqg"]
+[ext_resource type="Texture2D" uid="uid://bci6wjidnq3bj" path="res://Assets/UI/Icons/power_generator.png" id="19_cbnp3"]
+[ext_resource type="Texture2D" uid="uid://b3cvwn7s2616i" path="res://Assets/UI/button.png" id="19_v4jco"]
+[ext_resource type="Texture2D" uid="uid://didgw4h7snvc7" path="res://Assets/UI/Icons/oxygen_generator.png" id="20_bywqp"]
+[ext_resource type="Texture2D" uid="uid://dy816wly37xs1" path="res://Assets/UI/button_pressed.png" id="20_ied08"]
+[ext_resource type="Texture2D" uid="uid://7wgs3q1h7j34" path="res://Assets/UI/button_over.png" id="21_aapxy"]
+[ext_resource type="Texture2D" uid="uid://d4b255kqgodm1" path="res://Assets/UI/button_inactive.png" id="22_5s13h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dd5os"]
-font_color = Color(0.360784, 0.360784, 0.360784, 1)
+font_color = Color(0.243137, 0.243137, 0.243137, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2epmf"]
+font_color = Color(0.960784, 0.960784, 0.960784, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rpwg8"]
+font_size = 12
+font_color = Color(0.243137, 0.243137, 0.243137, 1)
 
 [node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_b0svi")
@@ -31,37 +52,44 @@ grow_horizontal = 0
 anchors_preset = 0
 
 [node name="TextureRect" type="TextureRect" parent="Resources/Background"]
-offset_left = -392.0
+layout_mode = 0
+offset_left = -472.0
 offset_top = 16.0
-offset_right = -360.0
+offset_right = -440.0
 offset_bottom = 48.0
 texture = ExtResource("2_x2hgf")
 
 [node name="TextureRect2" type="TextureRect" parent="Resources/Background"]
-offset_left = -392.0
+layout_mode = 0
+offset_left = -472.0
 offset_top = -16.0
-offset_right = -360.0
+offset_right = -440.0
 offset_bottom = 16.0
 texture = ExtResource("3_ojfqf")
 
 [node name="TextureRect3" type="TextureRect" parent="Resources/Background"]
-offset_left = -360.0
+layout_mode = 0
+offset_left = -440.0
 offset_top = -16.0
-offset_right = 40.0
+offset_right = 16.0
 offset_bottom = 16.0
 texture = ExtResource("4_llrxc")
 
 [node name="TextureRect4" type="TextureRect" parent="Resources/Background"]
-offset_left = -360.0
+layout_mode = 0
+offset_left = -440.0
 offset_top = 16.0
-offset_right = 40.0
+offset_right = 16.0
 offset_bottom = 48.0
 texture = ExtResource("5_e7570")
 
 [node name="Icons" type="Control" parent="Resources"]
 anchors_preset = 0
+offset_left = -80.0
+offset_right = -80.0
 
 [node name="BuildingMaterials" type="TextureRect" parent="Resources/Icons"]
+layout_mode = 0
 offset_left = -384.0
 offset_top = 8.0
 offset_right = -256.0
@@ -70,6 +98,7 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("6_xs06k")
 
 [node name="DuctTape" type="TextureRect" parent="Resources/Icons"]
+layout_mode = 0
 offset_left = -304.0
 offset_top = 8.0
 offset_right = -176.0
@@ -78,6 +107,7 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("7_pln3i")
 
 [node name="Chemicals" type="TextureRect" parent="Resources/Icons"]
+layout_mode = 0
 offset_left = -224.0
 offset_top = 8.0
 offset_right = -96.0
@@ -86,6 +116,7 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("8_owyxn")
 
 [node name="Tools" type="TextureRect" parent="Resources/Icons"]
+layout_mode = 0
 offset_left = -144.0
 offset_top = 8.0
 offset_right = -16.0
@@ -94,6 +125,7 @@ scale = Vector2(0.25, 0.25)
 texture = ExtResource("9_giagk")
 
 [node name="Circuitry" type="TextureRect" parent="Resources/Icons"]
+layout_mode = 0
 offset_left = -64.0
 offset_top = 8.0
 offset_right = 64.0
@@ -101,10 +133,22 @@ offset_bottom = 136.0
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("10_2gqbo")
 
+[node name="Power" type="TextureRect" parent="Resources/Icons"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 144.0
+offset_bottom = 136.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("11_u0jml")
+
 [node name="Texts" type="Control" parent="Resources"]
 anchors_preset = 0
+offset_left = -80.0
+offset_right = -80.0
 
 [node name="BuildingMaterials" type="Label" parent="Resources/Texts"]
+layout_mode = 0
 offset_left = -349.0
 offset_top = 11.0
 offset_right = -309.0
@@ -114,6 +158,7 @@ text = "0
 label_settings = SubResource("LabelSettings_dd5os")
 
 [node name="DuctTape" type="Label" parent="Resources/Texts"]
+layout_mode = 0
 offset_left = -269.0
 offset_top = 11.0
 offset_right = -229.0
@@ -123,6 +168,7 @@ text = "0
 label_settings = SubResource("LabelSettings_dd5os")
 
 [node name="Chemicals" type="Label" parent="Resources/Texts"]
+layout_mode = 0
 offset_left = -189.0
 offset_top = 11.0
 offset_right = -149.0
@@ -132,6 +178,7 @@ text = "0
 label_settings = SubResource("LabelSettings_dd5os")
 
 [node name="Tools" type="Label" parent="Resources/Texts"]
+layout_mode = 0
 offset_left = -109.0
 offset_top = 11.0
 offset_right = -69.0
@@ -141,6 +188,7 @@ text = "0
 label_settings = SubResource("LabelSettings_dd5os")
 
 [node name="Circuitry" type="Label" parent="Resources/Texts"]
+layout_mode = 0
 offset_left = -29.0
 offset_top = 11.0
 offset_right = 11.0
@@ -148,3 +196,237 @@ offset_bottom = 37.0
 text = "0
 "
 label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="Power" type="Label" parent="Resources/Texts"]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 11.0
+offset_right = 91.0
+offset_bottom = 37.0
+text = "0
+"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="BuildPanel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="Control" parent="BuildPanel"]
+anchors_preset = 0
+offset_left = 312.0
+offset_top = 84.0
+offset_right = 312.0
+offset_bottom = 84.0
+
+[node name="TextureRect" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = 240.0
+offset_right = -216.0
+offset_bottom = 272.0
+texture = ExtResource("2_x2hgf")
+
+[node name="TextureRect2" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = 16.0
+offset_right = -216.0
+offset_bottom = 240.0
+texture = ExtResource("3_ojfqf")
+
+[node name="TextureRect3" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 240.0
+texture = ExtResource("4_llrxc")
+
+[node name="TextureRect4" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = 240.0
+offset_right = -16.0
+offset_bottom = 272.0
+texture = ExtResource("5_e7570")
+
+[node name="TextureRect5" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = -16.0
+offset_right = -216.0
+offset_bottom = 16.0
+texture = ExtResource("12_4o5s1")
+
+[node name="TextureRect6" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = -16.0
+offset_right = -184.0
+offset_bottom = 16.0
+texture = ExtResource("13_40tuh")
+
+[node name="TextureRect7" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -184.0
+offset_top = -16.0
+offset_right = -152.0
+offset_bottom = 16.0
+texture = ExtResource("14_8v2b5")
+
+[node name="TextureRect8" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -152.0
+offset_top = -16.0
+offset_right = -16.0
+offset_bottom = 16.0
+texture = ExtResource("15_s4q3v")
+
+[node name="TextureRect9" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 240.0
+offset_right = 16.0
+offset_bottom = 272.0
+texture = ExtResource("2_avoi1")
+
+[node name="TextureRect10" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 240.0
+texture = ExtResource("3_w1oyj")
+
+[node name="TextureRect11" type="TextureRect" parent="BuildPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("18_uxdqg")
+
+[node name="Buttons" type="Control" parent="BuildPanel"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PowerGenerator" type="TextureButton" parent="BuildPanel/Buttons"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 104.0
+offset_right = 120.0
+offset_bottom = 152.0
+texture_normal = ExtResource("19_v4jco")
+texture_pressed = ExtResource("20_ied08")
+texture_hover = ExtResource("21_aapxy")
+texture_disabled = ExtResource("22_5s13h")
+texture_focused = ExtResource("21_aapxy")
+
+[node name="OxygenGenerator" type="TextureButton" parent="BuildPanel/Buttons"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 152.0
+offset_right = 120.0
+offset_bottom = 200.0
+texture_normal = ExtResource("19_v4jco")
+texture_pressed = ExtResource("20_ied08")
+texture_hover = ExtResource("21_aapxy")
+texture_disabled = ExtResource("22_5s13h")
+texture_focused = ExtResource("21_aapxy")
+
+[node name="Repair" type="TextureButton" parent="BuildPanel/Buttons"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 200.0
+offset_right = 120.0
+offset_bottom = 248.0
+texture_normal = ExtResource("19_v4jco")
+texture_pressed = ExtResource("20_ied08")
+texture_hover = ExtResource("21_aapxy")
+texture_disabled = ExtResource("22_5s13h")
+texture_focused = ExtResource("21_aapxy")
+
+[node name="Icons" type="Control" parent="BuildPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 80.0
+offset_top = 112.0
+offset_right = 80.0
+offset_bottom = 112.0
+
+[node name="PowerGenerator" type="TextureRect" parent="BuildPanel/Icons"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 128.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("19_cbnp3")
+
+[node name="OxygenGenerator" type="TextureRect" parent="BuildPanel/Icons"]
+layout_mode = 0
+offset_top = 48.0
+offset_right = 128.0
+offset_bottom = 176.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("20_bywqp")
+
+[node name="Repair" type="TextureRect" parent="BuildPanel/Icons"]
+layout_mode = 0
+offset_top = 96.0
+offset_right = 128.0
+offset_bottom = 224.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("9_giagk")
+
+[node name="Title" type="Label" parent="BuildPanel"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 72.0
+offset_right = 120.0
+offset_bottom = 98.0
+text = "Build"
+label_settings = SubResource("LabelSettings_2epmf")
+
+[node name="Texts" type="Control" parent="BuildPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 80.0
+offset_top = 112.0
+offset_right = 80.0
+offset_bottom = 112.0
+
+[node name="PowerGenerator" type="Label" parent="BuildPanel/Texts"]
+layout_mode = 0
+offset_left = 48.0
+offset_right = 88.0
+offset_bottom = 26.0
+text = "power-generator"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="OxygenGenerator" type="Label" parent="BuildPanel/Texts"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 48.0
+offset_right = 88.0
+offset_bottom = 74.0
+text = "oxy-generator"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="Repair" type="Label" parent="BuildPanel/Texts"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 96.0
+offset_right = 88.0
+offset_bottom = 122.0
+text = "repair"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="Description" type="Label" parent="BuildPanel/Texts"]
+layout_mode = 0
+offset_top = 144.0
+offset_right = 232.0
+offset_bottom = 232.0
+label_settings = SubResource("LabelSettings_rpwg8")
+autowrap_mode = 3

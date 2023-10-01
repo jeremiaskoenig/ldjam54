@@ -19,6 +19,5 @@ public class ResourceManager
     public void AddResource(ResourceType resource, int amount)
     {
         Resources[resource] += amount;
-        GD.Print($"{resource} is now at {Resources[resource]}");
     }
 }

@@ -13,6 +13,7 @@ public partial class Main : Node2D
 	public CameraManager CameraManager { get; private set; }
 	public ResourceManager ResourceManager { get; private set; }
 	public BuildingManager BuildingManager { get; private set; }
+	public EnergySystem EnergySystem { get; private set; }
 
 	private readonly Dictionary<string, object> configuration = new();
 
@@ -23,6 +24,7 @@ public partial class Main : Node2D
 	private readonly List<Room> changedRooms = new();
 
 	public IEnumerable<Node2D> Characters => GetNode("Characters").GetChildren().OfType<Node2D>();
+	public Node2D SelectedCharacter => Characters.FirstOrDefault(character => character.GetNode<CharacterSelection>("Selection").IsSelected);
 
 	public T GetConfig<T>(string key)
 	{
@@ -60,11 +62,14 @@ public partial class Main : Node2D
 			overlayMap.SetCell(2, cell, sourceId, overlay, isOverlayVisible);
 		}
 
-		foreach (Node2D lootNode in GetNode("LootNodes").GetChildren())
+		EnergySystem.UpdatePower();
+
+		foreach (Node2D placedObject in GetNode("LootNodes").GetChildren()
+															.Concat(GetNode("Buildables").GetChildren()))
 		{
-			if (RoomManager.GetRoom(lootNode.GlobalPosition) == room)
+			if (RoomManager.GetRoom(placedObject.GlobalPosition) == room)
 			{
-				lootNode.Visible = !isHidden;
+				placedObject.Visible = !isHidden;
 			}
 		}
 	}
@@ -119,6 +124,7 @@ public partial class Main : Node2D
 		CameraManager = new(this);
 		ResourceManager = new(this);
 		BuildingManager = new(this);
+		EnergySystem = new(this);
 
 		foreach (string key in GetMetaList())
 		{

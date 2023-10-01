@@ -10,13 +10,13 @@ public class BuildingManager
     public BuildingManager(Main main)
     {
         this.main = main;
-        buildableContainer = main.GetNode("Buildable");
+        buildableContainer = main.GetNode("Buildables");
     }
 
-    public IEnumerable<Buildable> BuildableMachines { get; } = new[]
+    private Buildable[] BuildableMachines { get; } = new[]
     {
         // generates power for a full room
-        new Buildable("Generator", false,
+        new Buildable("PowerGenerator", false,
             "Generator",
             "A generator that can power an additional room", 
             new[] { (ResourceType.BuildingMaterials, 20), (ResourceType.Circuitry, 10), (ResourceType.Tools, 10) }),
@@ -24,7 +24,7 @@ public class BuildingManager
         // needed to power up or down a room
         new Buildable("OxygenGenerator", false,
             "Oxygen Sealer",
-            "A generator to provide it's room with oxygen",
+            "A machine to provide it's room with oxygen",
             new[] { (ResourceType.BuildingMaterials, 2), (ResourceType.DuctTape, 3), (ResourceType.Chemicals, 2) }),
             
         // story goal 1
@@ -46,6 +46,22 @@ public class BuildingManager
             new[] { (ResourceType.BuildingMaterials, 5), (ResourceType.DuctTape, 10), (ResourceType.Tools, 5), (ResourceType.Chemicals, 5) }),
     };
 
+    public IEnumerable<Buildable> AvailableBuildables(Vector2 position)
+    {
+        var room = main.RoomManager.GetRoom(position);
+        Vector2I playerPos = main.RoomManager.WorldToRoom(position);
+        if (!room.BuildableWorldMapTiles.Contains(playerPos))
+        {
+            return Enumerable.Empty<Buildable>();
+        }
+        //TODO: Check if a story element is at this position
+        return new[]
+        {
+            BuildableMachines[0],
+            BuildableMachines[1],
+        };
+    }
+
     public void Build(Buildable buildable, Vector2 position)
     {
         var node = InstantiateBuildable(buildable);
@@ -62,16 +78,23 @@ public class BuildingManager
     public class Buildable
     {
         public string Key { get; }
-        public bool Repair { get; }
+        public bool IsRepair { get; }
+        public string Name { get; }
         public string Description { get; }
         public IEnumerable<(ResourceType type, int amount)> Cost { get; }
 
         public Buildable(string key, bool repair, string name, string description, IEnumerable<(ResourceType type, int amount)> cost)
         {
             Key = key;
-            Repair = repair;
+            IsRepair = repair;
+            Name = name;
             Description = description;
             Cost = cost;
+        }
+
+        public override string ToString()
+        {
+            return $"#{Key}; {Name}; {(IsRepair ? "repair" : "")}";
         }
     }
 }

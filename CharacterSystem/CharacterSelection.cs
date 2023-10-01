@@ -7,10 +7,21 @@ public partial class CharacterSelection : Node2D
     private Area2D area;
     private Area2D body;
     private Node2D selection;
+    private UserInterface ui;
+    private Main main;
+
     public bool IsSelected { get; private set; }
+
+    private bool CanChangeSelection()
+    {
+        GD.Print($"ui.IsMouseOve: {ui.IsMouseOver}");
+        return !ui.IsMouseOver;
+    }
 
     public override void _Ready()
     {
+        ui = GetTree().Root.GetNode<UserInterface>("Main/UserInterface");
+        main = GetTree().Root.GetNode<Main>("Main");
         var parent = GetParent<Node2D>();
         selection = GetNode<Node2D>("SelectionCircle");
         area = parent.GetNode<Area2D>("MouseOverArea");
@@ -20,7 +31,7 @@ public partial class CharacterSelection : Node2D
 
     public override void _Input(InputEvent e)
     {
-        if (e is InputEventMouseButton mouseButtonEvent)
+        if (CanChangeSelection() && e is InputEventMouseButton mouseButtonEvent)
         {
             if (mouseButtonEvent.ButtonIndex == MouseButton.Left)
             {

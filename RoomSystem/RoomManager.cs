@@ -31,4 +31,16 @@ public class RoomManager
 
         return rooms.Where(room => room.Coordinates == new Vector2I(roomX, roomY)).FirstOrDefault();
     }
+
+    internal Vector2I WorldToRoom(Vector2 point)
+    {
+        var roomWidth = main.GetConfig<int>("roomWidth");
+        var roomHeight = main.GetConfig<int>("roomHeight");
+        var tileSize = main.GetConfig<int>("tileSize");
+
+        var posX = (int)((point.X % (roomWidth * tileSize)) / tileSize);
+        var posY = (int)((point.Y % (roomHeight * tileSize)) / tileSize);
+
+        return new Vector2I(posX, posY);
+    }
 }
