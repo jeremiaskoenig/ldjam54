@@ -6,20 +6,19 @@ public partial class WorldGenerator
 {
 	private readonly Main main;
 	private readonly TileMap worldMap;
-	private readonly TileMap startRoom;
 	private readonly Node lootNodeContainer;
 	private readonly Node[] lootNodeTemplates;
 	private readonly List<TileMap> rooms = new();
+	private readonly List<TileMap> storyRooms = new();
 	public Vector2I InactiveTileCoordinates { get; set; }
 
 	public AStar2D AStar { get; } = new AStar2D();
 	public List<Vector2I> WalkableTiles { get; } = new List<Vector2I>();
 
-	public WorldGenerator(Main main, TileMap worldMap, TileMap startRoom, Node roomTemplates, Node lootNodeTemplates, Node lootNodeContainer)
+	public WorldGenerator(Main main, TileMap worldMap, Node roomTemplates, Node storyRoomTemplates, Node lootNodeTemplates, Node lootNodeContainer)
 	{
 		this.main = main;
 		this.worldMap = worldMap;
-		this.startRoom = startRoom;
 		this.lootNodeContainer = lootNodeContainer;
 		this.lootNodeTemplates = lootNodeTemplates.GetChildren().ToArray();
 		foreach (var node in roomTemplates.GetChildren())
@@ -27,6 +26,13 @@ public partial class WorldGenerator
 			if (node is TileMap room)
 			{
 				rooms.Add(room);
+			}
+		}
+		foreach (var node in storyRoomTemplates.GetChildren())
+		{
+			if (node is TileMap room)
+			{
+				storyRooms.Add(room);
 			}
 		}
 	}
@@ -48,10 +54,11 @@ public partial class WorldGenerator
 				TileMap roomMap;
 				bool isPowered = false;
 
-				if (x == 5 && y == 5)
-				{
-					roomMap = startRoom;
-					isPowered = true;
+				var questRoom = storyRooms.FirstOrDefault(room => room.Name.ToString().StartsWith($"{x}|{y}_"));
+				if (questRoom != null)
+                {
+					roomMap = questRoom;
+					isPowered = (bool)questRoom.GetMeta("isPowered");
 				}
 				else
 				{
@@ -123,8 +130,8 @@ public partial class WorldGenerator
 			}
 		}
 
-		startRoom.QueueFree();
 		rooms.ForEach(room => room.QueueFree());
+		storyRooms.ForEach(room => room.QueueFree());
 
 		long id(Vector2 pos) => CalculateId(pos);
 	}

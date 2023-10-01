@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 public enum ResourceType
 {
-    ResourceA,
-    ResourceB,
-    ResourceC,
+    BuildingMaterials,
+    DuctTape,
+    Chemicals,
+    Tools,
+    Circuitry
 }

@@ -148,15 +148,15 @@ public partial class Main : Node2D
 		hiddenTileCoordinates = (Vector2I)GetMeta("hiddenTile");
 
 
-		var roomTemplate = GetNode("RoomTemplates");
+		var roomTemplates = GetNode("RoomTemplates");
+		var storyRoomTemplates = GetNode("StoryRooms");
 		var lootNodePrototypes = GetNode("LootNodePrototypes");
 		var lootNodeContainer = GetNode("LootNodes");
-		var startRoom = GetNode<TileMap>("StartRoom");
 		var startCamera = GetNode<Camera2D>("WorldCamera");
 		CameraManager.SetActiveCamera(startCamera);
 		worldMap = GetNode<TileMap>("World");
 		overlayMap = GetNode<TileMap>("WorldOverlay");
-		WorldGenerator = new WorldGenerator(this, worldMap, startRoom, roomTemplate, lootNodePrototypes, lootNodeContainer);
+		WorldGenerator = new WorldGenerator(this, worldMap, roomTemplates, storyRoomTemplates, lootNodePrototypes, lootNodeContainer);
 		WorldGenerator.InactiveTileCoordinates = inactiveTileCoordinates;
 		WorldGenerator.Generate();
 		changedRooms.AddRange(RoomManager.AllRooms);

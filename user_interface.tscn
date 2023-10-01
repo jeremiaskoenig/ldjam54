@@ -1,55 +1,150 @@
-[gd_scene load_steps=6 format=3 uid="uid://brppm04i21tfx"]
+[gd_scene load_steps=12 format=3 uid="uid://brppm04i21tfx"]
 
 [ext_resource type="Script" path="res://UserInterface.cs" id="1_b0svi"]
 [ext_resource type="Texture2D" uid="uid://bjbyxww4yuduw" path="res://Assets/UI/menu_bottomLeft.png" id="2_x2hgf"]
 [ext_resource type="Texture2D" uid="uid://8vcpjp6ocp5n" path="res://Assets/UI/menu_leftCenter.png" id="3_ojfqf"]
 [ext_resource type="Texture2D" uid="uid://q2srafh4xmf0" path="res://Assets/UI/menu_center.png" id="4_llrxc"]
 [ext_resource type="Texture2D" uid="uid://b0tl3e3xsa3wu" path="res://Assets/UI/menu_bottomCenter.png" id="5_e7570"]
+[ext_resource type="Texture2D" uid="uid://br45pfo2xvlw5" path="res://Assets/UI/Icons/building_materials.png" id="6_xs06k"]
+[ext_resource type="Texture2D" uid="uid://b2o6ixy6ix5s5" path="res://Assets/UI/Icons/duct_tape.png" id="7_pln3i"]
+[ext_resource type="Texture2D" uid="uid://cx7rphgpwc65r" path="res://Assets/UI/Icons/chemicals.png" id="8_owyxn"]
+[ext_resource type="Texture2D" uid="uid://dbkperevhg0tf" path="res://Assets/UI/Icons/tools.png" id="9_giagk"]
+[ext_resource type="Texture2D" uid="uid://cosc8cpo7vgx3" path="res://Assets/UI/Icons/circuitry.png" id="10_2gqbo"]
 
-[node name="UserInterface" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[sub_resource type="LabelSettings" id="LabelSettings_dd5os"]
+font_color = Color(0.360784, 0.360784, 0.360784, 1)
+
+[node name="UserInterface" type="CanvasLayer"]
 script = ExtResource("1_b0svi")
 
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
+[node name="Resources" type="Control" parent="."]
+layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
+offset_left = -16.0
+offset_right = 24.0
 offset_bottom = 40.0
 grow_horizontal = 0
 
-[node name="TextureRect" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = -88.0
-offset_top = 8.0
-offset_right = -56.0
-offset_bottom = 40.0
+[node name="Background" type="Control" parent="Resources"]
+anchors_preset = 0
+
+[node name="TextureRect" type="TextureRect" parent="Resources/Background"]
+offset_left = -392.0
+offset_top = 16.0
+offset_right = -360.0
+offset_bottom = 48.0
 texture = ExtResource("2_x2hgf")
 
-[node name="TextureRect2" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = -88.0
-offset_top = -24.0
-offset_right = -56.0
-offset_bottom = 8.0
+[node name="TextureRect2" type="TextureRect" parent="Resources/Background"]
+offset_left = -392.0
+offset_top = -16.0
+offset_right = -360.0
+offset_bottom = 16.0
 texture = ExtResource("3_ojfqf")
 
-[node name="TextureRect3" type="TextureRect" parent="Panel"]
-offset_left = -56.0
-offset_top = -24.0
-offset_right = 132.0
-offset_bottom = 8.0
+[node name="TextureRect3" type="TextureRect" parent="Resources/Background"]
+offset_left = -360.0
+offset_top = -16.0
+offset_right = 40.0
+offset_bottom = 16.0
 texture = ExtResource("4_llrxc")
 
-[node name="TextureRect4" type="TextureRect" parent="Panel"]
-offset_left = -56.0
-offset_top = 8.0
-offset_right = 132.0
-offset_bottom = 40.0
+[node name="TextureRect4" type="TextureRect" parent="Resources/Background"]
+offset_left = -360.0
+offset_top = 16.0
+offset_right = 40.0
+offset_bottom = 48.0
 texture = ExtResource("5_e7570")
+
+[node name="Icons" type="Control" parent="Resources"]
+anchors_preset = 0
+
+[node name="BuildingMaterials" type="TextureRect" parent="Resources/Icons"]
+offset_left = -384.0
+offset_top = 8.0
+offset_right = -256.0
+offset_bottom = 136.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_xs06k")
+
+[node name="DuctTape" type="TextureRect" parent="Resources/Icons"]
+offset_left = -304.0
+offset_top = 8.0
+offset_right = -176.0
+offset_bottom = 136.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("7_pln3i")
+
+[node name="Chemicals" type="TextureRect" parent="Resources/Icons"]
+offset_left = -224.0
+offset_top = 8.0
+offset_right = -96.0
+offset_bottom = 136.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("8_owyxn")
+
+[node name="Tools" type="TextureRect" parent="Resources/Icons"]
+offset_left = -144.0
+offset_top = 8.0
+offset_right = -16.0
+offset_bottom = 136.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("9_giagk")
+
+[node name="Circuitry" type="TextureRect" parent="Resources/Icons"]
+offset_left = -64.0
+offset_top = 8.0
+offset_right = 64.0
+offset_bottom = 136.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("10_2gqbo")
+
+[node name="Texts" type="Control" parent="Resources"]
+anchors_preset = 0
+
+[node name="BuildingMaterials" type="Label" parent="Resources/Texts"]
+offset_left = -349.0
+offset_top = 11.0
+offset_right = -309.0
+offset_bottom = 37.0
+text = "0
+"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="DuctTape" type="Label" parent="Resources/Texts"]
+offset_left = -269.0
+offset_top = 11.0
+offset_right = -229.0
+offset_bottom = 37.0
+text = "0
+"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="Chemicals" type="Label" parent="Resources/Texts"]
+offset_left = -189.0
+offset_top = 11.0
+offset_right = -149.0
+offset_bottom = 37.0
+text = "0
+"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="Tools" type="Label" parent="Resources/Texts"]
+offset_left = -109.0
+offset_top = 11.0
+offset_right = -69.0
+offset_bottom = 37.0
+text = "0
+"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="Circuitry" type="Label" parent="Resources/Texts"]
+offset_left = -29.0
+offset_top = 11.0
+offset_right = 11.0
+offset_bottom = 37.0
+text = "0
+"
+label_settings = SubResource("LabelSettings_dd5os")
