@@ -12,6 +12,7 @@ public partial class Main : Node2D
 	public RoomManager RoomManager { get; private set; }
 	public CameraManager CameraManager { get; private set; }
 	public ResourceManager ResourceManager { get; private set; }
+	public BuildingManager BuildingManager { get; private set; }
 
 	private readonly Dictionary<string, object> configuration = new();
 
@@ -117,6 +118,7 @@ public partial class Main : Node2D
 		RoomManager = new(this);
 		CameraManager = new(this);
 		ResourceManager = new(this);
+		BuildingManager = new(this);
 
 		foreach (string key in GetMetaList())
 		{

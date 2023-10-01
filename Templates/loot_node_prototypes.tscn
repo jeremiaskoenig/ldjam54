@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://dk8muclie2cyl"]
+
+[ext_resource type="Script" path="res://ResourceSystem/LootNode.cs" id="1_d17es"]
+[ext_resource type="Texture2D" uid="uid://dfswbsfrcqf4i" path="res://Assets/Objects/Box1.png" id="2_phyv4"]
+[ext_resource type="Texture2D" uid="uid://b426sk85qldi2" path="res://Assets/Objects/Box2.png" id="3_3wt36"]
+[ext_resource type="Texture2D" uid="uid://cnd0aj3t6vm4t" path="res://Assets/Objects/Box3.png" id="4_7s3ye"]
+[ext_resource type="Texture2D" uid="uid://ckhqsutolevjf" path="res://Assets/Objects/Box4.png" id="5_f2460"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjtat"]
+size = Vector2(10, 10)
+
+[node name="LootNodePrototypes" type="Node"]
+
+[node name="LootBox1" type="Node2D" parent="."]
+visible = false
+script = ExtResource("1_d17es")
+
+[node name="Box1" type="Sprite2D" parent="LootBox1"]
+scale = Vector2(1, 0.992348)
+texture = ExtResource("2_phyv4")
+
+[node name="Body" type="Area2D" parent="LootBox1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LootBox1/Body"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_sjtat")
+
+[node name="LootBox2" type="Node2D" parent="."]
+visible = false
+script = ExtResource("1_d17es")
+
+[node name="Box2" type="Sprite2D" parent="LootBox2"]
+scale = Vector2(1, 0.992348)
+texture = ExtResource("3_3wt36")
+
+[node name="Body" type="Area2D" parent="LootBox2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LootBox2/Body"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_sjtat")
+
+[node name="LootBox3" type="Node2D" parent="."]
+visible = false
+script = ExtResource("1_d17es")
+
+[node name="Box3" type="Sprite2D" parent="LootBox3"]
+scale = Vector2(1, 0.992348)
+texture = ExtResource("4_7s3ye")
+
+[node name="Body" type="Area2D" parent="LootBox3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LootBox3/Body"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_sjtat")
+
+[node name="LootBox4" type="Node2D" parent="."]
+visible = false
+script = ExtResource("1_d17es")
+
+[node name="Box4" type="Sprite2D" parent="LootBox4"]
+scale = Vector2(1, 0.992348)
+texture = ExtResource("5_f2460")
+
+[node name="Body" type="Area2D" parent="LootBox4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LootBox4/Body"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_sjtat")

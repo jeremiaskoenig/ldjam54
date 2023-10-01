@@ -40,3 +40,22 @@ Resources:
 - Chemicals
 - Duct Tape
 - Building Parts
+
+Background:
+- Station ist ohne Energie und die Computer sind down
+-- Station läuft auf Notstrom
+- Alle Systeme sind ausgefallen bis auf in ein paar Räumen
+- Der Spieler kann Überlebende in verschiedenen Räumen finden
+
+Grobe Story:
+- Spieler kommt an/strandet
+- Erstes Ziel: Computer System wieder herstellen
+-- Bei Erfolg: Hauptteil der Station wird freigeschaltet
+- Zweites Ziel: Antenne/Comm System wieder ans laufen bringen
+-- Bei Erfolg: Nachricht das Hilfe auf dem Weg ist, aber die Docking und Treibstoffbefüllung muss dafür funktionieren
+- Drittes Ziel: Zentrale Treibstofftanks ans laufen bringen
+-- Bei Erfolg: Timer startet zur Abholung
+- Viertes Ziel: Spieler muss Dockingbereich erreichen und dort die Treibstoffsysteme ans laufen bringen
+-- Bei Erfolg: Abholung kann kommen
+- Fünftes Ziel: Auf Abholung warten
+- Spiel gewonnen
