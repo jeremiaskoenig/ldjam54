@@ -28,7 +28,6 @@ namespace LudumDare54.CameraSystem
 
 			if (e is InputEventMouseButton mouseButtonEvent)
 			{
-				GD.Print("Mouse Click/Unclick at: ", mouseButtonEvent.Position);
 				if (mouseButtonEvent.ButtonIndex == MouseButton.WheelDown)
 				{
 					if (e.IsPressed())
@@ -59,7 +58,6 @@ namespace LudumDare54.CameraSystem
 						camera.DragVerticalEnabled = true;
 						mouse_start_pos = mouseButtonEvent.Position;	
 						screen_start_position = camera.Position;
-						GD.Print("pressed" + mouse_start_pos + screen_start_position);
 					}
 					else if (e.IsReleased())
 					{

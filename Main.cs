@@ -92,6 +92,7 @@ public partial class Main : Node2D
 				Vector2 defaultier = Vector2.Zero;
 				CameraManager.SetActiveCamera(character.GetNode<Camera2D>("PlayerCamera"));
 				CameraManager.SetCameraPosition(defaultier);
+				CameraManager.SetCameraLimits();
 			}
 		}
 		else
@@ -101,6 +102,7 @@ public partial class Main : Node2D
 				Vector2 defaultiest = CameraManager.GetActiveCamera().GlobalPosition;
 				CameraManager.SetActiveCamera(GetNode<Camera2D>("WorldCamera"));
 				CameraManager.SetGlobalCameraPosition(defaultiest);
+				CameraManager.SetCameraLimits();
 			}
 		}
 
@@ -156,6 +158,7 @@ public partial class Main : Node2D
 		var lootNodeContainer = GetNode("LootNodes");
 		var startCamera = GetNode<Camera2D>("WorldCamera");
 		CameraManager.SetActiveCamera(startCamera);
+		CameraManager.SetCameraLimits();
 		worldMap = GetNode<TileMap>("World");
 		overlayMap = GetNode<TileMap>("WorldOverlay");
 		WorldGenerator = new WorldGenerator(this, worldMap, roomTemplates, storyRoomTemplates, lootNodePrototypes, lootNodeContainer);

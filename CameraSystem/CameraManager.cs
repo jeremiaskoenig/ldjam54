@@ -28,4 +28,11 @@ public class CameraManager
     {
         ActiveCamera.GlobalPosition = targetCoordinates;
     }
+    public void SetCameraLimits()
+    {
+        ActiveCamera.LimitTop = -104;
+        ActiveCamera.LimitLeft = -104;
+        ActiveCamera.LimitRight = main.GetConfig<int>("roomWidth") * main.GetConfig<int>("worldSize") * 16 + 104;
+        ActiveCamera.LimitBottom = main.GetConfig<int>("roomHeight") * main.GetConfig<int>("worldSize") * 16 + 104;
+    }
 }
