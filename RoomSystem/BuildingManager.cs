@@ -120,4 +120,15 @@ public class BuildingManager
         
         return !buildableContainer.GetChildren().OfType<Node2D>().Any(buildable => buildable.GlobalPosition == scaledPos);
     }
+
+    public bool IsType(Vector2I playerPos, string type)
+    {
+        var tileSize = main.GetConfig<int>("tileSize");
+        var scaledPos = (playerPos * tileSize) + new Vector2I((int)(tileSize * 0.5f), (int)(tileSize * 0.5f));
+
+        return buildableContainer.GetChildren()
+                                 .OfType<Node2D>()
+                                 .Where(buildable => (string)buildable.GetMeta("buildableType") == type)
+                                 .Any(buildable => buildable.GlobalPosition == scaledPos);
+    }
 }

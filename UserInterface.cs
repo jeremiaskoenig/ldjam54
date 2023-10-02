@@ -9,6 +9,7 @@ public partial class UserInterface : CanvasLayer
 	private Control buildPanel;
 	private Control resourcePanel;
     private Control oxygenPanel;
+    private Control powerRoomPanel;
 	
 	private Dictionary<string, BuildingManager.Buildable> buildables = new()
 	{
@@ -21,22 +22,41 @@ public partial class UserInterface : CanvasLayer
 	private int oxygenPanelClosedOffset = 167;
 	private int oxygenPanelSpeed = 600;
 
-	public bool IsMouseOver { get; private set; }
+    public bool IsMouseOver { get; private set; }
 
 	public override void _Ready()
-	{
-		main = GetTree().Root.GetNode<Main>("Main");
-		resourcePanel = GetNode<Control>("Resources");
+    {
+        main = GetTree().Root.GetNode<Main>("Main");
 
-		SetupUIMouseOver(resourcePanel);
+        SetupResourcePanel();
+        SetupBuildPanel();
+        SetupOxygenPanel();
+		SetupPowerRoomPanel();
 
-		SetupBuildPanel();
+        Visible = true;
+        base._Ready();
+    }
 
-		SetupOxygenPanel();
+    private void SetupPowerRoomPanel()
+    {
+		powerRoomPanel = GetNode<Control>("PowerRoomPanel");
+		SetupUIMouseOver(powerRoomPanel);
 
-		Visible = true;
-		base._Ready();
+		var toggleButton = powerRoomPanel.GetNode<BaseButton>("Button");
+		toggleButton.Pressed += () =>
+		{
+			var room = main.RoomManager.GetRoom(main.SelectedCharacter.GlobalPosition);
+			room.IsPowered = !room.IsPowered;
+			main.EnergySystem.UpdatePower();
+			main.RefreshRoom(room);
+		};
 	}
+
+	private void SetupResourcePanel()
+    {
+        resourcePanel = GetNode<Control>("Resources");
+        SetupUIMouseOver(resourcePanel);
+    }
 
     private void SetupOxygenPanel()
     {
@@ -122,20 +142,53 @@ public partial class UserInterface : CanvasLayer
 	}
 
 	public override void _Process(double delta)
+    {
+        UpdateResourcePanel();
+        UpdateBuildPanel();
+        UpdateOxygenPanel((float)delta);
+		UpdatePowerRoomPanel();
+
+        base._Process(delta);
+    }
+
+    private void UpdatePowerRoomPanel()
 	{
-		SetResourceLabel("BuildingMaterials", ResourceType.BuildingMaterials);
-		SetResourceLabel("DuctTape", ResourceType.DuctTape);
-		SetResourceLabel("Chemicals", ResourceType.Chemicals);
-		SetResourceLabel("Tools", ResourceType.Tools);
-		SetResourceLabel("Circuitry", ResourceType.Circuitry);
-		SetResourceLabel("Power", $"{main.EnergySystem.UsedPower}/{main.EnergySystem.TotalPower}");
+		var selectedCharacter = main.SelectedCharacter;
 
-		UpdateBuildPanel();
+		if (selectedCharacter != null)
+		{
+			var tileSize = main.GetConfig<int>("tileSize");
+			var room = main.RoomManager.GetRoom(selectedCharacter.GlobalPosition);
 
-		UpdateOxygenPanel((float)delta);
+			Vector2I playerPos = new((int)(selectedCharacter.GlobalPosition.X / tileSize), (int)(selectedCharacter.GlobalPosition.Y / tileSize));
 
-		base._Process(delta);
+			var visible = room.BuildableWorldMapTiles.Contains(playerPos) && main.BuildingManager.IsType(playerPos, "oxygen_gen");
+			powerRoomPanel.Visible = visible;
+			if (visible)
+			{
+				var button = powerRoomPanel.GetNode<BaseButton>("Button");
+				button.Disabled = !room.IsPowered && main.EnergySystem.UsedPower >= main.EnergySystem.TotalPower;
+
+				var label = powerRoomPanel.GetNode<Label>("ButtonText");
+				label.Text = $"Power {(room.IsPowered ? "Down" : "Up")}";
+			}
+
+		}
+		else
+		{
+			powerRoomPanel.Visible = false;
+		}
 	}
+
+    private void UpdateResourcePanel()
+    {
+        SetResourceLabel("BuildingMaterials", ResourceType.BuildingMaterials);
+        SetResourceLabel("DuctTape", ResourceType.DuctTape);
+        SetResourceLabel("Chemicals", ResourceType.Chemicals);
+        SetResourceLabel("Tools", ResourceType.Tools);
+        SetResourceLabel("Circuitry", ResourceType.Circuitry);
+        SetResourceLabel("Power", $"{main.EnergySystem.UsedPower}/{main.EnergySystem.TotalPower}");
+    }
 
     private void UpdateOxygenPanel(float delta)
     {

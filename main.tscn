@@ -24,7 +24,7 @@ metadata/config_roomHeight = 9
 metadata/config_worldSize = 10
 metadata/inactiveTile = Vector2i(5, 0)
 metadata/hiddenTile = Vector2i(4, 0)
-metadata/config_oxygenLoss = 0.5
+metadata/config_oxygenLoss = 1.5
 
 [node name="Selection" type="Area2D" parent="."]
 script = ExtResource("10_1x5kt")

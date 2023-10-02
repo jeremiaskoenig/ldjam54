@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://brppm04i21tfx"]
+[gd_scene load_steps=34 format=3 uid="uid://brppm04i21tfx"]
 
 [ext_resource type="Script" path="res://UserInterface.cs" id="1_b0svi"]
 [ext_resource type="Texture2D" uid="uid://ytyp5xa6mc6y" path="res://Assets/UI/menu_bottomRight.png" id="2_avoi1"]
@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://7wgs3q1h7j34" path="res://Assets/UI/button_over.png" id="21_aapxy"]
 [ext_resource type="Texture2D" uid="uid://d4b255kqgodm1" path="res://Assets/UI/button_inactive.png" id="22_5s13h"]
 [ext_resource type="Texture2D" uid="uid://cx1b5vgbg160p" path="res://Assets/UI/oxygen_bar_back.png" id="25_cgwaw"]
+[ext_resource type="Texture2D" uid="uid://b6xsde4vk1rvk" path="res://Assets/UI/Icons/power_button.png" id="25_qe5mj"]
 [ext_resource type="Texture2D" uid="uid://d3vu6jgfwk4xe" path="res://Assets/UI/empty_corner.png" id="25_v0xml"]
 [ext_resource type="Texture2D" uid="uid://c2k7w51pbkia7" path="res://Assets/UI/arrow_right.png" id="26_pomi7"]
 [ext_resource type="Texture2D" uid="uid://d21eeuspksykg" path="res://Assets/UI/oxygen_bar_front.png" id="26_taaqh"]
@@ -213,6 +214,7 @@ text = "0
 label_settings = SubResource("LabelSettings_dd5os")
 
 [node name="BuildPanel" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -438,6 +440,148 @@ offset_right = 232.0
 offset_bottom = 232.0
 label_settings = SubResource("LabelSettings_rpwg8")
 autowrap_mode = 3
+
+[node name="PowerRoomPanel" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="Control" parent="PowerRoomPanel"]
+anchors_preset = 0
+offset_left = 312.0
+offset_top = 84.0
+offset_right = 312.0
+offset_bottom = 84.0
+
+[node name="TextureRect" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = 48.0
+offset_right = -216.0
+offset_bottom = 80.0
+texture = ExtResource("2_x2hgf")
+
+[node name="TextureRect2" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = 16.0
+offset_right = -216.0
+offset_bottom = 48.0
+texture = ExtResource("3_ojfqf")
+
+[node name="TextureRect3" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 48.0
+texture = ExtResource("4_llrxc")
+
+[node name="TextureRect4" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = 48.0
+offset_right = -16.0
+offset_bottom = 80.0
+texture = ExtResource("5_e7570")
+
+[node name="TextureRect5" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = -16.0
+offset_right = -216.0
+offset_bottom = 16.0
+texture = ExtResource("12_4o5s1")
+
+[node name="TextureRect6" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = -16.0
+offset_right = -144.0
+offset_bottom = 16.0
+texture = ExtResource("13_40tuh")
+
+[node name="TextureRect7" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -144.0
+offset_top = -16.0
+offset_right = -112.0
+offset_bottom = 16.0
+texture = ExtResource("14_8v2b5")
+
+[node name="TextureRect8" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -112.0
+offset_top = -16.0
+offset_right = -16.0
+offset_bottom = 16.0
+texture = ExtResource("15_s4q3v")
+
+[node name="TextureRect9" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 80.0
+texture = ExtResource("2_avoi1")
+
+[node name="TextureRect10" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 48.0
+texture = ExtResource("3_w1oyj")
+
+[node name="TextureRect11" type="TextureRect" parent="PowerRoomPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("18_uxdqg")
+
+[node name="Button" type="TextureButton" parent="PowerRoomPanel"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 104.0
+offset_right = 120.0
+offset_bottom = 152.0
+texture_normal = ExtResource("19_v4jco")
+texture_pressed = ExtResource("20_ied08")
+texture_hover = ExtResource("21_aapxy")
+texture_disabled = ExtResource("22_5s13h")
+texture_focused = ExtResource("21_aapxy")
+
+[node name="ButtonIcon" type="TextureRect" parent="PowerRoomPanel"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 112.0
+offset_right = 208.0
+offset_bottom = 240.0
+scale = Vector2(0.25, 0.25)
+mouse_filter = 2
+texture = ExtResource("25_qe5mj")
+
+[node name="ButtonText" type="Label" parent="PowerRoomPanel"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 112.0
+offset_right = 259.0
+offset_bottom = 138.0
+text = "Power up"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="Title" type="Label" parent="PowerRoomPanel"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 72.0
+offset_right = 120.0
+offset_bottom = 98.0
+text = "Power Room"
+label_settings = SubResource("LabelSettings_2epmf")
 
 [node name="ToggleOxygenPanel" type="TextureButton" parent="."]
 anchors_preset = 3

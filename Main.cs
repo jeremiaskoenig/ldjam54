@@ -32,21 +32,9 @@ public partial class Main : Node2D
 		return (T)Convert.ChangeType(configuration[key], typeof(T));
 	}
 
-	public override void _Input(InputEvent e)
-	{
-		if (e is InputEventMouseButton mouseButtonEvent)
-		{
-			if (mouseButtonEvent.ButtonIndex == MouseButton.Middle)
-			{
-				if (e.IsReleased())
-				{
-					var room = RoomManager.GetRoom(GetGlobalMousePosition());
-					room.IsPowered = !room.IsPowered;
-					changedRooms.Add(room);
-				}
-			}
-		}
-		base._Input(e);
+	public void RefreshRoom(Room room)
+    {
+		changedRooms.Add(room);
 	}
 
 	private void UpdateRoom(Room room, bool isHidden)
