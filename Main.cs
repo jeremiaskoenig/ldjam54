@@ -21,6 +21,8 @@ public partial class Main : Node2D
 	private readonly Dictionary<string, Room> previousRooms = new();
 	private readonly List<Room> changedRooms = new();
 
+	private UserInterface userInterface;
+
 	private Vector2I inactiveTileCoordinates;
 	private Vector2I hiddenTileCoordinates;
 
@@ -142,7 +144,8 @@ public partial class Main : Node2D
                 foreach (var door in buildableContainer.GetChildren().OfType<Door>().Where(node => node.Name.ToString().StartsWith("ComputerDoor_")))
                 {
 					door.IsOpened = true;
-                } 
+                }
+				userInterface.UpdateTask("You fixed the computer. Next you need to fix the communication system. The antennas seem broken. The communication array is at the bottom side of the station.");
 				break;
 
 			case "Antenna":
@@ -150,6 +153,7 @@ public partial class Main : Node2D
 				if (antennaCounter >= 4)
 				{
 					buildableContainer.GetChildren().OfType<Door>().First(node => node.Name.Equals("FuelDoor")).IsOpened = true;
+					userInterface.UpdateTask("You fixed the communication system. Now you only need to get the fuel pumps up and running so you can supply the escape shuttle with fuel to escape. The refinery is somewhere in the center of the station.");
 				}
 				break;
 
@@ -158,6 +162,7 @@ public partial class Main : Node2D
 				if (fuelPumpCounter >= 2)
                 {
 					buildableContainer.GetChildren().OfType<Door>().First(node => node.Name.Equals("EscapeDoor")).IsOpened = true;
+					userInterface.UpdateTask("You fixed all nessecary systems to escape! Get to the second docking bay at the right side of the station to escape!");
 				}
 				break;
         }
@@ -217,6 +222,7 @@ public partial class Main : Node2D
 		var startCamera = GetNode<Camera2D>("WorldCamera");
 		CameraManager.SetActiveCamera(startCamera);
 		CameraManager.SetCameraLimits();
+		userInterface = GetNode<UserInterface>("UserInterface");
 		worldMap = GetNode<TileMap>("World");
 		overlayMap = GetNode<TileMap>("WorldOverlay");
 		WorldGenerator = new WorldGenerator(this, worldMap, roomTemplates, storyRoomTemplates, lootNodePrototypes, lootNodeContainer);

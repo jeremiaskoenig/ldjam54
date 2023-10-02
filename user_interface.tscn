@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://brppm04i21tfx"]
+[gd_scene load_steps=35 format=3 uid="uid://brppm04i21tfx"]
 
 [ext_resource type="Script" path="res://UserInterface.cs" id="1_b0svi"]
 [ext_resource type="Texture2D" uid="uid://ytyp5xa6mc6y" path="res://Assets/UI/menu_bottomRight.png" id="2_avoi1"]
@@ -38,6 +38,10 @@ font_color = Color(0.243137, 0.243137, 0.243137, 1)
 font_color = Color(0.960784, 0.960784, 0.960784, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rpwg8"]
+font_size = 12
+font_color = Color(0.243137, 0.243137, 0.243137, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kp35g"]
 font_size = 12
 font_color = Color(0.243137, 0.243137, 0.243137, 1)
 
@@ -587,9 +591,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -27.0
-offset_top = -349.0
+offset_top = -305.0
 offset_right = 21.0
-offset_bottom = -301.0
+offset_bottom = -257.0
 grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(0.75, 0.75)
@@ -626,7 +630,8 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -40.0
-offset_top = -40.0
+offset_top = 4.0
+offset_bottom = 44.0
 grow_horizontal = 0
 grow_vertical = 0
 
@@ -800,3 +805,163 @@ offset_right = 114.0
 offset_bottom = 146.0
 text = "<char name 3>"
 label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="ToggleTaskPanel" type="TextureButton" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -27.0
+offset_top = 63.0
+offset_right = 21.0
+offset_bottom = 111.0
+grow_horizontal = 0
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("25_v0xml")
+texture_pressed = ExtResource("25_v0xml")
+texture_hover = ExtResource("25_v0xml")
+texture_disabled = ExtResource("25_v0xml")
+texture_focused = ExtResource("25_v0xml")
+
+[node name="Close" type="TextureRect" parent="ToggleTaskPanel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 30.0
+offset_bottom = 39.0
+mouse_filter = 2
+texture = ExtResource("26_pomi7")
+
+[node name="Open" type="TextureRect" parent="ToggleTaskPanel"]
+visible = false
+layout_mode = 0
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 30.0
+offset_bottom = 39.0
+mouse_filter = 2
+texture = ExtResource("27_7urw0")
+
+[node name="TaskPanel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_top = 371.0
+offset_bottom = 411.0
+grow_horizontal = 0
+
+[node name="Background" type="Control" parent="TaskPanel"]
+anchors_preset = 0
+offset_left = 40.0
+offset_top = -260.0
+offset_right = 40.0
+offset_bottom = -260.0
+
+[node name="TextureRect" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = 188.0
+offset_right = -216.0
+offset_bottom = 220.0
+texture = ExtResource("2_x2hgf")
+
+[node name="TextureRect2" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = 16.0
+offset_right = -216.0
+offset_bottom = 188.0
+texture = ExtResource("3_ojfqf")
+
+[node name="TextureRect3" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 188.0
+texture = ExtResource("4_llrxc")
+
+[node name="TextureRect4" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = 188.0
+offset_right = -16.0
+offset_bottom = 220.0
+texture = ExtResource("5_e7570")
+
+[node name="TextureRect5" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = -16.0
+offset_right = -216.0
+offset_bottom = 16.0
+texture = ExtResource("12_4o5s1")
+
+[node name="TextureRect6" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = -16.0
+offset_right = -184.0
+offset_bottom = 16.0
+texture = ExtResource("13_40tuh")
+
+[node name="TextureRect7" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -184.0
+offset_top = -16.0
+offset_right = -152.0
+offset_bottom = 16.0
+texture = ExtResource("14_8v2b5")
+
+[node name="TextureRect8" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -152.0
+offset_top = -16.0
+offset_right = -16.0
+offset_bottom = 16.0
+texture = ExtResource("15_s4q3v")
+
+[node name="TextureRect9" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 188.0
+offset_right = 16.0
+offset_bottom = 220.0
+texture = ExtResource("2_avoi1")
+
+[node name="TextureRect10" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 188.0
+texture = ExtResource("3_w1oyj")
+
+[node name="TextureRect11" type="TextureRect" parent="TaskPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("18_uxdqg")
+
+[node name="Title" type="Label" parent="TaskPanel"]
+layout_mode = 0
+offset_left = -200.0
+offset_top = -272.0
+offset_right = -152.0
+offset_bottom = -246.0
+text = "Tasks"
+label_settings = SubResource("LabelSettings_2epmf")
+
+[node name="Description" type="Label" parent="TaskPanel"]
+layout_mode = 0
+offset_left = -200.0
+offset_top = -243.0
+offset_right = 32.0
+offset_bottom = -51.0
+text = "The station is damaged and on lockdown, your ship is damaged and you need to contact someone to bail you out of here.
+Oxygen production is down but with the parts lying around you should be able to build generators and oxygen sealers to create safe rooms. Be careful out there!   "
+label_settings = SubResource("LabelSettings_kp35g")
+autowrap_mode = 3

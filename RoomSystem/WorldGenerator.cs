@@ -109,6 +109,13 @@ public partial class WorldGenerator
 					main.RoomManager.GetRoom(characterSpawnPos).IsPowered = true;
 				};
 			}
+			else if (x == 0 && y == 5)
+            {
+				enterTrigger = () =>
+				{
+					main.GetNode<UserInterface>("UserInterface").UpdateTask("The station is damaged and on lockdown, your ship is damaged and you need to contact someone to bail you out of here.\nFirst you need to shut down the station lockdown, the computer system is somewhere on the top side of the station.");
+				};
+			}
 
             foreach (var meta in roomMap.GetMetaList())
             {

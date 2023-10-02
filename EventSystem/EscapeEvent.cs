@@ -64,7 +64,7 @@ public partial class EscapeEvent : Node2D
 
 		if (escapeShip.Position == new Vector2(2100, 0))
 		{
-			eventManager.initiateEndscreen();
+			eventManager.InitiateEndscreen();
 		}
 		
 		base._PhysicsProcess(delta);

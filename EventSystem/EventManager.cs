@@ -70,7 +70,7 @@ public class EventManager
         }   
     }
 
-    public void initiateEndscreen()
+    public void InitiateEndscreen()
     {
         var canvaslayer = main.GetNode<CanvasLayer>("Transitionscreen");
         var animationplayer = main.GetNode<CanvasLayer>("Transitionscreen").GetNode<AnimationPlayer>("AnimationPlayer");

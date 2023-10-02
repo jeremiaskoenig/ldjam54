@@ -18,11 +18,13 @@ public partial class UserInterface : CanvasLayer
 		{ "Repair", null }
 	};
 	private bool isOxygenPanelOpened = true;
-	private int oxygenPanelOpenedOffset = -40;
-	private int oxygenPanelClosedOffset = 167;
-	private int oxygenPanelSpeed = 600;
+	private bool isTaskPanelOpened = true;
+	private int sidePanelOpenedOffset = -40;
+	private int sidePanelClosedOffset = 167;
+	private int sidePanelSpeed = 600;
+    private Control tasksPanel;
 
-	public bool IsMouseOver { get; private set; }
+    public bool IsMouseOver { get; private set; }
 
 	public bool IsHUDVisible { get; set; } = true;
 
@@ -34,12 +36,27 @@ public partial class UserInterface : CanvasLayer
 		SetupBuildPanel();
 		SetupOxygenPanel();
 		SetupPowerRoomPanel();
+		SetupTasksPanel();
 
 		Visible = true;
 		base._Ready();
 	}
 
-	private void SetupPowerRoomPanel()
+    private void SetupTasksPanel()
+	{
+		tasksPanel = GetNode<Control>("TaskPanel");
+		SetupUIMouseOver(tasksPanel);
+
+		var toggleButton = GetNode<BaseButton>("ToggleTaskPanel");
+		toggleButton.Pressed += () =>
+		{
+			isTaskPanelOpened = !isTaskPanelOpened;
+			GetNode<TextureRect>("ToggleTaskPanel/Open").Visible = !isTaskPanelOpened;
+			GetNode<TextureRect>("ToggleTaskPanel/Close").Visible = isTaskPanelOpened;
+		};
+	}
+
+    private void SetupPowerRoomPanel()
 	{
 		powerRoomPanel = GetNode<Control>("PowerRoomPanel");
 		SetupUIMouseOver(powerRoomPanel);
@@ -151,6 +168,7 @@ public partial class UserInterface : CanvasLayer
 			UpdateBuildPanel();
 			UpdateOxygenPanel((float)delta);
 			UpdatePowerRoomPanel();
+			UpdateTaskPanel((float)delta);
 		}
 		else
 		{
@@ -161,12 +179,30 @@ public partial class UserInterface : CanvasLayer
 		base._Process(delta);
 	}
 
+    internal void UpdateTask(string text)
+    {
+		tasksPanel.GetNode<Label>("Description").Text = text;
+    }
+
+    private void UpdateTaskPanel(float delta)
+    {
+		var step = delta * sidePanelSpeed;
+		step *= isTaskPanelOpened ? -1 : 1;
+		var viewRect = tasksPanel.GetViewportRect();
+		var pos = tasksPanel.GlobalPosition - viewRect.Size;
+		var newX = Mathf.Clamp(pos.X + step, sidePanelOpenedOffset, sidePanelClosedOffset);
+		tasksPanel.GlobalPosition = new(newX + viewRect.Size.X, tasksPanel.GlobalPosition.Y);
+
+	}
+
 	private void ToggleHUD(bool visible)
 	{
 		resourcePanel.Visible = visible;
 		buildPanel.Visible = visible;
 		oxygenPanel.Visible = visible;
+		tasksPanel.Visible = visible;
 		GetNode<Control>("ToggleOxygenPanel").Visible = visible;
+		GetNode<Control>("ToggleTaskPanel").Visible = visible;
 	}
 
 	private void UpdatePowerRoomPanel()
@@ -210,11 +246,11 @@ public partial class UserInterface : CanvasLayer
 
 	private void UpdateOxygenPanel(float delta)
 	{
-		var step = delta * oxygenPanelSpeed;
+		var step = delta * sidePanelSpeed;
 		step *= isOxygenPanelOpened ? -1 : 1;
 		var viewRect = oxygenPanel.GetViewportRect();
 		var pos = oxygenPanel.GlobalPosition - viewRect.Size;
-		var newX = Mathf.Clamp(pos.X + step, oxygenPanelOpenedOffset, oxygenPanelClosedOffset);
+		var newX = Mathf.Clamp(pos.X + step, sidePanelOpenedOffset, sidePanelClosedOffset);
 		oxygenPanel.GlobalPosition = new(newX + viewRect.Size.X, oxygenPanel.GlobalPosition.Y);
 
 		foreach (Godot.Range oxygenBar in oxygenPanel.GetNode("Bars").GetChildren())

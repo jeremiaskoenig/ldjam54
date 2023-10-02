@@ -22,8 +22,21 @@ public partial class Character : Node2D
 
 		var oxygenLoss = main.GetConfig<float>("oxygenLoss");
 
-		Oxygen += currentRoom.IsPowered ? oxygenLoss : -oxygenLoss;
-		Oxygen = Mathf.Clamp(Oxygen, 0, 1000);
+		Oxygen += currentRoom.IsPowered ? (20 * oxygenLoss) : -oxygenLoss;
+		Oxygen = Mathf.Clamp(Oxygen, -60, 1000);
+
+		if (Oxygen == 0)
+		{
+			var canvaslayer = main.GetNode<CanvasLayer>("Transitionscreen");
+			var animationplayer = main.GetNode<CanvasLayer>("Transitionscreen").GetNode<AnimationPlayer>("AnimationPlayer");
+			canvaslayer.Visible = true;
+			animationplayer.Play("fade_to_black");
+			canvaslayer.GetNode<Label>("LabelFailure").Visible = true;
+		}
+		else if (Oxygen == -100)
+		{
+			GetTree().ReloadCurrentScene();
+		}
 
 		base._PhysicsProcess(delta);
 	}
