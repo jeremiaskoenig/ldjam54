@@ -6,6 +6,7 @@ public class BuildingManager
 {
     private readonly Main main;
     private readonly Node buildableContainer;
+    private readonly List<Vector2> fixedBuildings = new();
 
     public BuildingManager(Main main)
     {
@@ -13,40 +14,62 @@ public class BuildingManager
         buildableContainer = main.GetNode("Buildables");
     }
 
-    public IEnumerable<Buildable> Buildables => buildableMachines;
+    public IEnumerable<Buildable> Buildables => buildableMachines.Values;
 
-    private readonly Buildable[] buildableMachines = new[]
+    private readonly Dictionary<string, Buildable> buildableMachines = new()
     {
-        // generates power for a full room
-        new Buildable("PowerGenerator", false,
-            "Generator",
-            "A generator that can power an additional room", 
-            new[] { (ResourceType.BuildingMaterials, 20), (ResourceType.Circuitry, 10), (ResourceType.Tools, 10) }),
+        { 
+            "PowerGenerator",
+            // generates power for a full room
+            new Buildable("PowerGenerator", false,
+                "Generator",
+                "A generator that can power an additional room", 
+                new[] { (ResourceType.BuildingMaterials, 20), (ResourceType.Circuitry, 10), (ResourceType.Tools, 10) })
+        },
+        {
+            "OxygenGenerator",
+            // needed to power up or down a room
+            new Buildable("OxygenGenerator", false,
+                "Oxygen Sealer",
+                "A machine to provide it's room with oxygen",
+                new[] { (ResourceType.BuildingMaterials, 2), (ResourceType.DuctTape, 3), (ResourceType.Chemicals, 2) })
 
-        // needed to power up or down a room
-        new Buildable("OxygenGenerator", false,
-            "Oxygen Sealer",
-            "A machine to provide it's room with oxygen",
-            new[] { (ResourceType.BuildingMaterials, 2), (ResourceType.DuctTape, 3), (ResourceType.Chemicals, 2) }),
-            
-        // story goal 1
-        new Buildable("ComputerSystem", true,
-            "Computer System",
-            "The computer system of the station, as long as it is down large parts of the station are locked.",
-            new[] { (ResourceType.Circuitry, 15), (ResourceType.DuctTape, 5), (ResourceType.Tools, 15) }),
-        
-        // story goal 2
-        new Buildable("Antenna", true,
-            "Comm Antenna",
-            "An antenna of the communication system. All antennas must be restored before an emergency signal can be sent.",
-            new[] { (ResourceType.Circuitry, 5), (ResourceType.Tools, 5) }),
+        },
+        {
+            "ComputerSystem",
+            // story goal 1
+            new Buildable("ComputerSystem", true,
+                "Computer System",
+                "The computer system of the station, as long as it is down large parts of the station are locked.",
+                new[] { (ResourceType.Circuitry, 15), (ResourceType.DuctTape, 5), (ResourceType.Tools, 15) })
 
-        // story goal 3 and 4
-        new Buildable("FuelPump", true,
-            "Fuel Pump",
-            "A fuel pump to refuel a landed spacecraft. All pumps need to be restored to refill the escape shuttle.",
-            new[] { (ResourceType.BuildingMaterials, 5), (ResourceType.DuctTape, 10), (ResourceType.Tools, 5), (ResourceType.Chemicals, 5) }),
+        },
+        {
+            "Antenna",
+            // story goal 2
+            new Buildable("Antenna", true,
+                "Comm Antenna",
+                "An antenna of the communication system. All antennas must be restored before an emergency signal can be sent.",
+                new[] { (ResourceType.Circuitry, 5), (ResourceType.Tools, 5) })
+
+        },
+        {
+            "FuelPump",
+            // story goal 3 and 4
+            new Buildable("FuelPump", true,
+                "Fuel Pump",
+                "A fuel pump to refuel a landed spacecraft. All pumps need to be restored to refill the escape shuttle.",
+                new[] { (ResourceType.BuildingMaterials, 5), (ResourceType.DuctTape, 10), (ResourceType.Tools, 5), (ResourceType.Chemicals, 5) })
+        }
     };
+
+    private static readonly string[] repairables = new[]
+    {
+        "antenna",
+        "computer_system",
+        "fuel_pump"
+    };
+
 
     public IEnumerable<Buildable> AvailableBuildables(Vector2 position)
     {
@@ -57,12 +80,37 @@ public class BuildingManager
         {
             return Enumerable.Empty<Buildable>();
         }
-        //TODO: Check if a story element is at this position
-        return new[]
+
+        List<Buildable> baseBuildables = new()
         {
-            buildableMachines[0],
-            buildableMachines[1],
+            buildableMachines["PowerGenerator"],
+            buildableMachines["OxygenGenerator"],
         };
+
+        var scaledPos = (playerPos * tileSize) + new Vector2I((int)(tileSize * 0.5f), (int)(tileSize * 0.5f));
+
+        var positionBuildables = buildableContainer.GetChildren()
+                                          .OfType<Node2D>()
+                                          .Where(buildable => buildable.GlobalPosition == scaledPos);
+        var buildable = positionBuildables.FirstOrDefault(buildable => repairables.Contains((string)buildable.SafeGetMeta("buildableType", "")));
+
+        if (buildable != null)
+        {
+            switch ((string)buildable.SafeGetMeta("buildableType", ""))
+            {
+                case "antenna":
+                    baseBuildables.Add(buildableMachines["Antenna"]);
+                    break;
+                case "computer_system":
+                    baseBuildables.Add(buildableMachines["ComputerSystem"]); 
+                    break;
+                case "fuel_pump": 
+                    baseBuildables.Add(buildableMachines["FuelPump"]);
+                    break;
+            }
+        }
+
+        return baseBuildables;
     }
 
     public void Spawn(Buildable buildable, Vector2 position)
@@ -75,21 +123,36 @@ public class BuildingManager
 
     public void Build(Buildable buildable, Vector2 position)
     {
-        bool canAfford = true;
-        foreach (var cost in buildable.Cost)
-        {
-            canAfford &= main.ResourceManager.Resources[cost.type] >= cost.amount;
-        }
-
-        if (!canAfford)
+        if (!main.ResourceManager.CanAfford(buildable.Cost))
             return;
 
-        foreach (var cost in buildable.Cost)
+        main.ResourceManager.Pay(buildable.Cost);
+        if (buildable.IsRepair)
         {
-            main.ResourceManager.Resources[cost.type] -= cost.amount;
+            fixedBuildings.Add(position);
+            DisableSmoke(position);
+            main.TriggerFixed(buildable, position);
         }
+        else
+        {
+            Spawn(buildable, position);
+        }
+    }
 
-        Spawn(buildable, position);
+    private void DisableSmoke(Vector2 position)
+    {
+        var buildable = buildableContainer.GetChildren().OfType<Node2D>().FirstOrDefault(buildable => buildable.GlobalPosition == position);
+
+        if (buildable != null)
+        {
+            var particles = buildable.GetNode<GpuParticles2D>("BrokenParticles");
+            particles.Emitting = false;
+            particles.QueueFree();
+        }
+        else
+        {
+            GD.PushWarning($"tried to disable smoke for object at {position} but no object found");
+        }
     }
 
     Node2D InstantiateBuildable(Buildable buildable)
@@ -139,8 +202,10 @@ public class BuildingManager
                                  .Any(buildable => buildable.GlobalPosition == scaledPos);
     }
 
-    public bool IsBroken(Vector2I playerPos)
+    public bool IsFixed(Vector2I playerPos)
     {
-        throw new System.NotImplementedException();
+        var tileSize = main.GetConfig<int>("tileSize");
+        var scaledPos = (playerPos * tileSize) + new Vector2I((int)(tileSize * 0.5f), (int)(tileSize * 0.5f));
+        return fixedBuildings.Contains(scaledPos);
     }
 }

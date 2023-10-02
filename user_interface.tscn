@@ -214,7 +214,6 @@ text = "0
 label_settings = SubResource("LabelSettings_dd5os")
 
 [node name="BuildPanel" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -230,9 +229,9 @@ offset_bottom = 84.0
 [node name="TextureRect" type="TextureRect" parent="BuildPanel/Background"]
 layout_mode = 0
 offset_left = -248.0
-offset_top = 240.0
+offset_top = 204.0
 offset_right = -216.0
-offset_bottom = 272.0
+offset_bottom = 236.0
 texture = ExtResource("2_x2hgf")
 
 [node name="TextureRect2" type="TextureRect" parent="BuildPanel/Background"]
@@ -240,7 +239,7 @@ layout_mode = 0
 offset_left = -248.0
 offset_top = 16.0
 offset_right = -216.0
-offset_bottom = 240.0
+offset_bottom = 204.0
 texture = ExtResource("3_ojfqf")
 
 [node name="TextureRect3" type="TextureRect" parent="BuildPanel/Background"]
@@ -248,15 +247,15 @@ layout_mode = 0
 offset_left = -216.0
 offset_top = 16.0
 offset_right = -16.0
-offset_bottom = 240.0
+offset_bottom = 204.0
 texture = ExtResource("4_llrxc")
 
 [node name="TextureRect4" type="TextureRect" parent="BuildPanel/Background"]
 layout_mode = 0
 offset_left = -216.0
-offset_top = 240.0
+offset_top = 204.0
 offset_right = -16.0
-offset_bottom = 272.0
+offset_bottom = 236.0
 texture = ExtResource("5_e7570")
 
 [node name="TextureRect5" type="TextureRect" parent="BuildPanel/Background"]
@@ -294,9 +293,9 @@ texture = ExtResource("15_s4q3v")
 [node name="TextureRect9" type="TextureRect" parent="BuildPanel/Background"]
 layout_mode = 0
 offset_left = -16.0
-offset_top = 240.0
+offset_top = 204.0
 offset_right = 16.0
-offset_bottom = 272.0
+offset_bottom = 236.0
 texture = ExtResource("2_avoi1")
 
 [node name="TextureRect10" type="TextureRect" parent="BuildPanel/Background"]
@@ -304,7 +303,7 @@ layout_mode = 0
 offset_left = -16.0
 offset_top = 16.0
 offset_right = 16.0
-offset_bottom = 240.0
+offset_bottom = 204.0
 texture = ExtResource("3_w1oyj")
 
 [node name="TextureRect11" type="TextureRect" parent="BuildPanel/Background"]
@@ -347,9 +346,9 @@ texture_focused = ExtResource("21_aapxy")
 [node name="Repair" type="TextureButton" parent="BuildPanel/Buttons"]
 layout_mode = 0
 offset_left = 72.0
-offset_top = 200.0
+offset_top = 104.0
 offset_right = 120.0
-offset_bottom = 248.0
+offset_bottom = 152.0
 texture_normal = ExtResource("19_v4jco")
 texture_pressed = ExtResource("20_ied08")
 texture_hover = ExtResource("21_aapxy")
@@ -383,9 +382,8 @@ texture = ExtResource("20_bywqp")
 
 [node name="Repair" type="TextureRect" parent="BuildPanel/Icons"]
 layout_mode = 0
-offset_top = 96.0
 offset_right = 128.0
-offset_bottom = 224.0
+offset_bottom = 128.0
 scale = Vector2(0.25, 0.25)
 mouse_filter = 2
 texture = ExtResource("9_giagk")
@@ -427,17 +425,16 @@ label_settings = SubResource("LabelSettings_dd5os")
 [node name="Repair" type="Label" parent="BuildPanel/Texts"]
 layout_mode = 0
 offset_left = 48.0
-offset_top = 96.0
-offset_right = 88.0
-offset_bottom = 122.0
+offset_right = 95.0
+offset_bottom = 26.0
 text = "repair"
 label_settings = SubResource("LabelSettings_dd5os")
 
 [node name="Description" type="Label" parent="BuildPanel/Texts"]
 layout_mode = 0
-offset_top = 144.0
+offset_top = 96.0
 offset_right = 232.0
-offset_bottom = 232.0
+offset_bottom = 192.0
 label_settings = SubResource("LabelSettings_rpwg8")
 autowrap_mode = 3
 

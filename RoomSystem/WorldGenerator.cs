@@ -80,7 +80,7 @@ public partial class WorldGenerator
 				main.Characters.First().GlobalPosition = playerSpawn;
 			}
 
-			string spawnedCharacter = (string)roomMap.SafeGetMeta("spawnedCharacter", default);
+			string spawnedCharacter = (string)roomMap.SafeGetMeta("spawnedCharacter", "");
 			Action enterTrigger = null;
 			if (!String.IsNullOrEmpty(spawnedCharacter))
 			{
