@@ -43,12 +43,13 @@ public partial class Main : Node2D
 		const int VISIBLE = 0;
 		const int INVISIBLE = -1;
 
-		foreach (var cell in room.WorldMapTiles)
+		foreach (var (cell, layer) in room.OverlayTiles)
 		{
 			var overlay = isHidden ? hiddenTileCoordinates : inactiveTileCoordinates;
 			int isOverlayVisible = room.IsPowered ? INVISIBLE : VISIBLE;
+			//int isOverlayVisible = INVISIBLE;
 
-			var sourceId = worldMap.GetCellSourceId(0, cell);
+			var sourceId = worldMap.GetCellSourceId(layer, cell);
 			overlayMap.SetCell(2, cell, sourceId, overlay, isOverlayVisible);
 		}
 
@@ -60,6 +61,7 @@ public partial class Main : Node2D
 			if (RoomManager.GetRoom(placedObject.GlobalPosition) == room)
 			{
 				placedObject.Visible = room.IsPowered || !isHidden;
+				//placedObject.Visible = true;
 			}
 		}
 	}
@@ -82,6 +84,9 @@ public partial class Main : Node2D
 					changedRooms.Add(previousRoom);
 				}
 				previousRooms[character.Name] = currentRoom;
+
+				GD.Print($"Triggering when entering room {currentRoom.Coordinates}");
+
 				currentRoom.Trigger();
 			}
 
@@ -178,7 +183,6 @@ public partial class Main : Node2D
 		var startCamera = GetNode<Camera2D>("WorldCamera");
 		CameraManager.SetActiveCamera(startCamera);
 		CameraManager.SetCameraLimits();
-		EventManager.SetEscapeShipTrigger();
 		worldMap = GetNode<TileMap>("World");
 		overlayMap = GetNode<TileMap>("WorldOverlay");
 		WorldGenerator = new WorldGenerator(this, worldMap, roomTemplates, storyRoomTemplates, lootNodePrototypes, lootNodeContainer);

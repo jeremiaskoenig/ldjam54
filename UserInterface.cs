@@ -24,6 +24,8 @@ public partial class UserInterface : CanvasLayer
 
     public bool IsMouseOver { get; private set; }
 
+	public bool IsHUDVisible { get; set; } = true;
+
 	public override void _Ready()
     {
         main = GetTree().Root.GetNode<Main>("Main");
@@ -142,13 +144,30 @@ public partial class UserInterface : CanvasLayer
 
 	public override void _Process(double delta)
     {
-        UpdateResourcePanel();
-        UpdateBuildPanel();
-        UpdateOxygenPanel((float)delta);
-		UpdatePowerRoomPanel();
+		if (IsHUDVisible)
+        {
+            ToggleHUD(true);
+			UpdateResourcePanel();
+			UpdateBuildPanel();
+			UpdateOxygenPanel((float)delta);
+			UpdatePowerRoomPanel();
+        }
+        else
+		{
+			ToggleHUD(false);
+
+		}
 
         base._Process(delta);
     }
+
+    private void ToggleHUD(bool visible)
+    {
+        resourcePanel.Visible = visible;
+        buildPanel.Visible = visible;
+        oxygenPanel.Visible = visible;
+		GetNode<Control>("ToggleOxygenPanel").Visible = visible;
+	}
 
     private void UpdatePowerRoomPanel()
 	{

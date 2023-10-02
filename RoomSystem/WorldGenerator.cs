@@ -81,8 +81,19 @@ public partial class WorldGenerator
 			}
 
 			string spawnedCharacter = (string)roomMap.SafeGetMeta("spawnedCharacter", "");
+			string trigger = (string)roomMap.SafeGetMeta("trigger", "");
 			Action enterTrigger = null;
-			if (!String.IsNullOrEmpty(spawnedCharacter))
+			if (!String.IsNullOrEmpty(trigger))
+            {
+				switch (trigger)
+                {
+					case "ending":
+						enterTrigger = main.EventManager.SetEscapeShipTrigger;
+						GD.Print($"Adding end trigger to room {x}|{y}");
+						break;
+                }
+            }
+			else if (!String.IsNullOrEmpty(spawnedCharacter))
 			{
 				enterTrigger = () =>
 				{
@@ -132,6 +143,8 @@ public partial class WorldGenerator
 				{
 					var cellPos = new Vector2I(offsetX + cell.X, offsetY + cell.Y);
 
+					room.OverlayTiles.Add((cellPos, layer));
+
 					if (layer == 0)
 						room.WorldMapTiles.Add(cellPos);
 
@@ -160,6 +173,8 @@ public partial class WorldGenerator
 					worldMap.SetCell(layer, cellPos, sourceId, atlasCoords);
 				}
 			}
+
+			room.FinalizeRoomInitialization();
 		}
 
 		var floorCells = worldMap.GetUsedCells(0);

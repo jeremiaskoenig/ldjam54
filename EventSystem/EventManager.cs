@@ -49,7 +49,7 @@ public class EventManager
             moveShip = false;
             
             escapeShip.wait(7500);
-            //disableUI
+            main.GetNode<UserInterface>("UserInterface").IsHUDVisible = false;
             CharacterEndSceneMove();
             moveShip = true;
             escapeShipTarget = new Vector2(2100,-1000);
