@@ -61,6 +61,11 @@ public partial class EscapeEvent : Node2D
 				drive2.Scale = new Vector2((float)1.2, rando);
 			}
 		}
+
+		if (escapeShip.Position == new Vector2(2100, 0))
+        {
+			eventManager.initiateEndscreen();
+        }
 		
 		base._PhysicsProcess(delta);
 	}

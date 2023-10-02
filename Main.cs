@@ -132,12 +132,12 @@ public partial class Main : Node2D
 		newCharacter.Selection.Unselect();
 	}
 
-    internal void TriggerFixed(BuildingManager.Buildable buildable, Vector2 position)
-    {
-        //TODO: do some story stuff
-    }
+	internal void TriggerFixed(BuildingManager.Buildable buildable, Vector2 position)
+	{
+		//TODO: do some story stuff
+	}
 
-    public override void _Ready()
+	public override void _Ready()
 	{
 		RoomManager = new(this);
 		CameraManager = new(this);

@@ -23,6 +23,7 @@ metadata/roomType = Vector2i(1, 2)
 metadata/spawn_ComputerSystem = Vector2i(4, 4)
 
 [node name="0|6_LandingBay1" type="TileMap" parent="."]
+visible = false
 scale = Vector2(1, 0.992348)
 tile_set = ExtResource("1_6qubm")
 format = 2

@@ -27,6 +27,7 @@ public class EventManager
     public void SetEscapeShipTrigger()
     {
         escapeShipTrigger = true;
+        main.GetNode<UserInterface>("UserInterface").IsHUDVisible = false;
         EscapeShipTriggered();
     }
 
@@ -52,12 +53,10 @@ public class EventManager
         {
             moveShip = false;
             
-            escapeShip.wait(7500);
-            main.GetNode<UserInterface>("UserInterface").IsHUDVisible = false;
+            escapeShip.wait(1000);
             CharacterEndSceneMove();
             moveShip = true;
             escapeShipTarget = new Vector2(2100,-1000);
-            initiateEndscreen();
         }
         
         return moveShip;
@@ -71,9 +70,13 @@ public class EventManager
         }   
     }
 
-    private void initiateEndscreen()
+    public void initiateEndscreen()
     {
-        //TODO:BITTE BITTE BAU ENDSCREEN JA SAG WALLAh
+        var canvaslayer = main.GetNode<CanvasLayer>("Transitionscreen");
+        var animationplayer = main.GetNode<CanvasLayer>("Transitionscreen").GetNode<AnimationPlayer>("AnimationPlayer");
+        canvaslayer.Visible = true;
+        animationplayer.Play("fade_to_black");
+        canvaslayer.GetNode<Label>("Label").Visible = true;
     }
 
     public Node2D GetEscapeShip()
