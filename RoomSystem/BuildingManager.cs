@@ -13,7 +13,9 @@ public class BuildingManager
         buildableContainer = main.GetNode("Buildables");
     }
 
-    private Buildable[] BuildableMachines { get; } = new[]
+    public IEnumerable<Buildable> Buildables => buildableMachines;
+
+    private readonly Buildable[] buildableMachines = new[]
     {
         // generates power for a full room
         new Buildable("PowerGenerator", false,
@@ -58,9 +60,17 @@ public class BuildingManager
         //TODO: Check if a story element is at this position
         return new[]
         {
-            BuildableMachines[0],
-            BuildableMachines[1],
+            buildableMachines[0],
+            buildableMachines[1],
         };
+    }
+
+    public void Spawn(Buildable buildable, Vector2 position)
+    {
+        var node = InstantiateBuildable(buildable);
+        node.GlobalPosition = position;
+        node.Visible = true;
+        buildableContainer.AddChild(node);
     }
 
     public void Build(Buildable buildable, Vector2 position)
@@ -79,10 +89,7 @@ public class BuildingManager
             main.ResourceManager.Resources[cost.type] -= cost.amount;
         }
 
-        var node = InstantiateBuildable(buildable);
-        node.GlobalPosition = position;
-        node.Visible = true;
-        buildableContainer.AddChild(node);
+        Spawn(buildable, position);
     }
 
     Node2D InstantiateBuildable(Buildable buildable)
@@ -130,5 +137,10 @@ public class BuildingManager
                                  .OfType<Node2D>()
                                  .Where(buildable => (string)buildable.GetMeta("buildableType") == type)
                                  .Any(buildable => buildable.GlobalPosition == scaledPos);
+    }
+
+    public bool IsBroken(Vector2I playerPos)
+    {
+        throw new System.NotImplementedException();
     }
 }

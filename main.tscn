@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwwv77m441ywj"]
+[gd_scene load_steps=14 format=3 uid="uid://bwwv77m441ywj"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_p0y2m"]
 [ext_resource type="PackedScene" uid="uid://3moy2x8x8ejw" path="res://Templates/room_templates.tscn" id="3_mlili"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://GlobalSelection.cs" id="10_1x5kt"]
 [ext_resource type="PackedScene" uid="uid://brppm04i21tfx" path="res://user_interface.tscn" id="10_g0wfa"]
 [ext_resource type="PackedScene" path="res://Templates/parallax_background.tscn" id="11_r8bu5"]
+[ext_resource type="PackedScene" uid="uid://dsii5s067uh06" path="res://Assets/Tiles/world_atlas.tscn" id="12_011lf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jqulp"]
 radius = 5.0
@@ -106,4 +107,7 @@ script = ExtResource("5_6tk66")
 visible = false
 
 [node name="Background" parent="." instance=ExtResource("11_r8bu5")]
+visible = false
+
+[node name="WorldAtlas" parent="." instance=ExtResource("12_011lf")]
 visible = false

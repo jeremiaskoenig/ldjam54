@@ -45,119 +45,119 @@ public partial class WorldGenerator
 		var worldSize = main.GetConfig<int>("worldSize");
 		var tileSize = main.GetConfig<int>("tileSize");
 
-		for (int y = 0; y < worldSize; y++)
-		{
-			for (int x = 0; x < worldSize; x++)
+		var worldAtlas = main.GetNode<TileMap>("WorldAtlas");
+
+		var worldCells = worldAtlas.GetUsedCells(0);
+
+        foreach (var worldCell in worldCells)
+        {
+			int x = worldCell.X;
+			int y = worldCell.Y;
+
+			var offsetX = x * roomWidth;
+			var offsetY = y * roomHeight;
+
+			TileMap roomMap;
+			bool isPowered = false;
+
+			var allTemplates = rooms.Concat(storyRooms);
+
+			var mapRoomType = worldAtlas.GetCellAtlasCoords(0, worldCell);
+
+			var pool = allTemplates.Where(template => (Vector2I)template.GetMeta("roomType") == mapRoomType).ToArray();
+			if (pool.Length == 0)
+            {
+				GD.PushWarning($"No room found for mapRoomType {mapRoomType}");
+            }
+
+			roomMap = pool[GD.RandRange(0, pool.Length - 1)];
+			isPowered = (bool)roomMap.SafeGetMeta("isPowered", false);
+
+			Vector2I spawnPlayer = (Vector2I)roomMap.SafeGetMeta("spawnPlayer", -Vector2I.One);
+			if (spawnPlayer != -Vector2I.One)
+            {
+				var playerSpawn = new Vector2((offsetX + spawnPlayer.X) * tileSize + (tileSize * 0.5f), (offsetY + spawnPlayer.Y) * tileSize + (tileSize * 0.5f));
+				main.Characters.First().GlobalPosition = playerSpawn;
+			}
+
+			string spawnedCharacter = (string)roomMap.SafeGetMeta("spawnedCharacter", default);
+			Action enterTrigger = null;
+			if (!String.IsNullOrEmpty(spawnedCharacter))
 			{
-				var offsetX = x * roomWidth;
-				var offsetY = y * roomHeight;
-
-				TileMap roomMap;
-				bool isPowered = false;
-
-				var questRoom = storyRooms.FirstOrDefault(room => room.Name.ToString().StartsWith($"{x}|{y}_"));
-				if (questRoom != null)
-                {
-					roomMap = questRoom;
-					isPowered = (bool)questRoom.GetMeta("isPowered");
-				}
-				else
+				enterTrigger = () =>
 				{
-					string prefix = "";
-					if((x == 0 && y == 0)||(x == 0 && y == 8))
+					var spawnPos = new Vector2((offsetX + (roomWidth * 0.5f)) * tileSize, (offsetY + (roomHeight * 0.5f)) * tileSize);
+					main.SpawnCharacter(spawnedCharacter, spawnPos);
+				};
+			}
+
+            foreach (var meta in roomMap.GetMetaList())
+            {
+				var metaName = (string)meta;
+				if (!metaName.StartsWith("spawn_"))
+					continue;
+				var metaValue = (Vector2I)roomMap.GetMeta(meta);
+
+				BuildingManager.Buildable spawnedBuildable = null;
+
+                foreach (var buildable in main.BuildingManager.Buildables)
+				{
+					if (metaName.StartsWith($"spawn_{buildable.Key}"))
                     {
-						prefix = "Corner1";
+						spawnedBuildable = buildable;
+						break;
                     }
-					else if(x == 0 && y == worldSize-1)
-                    {
-						prefix = "Corner4";
-					}
-					else if (x == worldSize - 1 && y == 0)
-					{
-						prefix = "Corner3";
-					}
-					else if (x == worldSize - 1 && y == worldSize - 1)
-					{
-						prefix = "Corner2";
-					}
-					else if (x == 3 && y == 0)
-					{
-						prefix = "HPipe";
-					}
-					else if ((x == 0)||(x == 1 && (y == 6 || y == 7)) || (x == 4 && y == 1) || (x == 7 && y == 3))
-                    {
-						prefix = "LSide";
-                    }
-					else if ((x == worldSize - 1) || (x == 7 && y == 4))
-					{
-						prefix = "RSide";
-					}
-					else if (y == 0 || (x == 3 && y == 2) || (x == 5 && y == 4) || (x == 6 && y == 4) || (x == 8 && y == 6))
-					{
-						prefix = "TSide";
-					}
-					else if ((y == worldSize - 1) || ((x == 5 || x == 6) && y == 2))
-					{
-						prefix = "DSide";
-					}
-					else
-                    {
-						prefix = "Room";
-					}
-					var filteredRooms = rooms.Where(r => r.Name.ToString().StartsWith(prefix)).ToArray();
-					roomMap = filteredRooms[GD.RandRange(0, filteredRooms.Length - 1)];
 				}
 
-				string spawnedCharacter = roomMap.HasMeta("spawnedCharacter") ? (string)roomMap.GetMeta("spawnedCharacter") : null;
-				Action enterTrigger = null;
-
-				if (spawnedCharacter != null)
+				if (spawnedBuildable != null)
                 {
-					enterTrigger = () =>
-					{
-						var spawnPos = new Vector2((offsetX + (roomWidth * 0.5f)) * tileSize, (offsetY + (roomHeight * 0.5f)) * tileSize);
-						main.SpawnCharacter(spawnedCharacter, spawnPos);
-					};
+					GD.Print($"Spawning {spawnedBuildable.Key}@{metaValue} in room with offset ({offsetX}, {offsetY})");
+					var spawnPosition = new Vector2((offsetX + metaValue.X) * tileSize + (tileSize * 0.5f), (offsetY + metaValue.Y) * tileSize + (tileSize * 0.5f));
+					main.BuildingManager.Spawn(spawnedBuildable, spawnPosition);
                 }
+                else
+                {
+					GD.PushWarning($"no buildable found for spawn {metaName}");
+                }
+            }
 
-				var room = main.RoomManager.RegisterRoom(new Vector2I(x, y), enterTrigger);
-				room.IsPowered = isPowered;
+			var room = main.RoomManager.RegisterRoom(new Vector2I(x, y), enterTrigger);
+			room.IsPowered = isPowered;
 
-				for (int layer = 0; layer < roomMap.GetLayersCount(); layer++)
+			for (int layer = 0; layer < roomMap.GetLayersCount(); layer++)
+			{
+				var layerCells = roomMap.GetUsedCells(layer);
+
+				foreach (var cell in layerCells)
 				{
-					var layerCells = roomMap.GetUsedCells(layer);
+					var cellPos = new Vector2I(offsetX + cell.X, offsetY + cell.Y);
 
-					foreach (var cell in layerCells)
+					if (layer == 0)
+						room.WorldMapTiles.Add(cellPos);
+
+					var sourceId = roomMap.GetCellSourceId(layer, cell);
+					var atlasCoords = roomMap.GetCellAtlasCoords(layer, cell);
+
+					var tileData = roomMap.GetCellTileData(layer, cell);
+					var canSpawnLoot = (bool)tileData.GetCustomData("canSpawnLoot");
+					var canBeBuiltOn = (bool)tileData.GetCustomData("canBeBuiltOn");
+
+					if (canSpawnLoot)
 					{
-						var cellPos = new Vector2I(offsetX + cell.X, offsetY + cell.Y);
-
-						if (layer == 0)
-							room.WorldMapTiles.Add(cellPos);
-
-						var sourceId = roomMap.GetCellSourceId(layer, cell);
-						var atlasCoords = roomMap.GetCellAtlasCoords(layer, cell);
-
-						var tileData = roomMap.GetCellTileData(layer, cell);
-						var canSpawnLoot = (bool)tileData.GetCustomData("canSpawnLoot");
-						var canBeBuiltOn = (bool)tileData.GetCustomData("canBeBuiltOn");
-
-						if (canSpawnLoot)
+						if (GD.Randf() <= 0.2f)
 						{
-							if (GD.Randf() <= 0.2f)
-							{
-								var lootNode = lootNodeTemplates[GD.RandRange(0, lootNodeTemplates.Length - 1)].Duplicate() as Node2D;
-								lootNode.Visible = true;
-								lootNode.GlobalPosition = (cellPos * tileSize) + new Vector2(tileSize * 0.5f, tileSize * 0.5f);
-								lootNodeContainer.AddChild(lootNode);
-							}
-							room.LootSpawnWorldMapTiles.Add(cellPos);
+							var lootNode = lootNodeTemplates[GD.RandRange(0, lootNodeTemplates.Length - 1)].Duplicate() as Node2D;
+							lootNode.Visible = true;
+							lootNode.GlobalPosition = (cellPos * tileSize) + new Vector2(tileSize * 0.5f, tileSize * 0.5f);
+							lootNodeContainer.AddChild(lootNode);
 						}
-
-						if (canBeBuiltOn)
-							room.BuildableWorldMapTiles.Add(cellPos);
-
-						worldMap.SetCell(layer, cellPos, sourceId, atlasCoords);
+						room.LootSpawnWorldMapTiles.Add(cellPos);
 					}
+
+					if (canBeBuiltOn)
+						room.BuildableWorldMapTiles.Add(cellPos);
+
+					worldMap.SetCell(layer, cellPos, sourceId, atlasCoords);
 				}
 			}
 		}

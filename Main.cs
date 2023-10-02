@@ -117,6 +117,8 @@ public partial class Main : Node2D
 
     public void SpawnCharacter(string characterName, Vector2 position)
     {
+		GD.Print($"Spawning character {characterName}@{position}");
+
 		var newCharacter = Characters.First().Duplicate() as Character;
 		newCharacter.Name = characterName;
 		newCharacter.GlobalPosition = position;
