@@ -179,6 +179,7 @@ metadata/isPowered = false
 metadata/roomType = Vector2i(0, 4)
 
 [node name="9|6_EscapeBaySide3" type="TileMap" parent="."]
+visible = false
 scale = Vector2(1, 0.992348)
 tile_set = ExtResource("1_6qubm")
 format = 2

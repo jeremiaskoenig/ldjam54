@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://b5kq6wicecemw" path="res://Templates/building_prototypes.tscn" id="6_tpjsc"]
 [ext_resource type="Script" path="res://GlobalSelection.cs" id="10_1x5kt"]
 [ext_resource type="PackedScene" uid="uid://brppm04i21tfx" path="res://user_interface.tscn" id="10_g0wfa"]
-[ext_resource type="PackedScene" path="res://Templates/parallax_background.tscn" id="11_r8bu5"]
-[ext_resource type="PackedScene" uid="uid://dsii5s067uh06" path="res://Assets/Tiles/world_atlas.tscn" id="12_011lf"]
+[ext_resource type="PackedScene" uid="uid://cq2c0wqi1wpr" path="res://Templates/parallax_background.tscn" id="11_r8bu5"]
+[ext_resource type="PackedScene" uid="uid://0i5v10sv17l0" path="res://Assets/Tiles/world_atlas.tscn" id="12_011lf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jqulp"]
 radius = 5.0
