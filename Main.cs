@@ -48,7 +48,6 @@ public partial class Main : Node2D
 		{
 			var overlay = isHidden ? hiddenTileCoordinates : inactiveTileCoordinates;
 			int isOverlayVisible = room.IsPowered ? INVISIBLE : VISIBLE;
-			//int isOverlayVisible = INVISIBLE;
 
 			var sourceId = worldMap.GetCellSourceId(layer, cell);
 			overlayMap.SetCell(2, cell, sourceId, overlay, isOverlayVisible);
@@ -62,7 +61,6 @@ public partial class Main : Node2D
 			if (RoomManager.GetRoom(placedObject.GlobalPosition) == room)
 			{
 				placedObject.Visible = room.IsPowered || !isHidden;
-				//placedObject.Visible = true;
 			}
 		}
 	}
@@ -85,8 +83,6 @@ public partial class Main : Node2D
 					changedRooms.Add(previousRoom);
 				}
 				previousRooms[character.Name] = currentRoom;
-
-				GD.Print($"Triggering when entering room {currentRoom.Coordinates}");
 
 				currentRoom.Trigger();
 			}
@@ -133,10 +129,46 @@ public partial class Main : Node2D
 		newCharacter.Selection.Unselect();
 	}
 
+	private int fuelPumpCounter = 0;
+	private int antennaCounter = 0;
 	internal void TriggerFixed(BuildingManager.Buildable buildable, Vector2 position)
-	{
-		//TODO: do some story stuff
-	}
+    {
+		var buildableContainer = GetNode("Buildables");
+
+
+		switch (buildable.Key)
+        {
+			case "ComputerSystem":
+                foreach (var door in buildableContainer.GetChildren().OfType<Door>().Where(node => node.Name.ToString().StartsWith("ComputerDoor_")))
+                {
+					door.IsOpened = true;
+                } 
+				break;
+
+			case "Antenna":
+				antennaCounter++;
+				if (antennaCounter >= 4)
+				{
+					buildableContainer.GetChildren().OfType<Door>().First(node => node.Name.Equals("FuelDoor")).IsOpened = true;
+				}
+				break;
+
+			case "FuelPump":
+				fuelPumpCounter++;
+				if (fuelPumpCounter >= 2)
+                {
+					buildableContainer.GetChildren().OfType<Door>().First(node => node.Name.Equals("EscapeDoor")).IsOpened = true;
+				}
+				break;
+        }
+
+
+
+
+
+
+        //TODO: do some story stuff
+    }
 
 	public override void _Ready()
 	{

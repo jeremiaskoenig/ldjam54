@@ -259,12 +259,6 @@ public partial class UserInterface : CanvasLayer
 			{
 				var buildables = main.BuildingManager.AvailableBuildables(selectedCharacter.GlobalPosition);
 
-				GD.Print("available:");
-				foreach (var item in buildables)
-				{
-					GD.Print($"> {item.Key}");
-				}
-
 				foreach (var buildable in buildables)
 				{
 					Label label;

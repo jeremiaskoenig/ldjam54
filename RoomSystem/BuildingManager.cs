@@ -14,16 +14,15 @@ public class BuildingManager
         buildableContainer = main.GetNode("Buildables");
     }
 
-    public IEnumerable<Buildable> Buildables => buildableMachines.Values;
-
-    private readonly Dictionary<string, Buildable> buildableMachines = new()
+    public Buildable Door { get; } = new("Door", false, "Door", "", Enumerable.Empty<(ResourceType, int)>());
+    public Dictionary<string, Buildable> Buildables { get; } = new()
     {
-        { 
+        {
             "PowerGenerator",
             // generates power for a full room
             new Buildable("PowerGenerator", false,
                 "Generator",
-                "A generator that can power an additional room", 
+                "A generator that can power an additional room",
                 new[] { (ResourceType.BuildingMaterials, 20), (ResourceType.Circuitry, 10), (ResourceType.Tools, 10) })
         },
         {
@@ -83,8 +82,8 @@ public class BuildingManager
 
         List<Buildable> baseBuildables = new()
         {
-            buildableMachines["PowerGenerator"],
-            buildableMachines["OxygenGenerator"],
+            Buildables["PowerGenerator"],
+            Buildables["OxygenGenerator"],
         };
 
         var scaledPos = (playerPos * tileSize) + new Vector2I((int)(tileSize * 0.5f), (int)(tileSize * 0.5f));
@@ -99,13 +98,13 @@ public class BuildingManager
             switch ((string)buildable.SafeGetMeta("buildableType", ""))
             {
                 case "antenna":
-                    baseBuildables.Add(buildableMachines["Antenna"]);
+                    baseBuildables.Add(Buildables["Antenna"]);
                     break;
                 case "computer_system":
-                    baseBuildables.Add(buildableMachines["ComputerSystem"]); 
+                    baseBuildables.Add(Buildables["ComputerSystem"]); 
                     break;
                 case "fuel_pump": 
-                    baseBuildables.Add(buildableMachines["FuelPump"]);
+                    baseBuildables.Add(Buildables["FuelPump"]);
                     break;
             }
         }
@@ -113,12 +112,13 @@ public class BuildingManager
         return baseBuildables;
     }
 
-    public void Spawn(Buildable buildable, Vector2 position)
+    public Node2D Spawn(Buildable buildable, Vector2 position)
     {
         var node = InstantiateBuildable(buildable);
         node.GlobalPosition = position;
         node.Visible = true;
         buildableContainer.AddChild(node);
+        return node;
     }
 
     public void Build(Buildable buildable, Vector2 position)

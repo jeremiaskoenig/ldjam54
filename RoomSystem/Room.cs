@@ -34,7 +34,6 @@ public class Room
         if (isTriggered)
             return;
 
-        GD.Print($"Trigge {enterTrigger}");
         isTriggered = true;
         enterTrigger?.Invoke();
     }

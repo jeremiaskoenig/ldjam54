@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b5kq6wicecemw"]
+[gd_scene load_steps=13 format=3 uid="uid://b5kq6wicecemw"]
 
 [ext_resource type="TileSet" uid="uid://dulfs1g0mindv" path="res://Assets/Tiles/room_tileset.tres" id="1_e30d5"]
 [ext_resource type="Texture2D" uid="uid://bocc1w8qkludg" path="res://Assets/Objects/Antenna.png" id="1_h8jum"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://sx56t3ch02g2" path="res://Assets/Objects/MachineSmall2.png" id="4_afl0k"]
 [ext_resource type="Texture2D" uid="uid://oyspjyq6gkq2" path="res://Assets/Objects/puff.png" id="4_c5o7q"]
 [ext_resource type="Texture2D" uid="uid://cr0wprxqr1k15" path="res://Assets/Objects/Machine.png" id="5_dc4cc"]
+[ext_resource type="Script" path="res://RoomSystem/Door.cs" id="8_8jil3"]
 [ext_resource type="Texture2D" uid="uid://tw6kjn0u24kf" path="res://Assets/Objects/door.png" id="8_xfhpk"]
 
 [sub_resource type="Gradient" id="Gradient_4yaeq"]
@@ -96,6 +97,8 @@ process_material = SubResource("ParticleProcessMaterial_ngemv")
 texture = ExtResource("4_c5o7q")
 
 [node name="Door" type="Node2D" parent="."]
+visible = false
+script = ExtResource("8_8jil3")
 metadata/buildableType = "generator"
 
 [node name="Sprite" type="Sprite2D" parent="Door"]

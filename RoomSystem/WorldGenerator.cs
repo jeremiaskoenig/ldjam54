@@ -78,6 +78,8 @@ public partial class WorldGenerator
             {
 				var playerSpawn = new Vector2((offsetX + spawnPlayer.X) * tileSize + (tileSize * 0.5f), (offsetY + spawnPlayer.Y) * tileSize + (tileSize * 0.5f));
 				main.Characters.First().GlobalPosition = playerSpawn;
+				main.CameraManager.GetActiveCamera().GlobalPosition = playerSpawn;
+				//Center cam
 			}
 
 			string spawnedCharacter = (string)roomMap.SafeGetMeta("spawnedCharacter", "");
@@ -88,8 +90,10 @@ public partial class WorldGenerator
 				switch (trigger)
                 {
 					case "ending":
-						enterTrigger = main.EventManager.SetEscapeShipTrigger;
-						GD.Print($"Adding end trigger to room {x}|{y}");
+						enterTrigger = () =>
+						{
+							main.EventManager.SetEscapeShipTrigger();
+						};
 						break;
                 }
             }
@@ -97,8 +101,12 @@ public partial class WorldGenerator
 			{
 				enterTrigger = () =>
 				{
-					var spawnPos = new Vector2((offsetX + (roomWidth * 0.5f)) * tileSize, (offsetY + (roomHeight * 0.5f)) * tileSize);
-					main.SpawnCharacter(spawnedCharacter, spawnPos);
+					var characterSpawnPos = new Vector2((offsetX + (roomWidth * 0.5f)) * tileSize, (offsetY + (roomHeight * 0.5f)) * tileSize);
+					main.SpawnCharacter(spawnedCharacter, characterSpawnPos);
+
+					var generatorSpawnPos = new Vector2((offsetX + 2) * tileSize + (0.5f * tileSize), (offsetY + 6) * tileSize + (0.5f * tileSize));
+					main.BuildingManager.Spawn(main.BuildingManager.Buildables["PowerGenerator"], generatorSpawnPos);
+					main.RoomManager.GetRoom(characterSpawnPos).IsPowered = true;
 				};
 			}
 
@@ -115,7 +123,7 @@ public partial class WorldGenerator
 				{
 					if (metaName.StartsWith($"spawn_{buildable.Key}"))
                     {
-						spawnedBuildable = buildable;
+						spawnedBuildable = buildable.Value;
 						break;
                     }
 				}
@@ -199,6 +207,64 @@ public partial class WorldGenerator
 				}
 			}
 		}
+
+		Vector2I endDoorTilePosition = new(103, 40);
+		Vector2I fuelDoorTilePosition = new(72, 33);
+		Vector2I[] doorTilePositions = new[]
+		{
+			new Vector2I(8, 49),
+			new Vector2I(8, 40),
+			new Vector2I(34, 31),
+			new Vector2I(39, 22),
+			new Vector2I(34, 4)
+		};
+
+		AStar.DisconnectPoints(id(endDoorTilePosition), id(endDoorTilePosition + Vector2I.Right), true);
+		AStar.DisconnectPoints(id(fuelDoorTilePosition), id(fuelDoorTilePosition + Vector2I.Right), true);
+		foreach (var pos in doorTilePositions)
+		{
+			AStar.DisconnectPoints(id(pos), id(pos + Vector2I.Right), true);
+		}
+
+		Vector2 endDoorPosition = new(1656, 648);
+		Vector2 fuelDoorPosition = new(1160, 536);
+		Vector2[] doorPositions = new[]
+		{
+			new Vector2(136, 792),
+			new Vector2(136, 648),
+			new Vector2(552, 504),
+			new Vector2(632, 360),
+			new Vector2(552, 72)
+		};
+
+		BuildingManager.Buildable doorBuildable = main.BuildingManager.Door;
+		var endDoor = main.BuildingManager.Spawn(doorBuildable, endDoorPosition) as Door;
+		var fuelDoor = main.BuildingManager.Spawn(doorBuildable, fuelDoorPosition) as Door;
+		int doorIndex = 0;
+		foreach (var pos in doorPositions)
+        {
+			var doorTilePos = doorTilePositions[doorIndex];
+			var door = main.BuildingManager.Spawn(doorBuildable, pos) as Door;
+			door.OpenAction = () =>
+			{
+				AStar.ConnectPoints(id(doorTilePos), id(doorTilePos + Vector2I.Right), true);
+			};
+			
+			door.Name = $"ComputerDoor_{doorIndex++}";
+
+		}
+
+		endDoor.Name = "EscapeDoor";
+		endDoor.OpenAction = () =>
+		{
+			AStar.ConnectPoints(id(endDoorTilePosition), id(endDoorTilePosition + Vector2I.Right), true);
+		};
+
+		fuelDoor.Name = "FuelDoor";
+		fuelDoor.OpenAction = () =>
+		{
+			AStar.ConnectPoints(id(fuelDoorTilePosition), id(fuelDoorTilePosition + Vector2I.Right), true);
+		};
 
 		rooms.ForEach(room => room.QueueFree());
 		storyRooms.ForEach(room => room.QueueFree());
