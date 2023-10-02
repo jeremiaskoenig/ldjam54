@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://braep67flcc6s"]
+[gd_scene load_steps=5 format=3 uid="uid://d363nryoxxxmj"]
 
 [sub_resource type="Animation" id="Animation_bcix6"]
 length = 0.001
@@ -90,6 +90,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 25
-text = "Mission Failed!"
+text = "Oh no
+You died
+
+Better watch out for your oxygen next time!"
 horizontal_alignment = 1
 vertical_alignment = 1
