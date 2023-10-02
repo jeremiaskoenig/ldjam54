@@ -27,7 +27,8 @@ public class EventManager
     public void SetEscapeShipTrigger()
     {
         escapeShipTrigger = true;
-        EscapeShipTriggered();    }
+        EscapeShipTriggered();
+    }
 
     public void EscapeShipTriggered()
     {
@@ -44,6 +45,9 @@ public class EventManager
 
     public bool GetMoveShip()
     {
+        if (!escapeShipTrigger)
+            return false;
+
         if (escapeShipTarget == escapeShip.GlobalPosition)
         {
             moveShip = false;
@@ -63,7 +67,7 @@ public class EventManager
     {
         foreach (var character in main.Characters)
         {
-            character.Movement.EventMovement(new Vector2(2100, 650));
+            character.Movement.TriggerMovement(new Vector2(2100, 650));
         }   
     }
 
