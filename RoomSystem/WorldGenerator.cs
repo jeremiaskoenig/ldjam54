@@ -87,15 +87,15 @@ public partial class WorldGenerator
                     {
 						prefix = "LSide";
                     }
-					else if (x == worldSize - 1)
+					else if ((x == worldSize - 1) || (x == 7 && y == 4))
 					{
 						prefix = "RSide";
 					}
-					else if (y == 0 || (x == 3 && y == 2) || (x == 5 && y == 4) || (x == 6 && y == 4))
+					else if (y == 0 || (x == 3 && y == 2) || (x == 5 && y == 4) || (x == 6 && y == 4) || (x == 8 && y == 6))
 					{
 						prefix = "TSide";
 					}
-					else if ((y == worldSize - 1) || (x == 5 && y == 2) || (x == 6 && y == 2))
+					else if ((y == worldSize - 1) || ((x == 5 || x == 6) && y == 2))
 					{
 						prefix = "DSide";
 					}
