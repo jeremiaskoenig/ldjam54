@@ -170,6 +170,7 @@ public partial class Main : Node2D
 		WorldGenerator = new WorldGenerator(this, worldMap, roomTemplates, storyRoomTemplates, lootNodePrototypes, lootNodeContainer);
 		WorldGenerator.InactiveTileCoordinates = inactiveTileCoordinates;
 		WorldGenerator.Generate();
+		var ParallaxBG = GetNode<ParallaxBackground>("Background").Visible = true;
 		changedRooms.AddRange(RoomManager.AllRooms);
 	}
 }
