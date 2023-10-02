@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://brppm04i21tfx"]
+[gd_scene load_steps=33 format=3 uid="uid://brppm04i21tfx"]
 
 [ext_resource type="Script" path="res://UserInterface.cs" id="1_b0svi"]
 [ext_resource type="Texture2D" uid="uid://ytyp5xa6mc6y" path="res://Assets/UI/menu_bottomRight.png" id="2_avoi1"]
@@ -24,6 +24,11 @@
 [ext_resource type="Texture2D" uid="uid://dy816wly37xs1" path="res://Assets/UI/button_pressed.png" id="20_ied08"]
 [ext_resource type="Texture2D" uid="uid://7wgs3q1h7j34" path="res://Assets/UI/button_over.png" id="21_aapxy"]
 [ext_resource type="Texture2D" uid="uid://d4b255kqgodm1" path="res://Assets/UI/button_inactive.png" id="22_5s13h"]
+[ext_resource type="Texture2D" uid="uid://cx1b5vgbg160p" path="res://Assets/UI/oxygen_bar_back.png" id="25_cgwaw"]
+[ext_resource type="Texture2D" uid="uid://d3vu6jgfwk4xe" path="res://Assets/UI/empty_corner.png" id="25_v0xml"]
+[ext_resource type="Texture2D" uid="uid://c2k7w51pbkia7" path="res://Assets/UI/arrow_right.png" id="26_pomi7"]
+[ext_resource type="Texture2D" uid="uid://d21eeuspksykg" path="res://Assets/UI/oxygen_bar_front.png" id="26_taaqh"]
+[ext_resource type="Texture2D" uid="uid://by4bilfp5vllx" path="res://Assets/UI/arrow_left.png" id="27_7urw0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dd5os"]
 font_color = Color(0.243137, 0.243137, 0.243137, 1)
@@ -433,3 +438,224 @@ offset_right = 232.0
 offset_bottom = 232.0
 label_settings = SubResource("LabelSettings_rpwg8")
 autowrap_mode = 3
+
+[node name="ToggleOxygenPanel" type="TextureButton" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_top = -349.0
+offset_right = 21.0
+offset_bottom = -301.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("25_v0xml")
+texture_pressed = ExtResource("25_v0xml")
+texture_hover = ExtResource("25_v0xml")
+texture_disabled = ExtResource("25_v0xml")
+texture_focused = ExtResource("25_v0xml")
+
+[node name="Close" type="TextureRect" parent="ToggleOxygenPanel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 30.0
+offset_bottom = 39.0
+mouse_filter = 2
+texture = ExtResource("26_pomi7")
+
+[node name="Open" type="TextureRect" parent="ToggleOxygenPanel"]
+visible = false
+layout_mode = 0
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 30.0
+offset_bottom = 39.0
+mouse_filter = 2
+texture = ExtResource("27_7urw0")
+
+[node name="OxygenPanel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Background" type="Control" parent="OxygenPanel"]
+anchors_preset = 0
+offset_left = 40.0
+offset_top = -260.0
+offset_right = 40.0
+offset_bottom = -260.0
+
+[node name="TextureRect" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = 188.0
+offset_right = -216.0
+offset_bottom = 220.0
+texture = ExtResource("2_x2hgf")
+
+[node name="TextureRect2" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = 16.0
+offset_right = -216.0
+offset_bottom = 188.0
+texture = ExtResource("3_ojfqf")
+
+[node name="TextureRect3" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 188.0
+texture = ExtResource("4_llrxc")
+
+[node name="TextureRect4" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = 188.0
+offset_right = -16.0
+offset_bottom = 220.0
+texture = ExtResource("5_e7570")
+
+[node name="TextureRect5" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -248.0
+offset_top = -16.0
+offset_right = -216.0
+offset_bottom = 16.0
+texture = ExtResource("12_4o5s1")
+
+[node name="TextureRect6" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -216.0
+offset_top = -16.0
+offset_right = -184.0
+offset_bottom = 16.0
+texture = ExtResource("13_40tuh")
+
+[node name="TextureRect7" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -184.0
+offset_top = -16.0
+offset_right = -152.0
+offset_bottom = 16.0
+texture = ExtResource("14_8v2b5")
+
+[node name="TextureRect8" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -152.0
+offset_top = -16.0
+offset_right = -16.0
+offset_bottom = 16.0
+texture = ExtResource("15_s4q3v")
+
+[node name="TextureRect9" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 188.0
+offset_right = 16.0
+offset_bottom = 220.0
+texture = ExtResource("2_avoi1")
+
+[node name="TextureRect10" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 188.0
+texture = ExtResource("3_w1oyj")
+
+[node name="TextureRect11" type="TextureRect" parent="OxygenPanel/Background"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("18_uxdqg")
+
+[node name="Title" type="Label" parent="OxygenPanel"]
+layout_mode = 0
+offset_left = -200.0
+offset_top = -272.0
+offset_right = -152.0
+offset_bottom = -246.0
+text = "Oxygen"
+label_settings = SubResource("LabelSettings_2epmf")
+
+[node name="Bars" type="Control" parent="OxygenPanel"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Character1" type="TextureProgressBar" parent="OxygenPanel/Bars"]
+layout_mode = 0
+offset_left = -184.0
+offset_top = -216.0
+offset_right = 16.0
+offset_bottom = -176.0
+value = 100.0
+texture_under = ExtResource("25_cgwaw")
+texture_progress = ExtResource("26_taaqh")
+
+[node name="Character2" type="TextureProgressBar" parent="OxygenPanel/Bars"]
+layout_mode = 0
+offset_left = -184.0
+offset_top = -152.0
+offset_right = 16.0
+offset_bottom = -112.0
+value = 100.0
+texture_under = ExtResource("25_cgwaw")
+texture_progress = ExtResource("26_taaqh")
+
+[node name="Character3" type="TextureProgressBar" parent="OxygenPanel/Bars"]
+layout_mode = 0
+offset_left = -184.0
+offset_top = -88.0
+offset_right = 16.0
+offset_bottom = -48.0
+value = 100.0
+texture_under = ExtResource("25_cgwaw")
+texture_progress = ExtResource("26_taaqh")
+
+[node name="Texts" type="Control" parent="OxygenPanel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -192.0
+offset_top = -232.0
+offset_right = -192.0
+offset_bottom = -232.0
+
+[node name="Character1" type="Label" parent="OxygenPanel/Texts"]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 131.0
+offset_bottom = 18.0
+text = "<char name 1>"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="Character2" type="Label" parent="OxygenPanel/Texts"]
+layout_mode = 0
+offset_top = 56.0
+offset_right = 114.0
+offset_bottom = 82.0
+text = "<char name 2>"
+label_settings = SubResource("LabelSettings_dd5os")
+
+[node name="Character3" type="Label" parent="OxygenPanel/Texts"]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 114.0
+offset_bottom = 146.0
+text = "<char name 3>"
+label_settings = SubResource("LabelSettings_dd5os")

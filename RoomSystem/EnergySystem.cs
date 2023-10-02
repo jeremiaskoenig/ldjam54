@@ -12,9 +12,12 @@ public class EnergySystem
     public int UsedPower { get; private set; }
     public int TotalPower { get; private set; }
 
+    // Base power to power the landing bay for which there is always enough power
+    private const int BasePower = 2;
+
     public void UpdatePower()
     {
         UsedPower = main.RoomManager.AllRooms.Count(room => room.IsPowered);
-        TotalPower = main.GetNode("Buildables").GetChildren().Where(node => (string)node.GetMeta("buildableType") == "generator").Count();
+        TotalPower = BasePower + main.GetNode("Buildables").GetChildren().Where(node => (string)node.GetMeta("buildableType") == "generator").Count();
     }
 }

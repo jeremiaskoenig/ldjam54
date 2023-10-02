@@ -11,6 +11,11 @@ public partial class CharacterSelection : Node2D
     private Main main;
 
     public bool IsSelected { get; private set; }
+    public void Unselect()
+    {
+        selection.Visible = false;
+        IsSelected = false;
+    }
 
     private bool CanChangeSelection()
     {

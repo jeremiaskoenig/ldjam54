@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public class Room
@@ -11,8 +12,21 @@ public class Room
 
 	public bool IsPowered { get; set; }
 
-	public Room(Vector2I coordinates)
+    private readonly Action enterTrigger;
+    private bool isTriggered = false;
+
+	public Room(Vector2I coordinates, Action enterTrigger)
 	{
 		Coordinates = coordinates;
-	}
+        this.enterTrigger = enterTrigger;
+    }
+
+	public void Trigger()
+    {
+        if (isTriggered)
+            return;
+
+        isTriggered = true;
+        enterTrigger?.Invoke();
+    }
 }
