@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b5kq6wicecemw" path="res://Templates/building_prototypes.tscn" id="6_tpjsc"]
 [ext_resource type="Script" path="res://GlobalSelection.cs" id="10_1x5kt"]
 [ext_resource type="PackedScene" uid="uid://brppm04i21tfx" path="res://user_interface.tscn" id="10_g0wfa"]
-[ext_resource type="PackedScene" uid="uid://cq2c0wqi1wpr" path="res://Templates/parallax_background.tscn" id="11_r8bu5"]
+[ext_resource type="PackedScene" path="res://Templates/parallax_background.tscn" id="11_r8bu5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jqulp"]
 radius = 5.0
@@ -24,6 +24,7 @@ metadata/config_roomHeight = 9
 metadata/config_worldSize = 10
 metadata/inactiveTile = Vector2i(5, 0)
 metadata/hiddenTile = Vector2i(4, 0)
+metadata/config_oxygenLoss = 0.5
 
 [node name="Selection" type="Area2D" parent="."]
 script = ExtResource("10_1x5kt")
@@ -63,7 +64,7 @@ layer_2/tile_data = PackedInt32Array()
 
 [node name="Characters" type="Node" parent="."]
 
-[node name="Character" parent="Characters" instance=ExtResource("3_t33pv")]
+[node name="Character1" parent="Characters" instance=ExtResource("3_t33pv")]
 position = Vector2(104, 72)
 scale = Vector2(0.667, 0.667)
 

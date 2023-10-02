@@ -16,15 +16,16 @@ public partial class Main : Node2D
 	public EnergySystem EnergySystem { get; private set; }
 
 	private readonly Dictionary<string, object> configuration = new();
+	private readonly Dictionary<string, Room> previousRooms = new();
+	private readonly List<Room> changedRooms = new();
 
 	private Vector2I inactiveTileCoordinates;
 	private Vector2I hiddenTileCoordinates;
 
-	private Room previousRoom;
-	private readonly List<Room> changedRooms = new();
+	public IEnumerable<Character> Characters => GetNode("Characters").GetChildren().OfType<Character>();
+	public Node2D SelectedCharacter => Characters.FirstOrDefault(character => character.Selection.IsSelected);
 
-	public IEnumerable<Node2D> Characters => GetNode("Characters").GetChildren().OfType<Node2D>();
-	public Node2D SelectedCharacter => Characters.FirstOrDefault(character => character.GetNode<CharacterSelection>("Selection").IsSelected);
+	public Character GetCharacter(string name) => Characters.FirstOrDefault(node => node.Name == name) as Character;
 
 	public T GetConfig<T>(string key)
 	{
@@ -74,53 +75,68 @@ public partial class Main : Node2D
 		}
 	}
 
+	private readonly HashSet<Room> currentRooms = new();
 	public override void _PhysicsProcess(double delta)
 	{
-		var character = GetNode<Node2D>("Characters/Character");
-		var currentRoom = RoomManager.GetRoom(character.GlobalPosition);
-		
-
-		if (currentRoom != previousRoom)
-		{
-			changedRooms.Add(currentRoom);
-			if (previousRoom != null)
+		currentRooms.Clear();
+		foreach (var character in Characters)
+        {
+			var currentRoom = RoomManager.GetRoom(character.GlobalPosition);
+			currentRooms.Add(currentRoom);
+			var previousRoom = previousRooms.ContainsKey(character.Name) ? previousRooms[character.Name] : null;
+			
+			if (currentRoom != previousRoom)
 			{
-				changedRooms.Add(previousRoom);
+				changedRooms.Add(currentRoom);
+				if (previousRoom != null)
+				{
+					changedRooms.Add(previousRoom);
+				}
+				previousRooms[character.Name] = currentRoom;
+				currentRoom.Trigger();
 			}
-			previousRoom = currentRoom;
-		}
 
-		if(character.GetNode<CharacterSelection>("Selection").IsSelected)
-		{
-			if(CameraManager.GetActiveCamera() != character.GetNode<Camera2D>("PlayerCamera"))
+			if (character.Selection.IsSelected)
 			{
-				Vector2 defaultier = Vector2.Zero;
-				CameraManager.SetActiveCamera(character.GetNode<Camera2D>("PlayerCamera"));
-				CameraManager.SetCameraPosition(defaultier);
-				CameraManager.SetCameraLimits();
+				if (CameraManager.GetActiveCamera() != character.Camera)
+				{
+					Vector2 defaultier = Vector2.Zero;
+					CameraManager.SetActiveCamera(character.Camera);
+					CameraManager.SetCameraPosition(defaultier);
+					CameraManager.SetCameraLimits();
+				}
 			}
-		}
-		else
-		{
-			if (CameraManager.GetActiveCamera() != GetNode<Camera2D>("WorldCamera"))
+			else
 			{
-				Vector2 defaultiest = CameraManager.GetActiveCamera().GlobalPosition;
-				CameraManager.SetActiveCamera(GetNode<Camera2D>("WorldCamera"));
-				CameraManager.SetGlobalCameraPosition(defaultiest);
-				CameraManager.SetCameraLimits();
+				if (CameraManager.GetActiveCamera() != GetNode<Camera2D>("WorldCamera"))
+				{
+					Vector2 defaultiest = CameraManager.GetActiveCamera().GlobalPosition;
+					CameraManager.SetActiveCamera(GetNode<Camera2D>("WorldCamera"));
+					CameraManager.SetGlobalCameraPosition(defaultiest);
+					CameraManager.SetCameraLimits();
+				}
 			}
 		}
 
 		foreach (var room in changedRooms)
 		{
-			UpdateRoom(room, room.IsPowered || room != currentRoom);
+			UpdateRoom(room, room.IsPowered || !currentRooms.Contains(room));
 		}
 		changedRooms.Clear();
 
 		base._PhysicsProcess(delta);
 	}
 
-	public override void _Ready()
+    public void SpawnCharacter(string characterName, Vector2 position)
+    {
+		var newCharacter = Characters.First().Duplicate() as Character;
+		newCharacter.Name = characterName;
+		newCharacter.GlobalPosition = position;
+		GetNode("Characters").AddChild(newCharacter);
+		newCharacter.Selection.Unselect();
+	}
+
+    public override void _Ready()
 	{
 		RoomManager = new(this);
 		CameraManager = new(this);

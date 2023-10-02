@@ -8,31 +8,53 @@ public partial class UserInterface : CanvasLayer
 	private Main main;
 	private Control buildPanel;
 	private Control resourcePanel;
+    private Control oxygenPanel;
+	
 	private Dictionary<string, BuildingManager.Buildable> buildables = new()
 	{
 		{ "PowerGenerator", null },
 		{ "OxygenGenerator", null },
 		{ "Repair", null }
 	};
+	private bool isOxygenPanelOpened = true;
+	private int oxygenPanelOpenedOffset = -40;
+	private int oxygenPanelClosedOffset = 167;
+	private int oxygenPanelSpeed = 600;
 
 	public bool IsMouseOver { get; private set; }
 
 	public override void _Ready()
 	{
 		main = GetTree().Root.GetNode<Main>("Main");
-		buildPanel = GetNode<Control>("BuildPanel");
 		resourcePanel = GetNode<Control>("Resources");
 
 		SetupUIMouseOver(resourcePanel);
 
 		SetupBuildPanel();
 
+		SetupOxygenPanel();
+
 		Visible = true;
 		base._Ready();
 	}
 
-	private void SetupBuildPanel()
+    private void SetupOxygenPanel()
+    {
+		oxygenPanel = GetNode<Control>("OxygenPanel");
+		SetupUIMouseOver(oxygenPanel);
+
+		var toggleButton = GetNode<BaseButton>("ToggleOxygenPanel");
+		toggleButton.Pressed += () =>
+		{
+			isOxygenPanelOpened = !isOxygenPanelOpened;
+			GetNode<TextureRect>("ToggleOxygenPanel/Open").Visible = !isOxygenPanelOpened;
+			GetNode<TextureRect>("ToggleOxygenPanel/Close").Visible = isOxygenPanelOpened;
+		};
+	}
+
+    private void SetupBuildPanel()
 	{
+		buildPanel = GetNode<Control>("BuildPanel");
 		SetupUIMouseOver(buildPanel);
 
 		AttachDescriptionHandlers(GetNode<Control>("BuildPanel/Texts/PowerGenerator"));
@@ -110,7 +132,37 @@ public partial class UserInterface : CanvasLayer
 
 		UpdateBuildPanel();
 
+		UpdateOxygenPanel((float)delta);
+
 		base._Process(delta);
+	}
+
+    private void UpdateOxygenPanel(float delta)
+    {
+		var step = delta * oxygenPanelSpeed;
+		step *= isOxygenPanelOpened ? -1 : 1;
+		var viewRect = oxygenPanel.GetViewportRect();
+		var pos = oxygenPanel.GlobalPosition - viewRect.Size;
+		var newX = Mathf.Clamp(pos.X + step, oxygenPanelOpenedOffset, oxygenPanelClosedOffset);
+		oxygenPanel.GlobalPosition = new(newX + viewRect.Size.X, oxygenPanel.GlobalPosition.Y);
+
+		foreach (Godot.Range oxygenBar in oxygenPanel.GetNode("Bars").GetChildren())
+		{
+			var character = main.GetCharacter(oxygenBar.Name);
+
+			if (character != null)
+            {
+				oxygenBar.Value = character.Oxygen * 0.1;
+
+				oxygenBar.Visible = true;
+				oxygenPanel.GetNode<Control>($"Texts/{oxygenBar.Name}").Visible = true;
+            }
+            else
+            {
+				oxygenBar.Visible = false;
+				oxygenPanel.GetNode<Control>($"Texts/{oxygenBar.Name}").Visible = false;
+			}
+		}
 	}
 
 	private void UpdateBuildPanel()

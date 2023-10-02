@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,9 +14,9 @@ public class RoomManager
         this.main = main;
     }
 
-    public Room RegisterRoom(Vector2I coordinates)
+    public Room RegisterRoom(Vector2I coordinates, Action enterTrigger)
     {
-        var room = new Room(coordinates);
+        var room = new Room(coordinates, enterTrigger);
         rooms.Add(room);    
         return room;
     }

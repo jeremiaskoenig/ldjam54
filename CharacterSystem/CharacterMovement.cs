@@ -6,7 +6,7 @@ public partial class CharacterMovement : Node2D
 {
 	private Queue<Vector2> currentPath = new();
 	private Vector2? currentTarget;
-	private Node2D parent;
+	private Character parent;
 
 	private float speed = 0;
 
@@ -19,14 +19,14 @@ public partial class CharacterMovement : Node2D
 
 	public override void _Ready()
 	{
-		parent = GetParent<Node2D>();
+		parent = GetParent<Character>();
 		speed = (float)GetMeta("moveSpeed");
 		base._Ready();
 	}
 
 	public override void _Input(InputEvent e)
 	{
-		if (IsCharacterSelected())
+		if (parent.Selection.IsSelected)
 		{
 			if (e is InputEventMouseButton mouseButtonEvent && mouseButtonEvent.ButtonIndex == MouseButton.Right)
 			{
@@ -80,11 +80,5 @@ public partial class CharacterMovement : Node2D
 
 
 		Vector2 scaled(Vector2 vec) => new((vec.X * tileSize) + (tileSize * 0.5f), (vec.Y * tileSize) + (tileSize * 0.5f));
-	}
-
-	private bool IsCharacterSelected()
-	{
-		var selection = GetParent().GetNode<CharacterSelection>("Selection");
-		return selection.IsSelected;
 	}
 }

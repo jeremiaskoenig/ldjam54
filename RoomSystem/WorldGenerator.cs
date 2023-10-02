@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -107,7 +108,19 @@ public partial class WorldGenerator
 					roomMap = filteredRooms[GD.RandRange(0, filteredRooms.Length - 1)];
 				}
 
-				var room = main.RoomManager.RegisterRoom(new Vector2I(x, y));
+				string spawnedCharacter = roomMap.HasMeta("spawnedCharacter") ? (string)roomMap.GetMeta("spawnedCharacter") : null;
+				Action enterTrigger = null;
+
+				if (spawnedCharacter != null)
+                {
+					enterTrigger = () =>
+					{
+						var spawnPos = new Vector2((offsetX + (roomWidth * 0.5f)) * tileSize, (offsetY + (roomHeight * 0.5f)) * tileSize);
+						main.SpawnCharacter(spawnedCharacter, spawnPos);
+					};
+                }
+
+				var room = main.RoomManager.RegisterRoom(new Vector2I(x, y), enterTrigger);
 				room.IsPowered = isPowered;
 
 				for (int layer = 0; layer < roomMap.GetLayersCount(); layer++)

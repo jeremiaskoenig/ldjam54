@@ -14,7 +14,7 @@ public class ResourceManager
         this.main = main;
         foreach (var resource in Enum.GetValues<ResourceType>())
         {
-            Resources[resource] = 100;
+            Resources[resource] = 0;
         }
     }
 
