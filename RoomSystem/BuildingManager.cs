@@ -48,8 +48,9 @@ public class BuildingManager
 
     public IEnumerable<Buildable> AvailableBuildables(Vector2 position)
     {
+        var tileSize = main.GetConfig<int>("tileSize");
         var room = main.RoomManager.GetRoom(position);
-        Vector2I playerPos = main.RoomManager.WorldToRoom(position);
+        Vector2I playerPos = new((int)(position.X / tileSize), (int)(position.Y / tileSize));
         if (!room.BuildableWorldMapTiles.Contains(playerPos))
         {
             return Enumerable.Empty<Buildable>();
@@ -64,6 +65,20 @@ public class BuildingManager
 
     public void Build(Buildable buildable, Vector2 position)
     {
+        bool canAfford = true;
+        foreach (var cost in buildable.Cost)
+        {
+            canAfford &= main.ResourceManager.Resources[cost.type] >= cost.amount;
+        }
+
+        if (!canAfford)
+            return;
+
+        foreach (var cost in buildable.Cost)
+        {
+            main.ResourceManager.Resources[cost.type] -= cost.amount;
+        }
+
         var node = InstantiateBuildable(buildable);
         node.GlobalPosition = position;
         node.Visible = true;
@@ -96,5 +111,13 @@ public class BuildingManager
         {
             return $"#{Key}; {Name}; {(IsRepair ? "repair" : "")}";
         }
+    }
+
+    public bool IsClear(Vector2I playerPos)
+    {
+        var tileSize = main.GetConfig<int>("tileSize");
+        var scaledPos = (playerPos * tileSize) + new Vector2I((int)(tileSize * 0.5f), (int)(tileSize * 0.5f));
+        
+        return !buildableContainer.GetChildren().OfType<Node2D>().Any(buildable => buildable.GlobalPosition == scaledPos);
     }
 }

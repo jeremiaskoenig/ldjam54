@@ -362,6 +362,7 @@ layout_mode = 0
 offset_right = 128.0
 offset_bottom = 128.0
 scale = Vector2(0.25, 0.25)
+mouse_filter = 2
 texture = ExtResource("19_cbnp3")
 
 [node name="OxygenGenerator" type="TextureRect" parent="BuildPanel/Icons"]
@@ -370,6 +371,7 @@ offset_top = 48.0
 offset_right = 128.0
 offset_bottom = 176.0
 scale = Vector2(0.25, 0.25)
+mouse_filter = 2
 texture = ExtResource("20_bywqp")
 
 [node name="Repair" type="TextureRect" parent="BuildPanel/Icons"]
@@ -378,6 +380,7 @@ offset_top = 96.0
 offset_right = 128.0
 offset_bottom = 224.0
 scale = Vector2(0.25, 0.25)
+mouse_filter = 2
 texture = ExtResource("9_giagk")
 
 [node name="Title" type="Label" parent="BuildPanel"]

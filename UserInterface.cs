@@ -41,6 +41,9 @@ public partial class UserInterface : CanvasLayer
         AttachDescriptionHandlers(GetNode<Control>("BuildPanel/Icons/PowerGenerator"));
         AttachDescriptionHandlers(GetNode<Control>("BuildPanel/Icons/OxygenGenerator"));
         AttachDescriptionHandlers(GetNode<Control>("BuildPanel/Icons/Repair"));
+        AttachDescriptionHandlers(GetNode<Control>("BuildPanel/Buttons/PowerGenerator"));
+        AttachDescriptionHandlers(GetNode<Control>("BuildPanel/Buttons/OxygenGenerator"));
+        AttachDescriptionHandlers(GetNode<Control>("BuildPanel/Buttons/Repair"));
 
         SetupBuildingButtons();
     }
@@ -52,7 +55,12 @@ public partial class UserInterface : CanvasLayer
         setupPressed("Repair");
         void setupPressed(string key)
         {
-            GetNode<BaseButton>($"BuildPanel/Buttons/{key}").Pressed += () => main.BuildingManager.Build(buildables[key], main.SelectedCharacter.GlobalPosition);
+            GetNode<BaseButton>($"BuildPanel/Buttons/{key}").Pressed += () =>
+            {
+                GD.Print($"pressed: {key}");
+                main.BuildingManager.Build(buildables[key], main.SelectedCharacter.GlobalPosition);
+                main.EnergySystem.UpdatePower();
+            };
         }
     }
 
@@ -111,10 +119,12 @@ public partial class UserInterface : CanvasLayer
 
         if (selectedCharacter != null)
         {
+            var tileSize = main.GetConfig<int>("tileSize");
             var room = main.RoomManager.GetRoom(selectedCharacter.GlobalPosition);
 
-            Vector2I playerPos = main.RoomManager.WorldToRoom(selectedCharacter.GlobalPosition);
-            var visible = room.BuildableWorldMapTiles.Contains(playerPos);
+            Vector2I playerPos = new((int)(selectedCharacter.GlobalPosition.X / tileSize), (int)(selectedCharacter.GlobalPosition.Y / tileSize));
+
+            var visible = room.BuildableWorldMapTiles.Contains(playerPos) && main.BuildingManager.IsClear(playerPos);
             buildPanel.Visible = visible;
             if (visible)
             {
@@ -147,7 +157,6 @@ public partial class UserInterface : CanvasLayer
                 GetNode<Control>("BuildPanel/Texts/Repair").Visible = isRepair;
                 GetNode<Control>("BuildPanel/Icons/Repair").Visible = isRepair;
                 GetNode<Control>("BuildPanel/Buttons/Repair").Visible = isRepair;
-
             }
 
         }

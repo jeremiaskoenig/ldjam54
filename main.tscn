@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dk8muclie2cyl" path="res://Templates/loot_node_prototypes.tscn" id="5_d1ta5"]
 [ext_resource type="PackedScene" uid="uid://b5kq6wicecemw" path="res://Templates/building_prototypes.tscn" id="6_tpjsc"]
 [ext_resource type="Script" path="res://GlobalSelection.cs" id="10_1x5kt"]
-[ext_resource type="PackedScene" path="res://user_interface.tscn" id="10_g0wfa"]
+[ext_resource type="PackedScene" uid="uid://brppm04i21tfx" path="res://user_interface.tscn" id="10_g0wfa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jqulp"]
 radius = 5.0
