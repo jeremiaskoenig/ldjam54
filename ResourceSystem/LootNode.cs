@@ -42,7 +42,7 @@ public partial class LootNode : Node2D
 
                     if (isSelecting && main.Characters.Any(character => CanLoot(character)))
                     {
-                        main.ResourceManager.AddResource(Type, Amount);
+                        main.ResourceManager.AddFromResourceBucket();
                         Visible = false;
                         QueueFree();
                     }

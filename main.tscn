@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://user_interface.tscn" id="10_g0wfa"]
 [ext_resource type="PackedScene" uid="uid://cq2c0wqi1wpr" path="res://Templates/parallax_background.tscn" id="11_r8bu5"]
 
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_jqulp"]
 radius = 5.0
 

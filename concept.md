@@ -26,6 +26,7 @@ TODO:
 -- Fog or War (DONE)
 --- Aktueller Raum sichtbar (DONE)
 --- Räume mit Strom bzw reparierte Räume sichtbar  (DONE)
+-- "Access Level" für jeden Raum
 - Scavenge System
 -- Finden von Resourcen
 -- Resource Management

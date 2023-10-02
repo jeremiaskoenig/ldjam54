@@ -69,7 +69,7 @@ public partial class Main : Node2D
 		{
 			if (RoomManager.GetRoom(placedObject.GlobalPosition) == room)
 			{
-				placedObject.Visible = !isHidden;
+				placedObject.Visible = room.IsPowered || !isHidden;
 			}
 		}
 	}

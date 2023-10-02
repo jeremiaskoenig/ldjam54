@@ -14,7 +14,6 @@ public partial class CharacterSelection : Node2D
 
     private bool CanChangeSelection()
     {
-        GD.Print($"ui.IsMouseOve: {ui.IsMouseOver}");
         return !ui.IsMouseOver;
     }
 
