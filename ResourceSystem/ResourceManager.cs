@@ -14,7 +14,7 @@ public class ResourceManager
         this.main = main;
         foreach (var resource in Enum.GetValues<ResourceType>())
         {
-            Resources[resource] = 0;
+            Resources[resource] = 100;
         }
     }
 
@@ -27,5 +27,23 @@ public class ResourceManager
     {
         var (resource, amount) = ResourceBucket.GetNext();
         AddResource(resource, amount);
+    }
+
+    public bool CanAfford(IEnumerable<(ResourceType type, int amount)> cost)
+    {
+        bool canAfford = true;
+        foreach (var costEntry in cost)
+        {
+            canAfford &= main.ResourceManager.Resources[costEntry.type] >= costEntry.amount;
+        }
+        return canAfford;
+    }
+
+    internal void Pay(IEnumerable<(ResourceType type, int amount)> cost)
+    {
+        foreach (var costEntry in cost)
+        {
+            Resources[costEntry.type] -= costEntry.amount;
+        }
     }
 }

@@ -99,7 +99,6 @@ public partial class UserInterface : CanvasLayer
 		{
 			GetNode<BaseButton>($"BuildPanel/Buttons/{key}").Pressed += () =>
 			{
-				GD.Print($"pressed: {key}");
 				main.BuildingManager.Build(buildables[key], main.SelectedCharacter.GlobalPosition);
 				main.EnergySystem.UpdatePower();
 			};
@@ -229,11 +228,24 @@ public partial class UserInterface : CanvasLayer
 
 			Vector2I playerPos = new((int)(selectedCharacter.GlobalPosition.X / tileSize), (int)(selectedCharacter.GlobalPosition.Y / tileSize));
 
-			var visible = room.BuildableWorldMapTiles.Contains(playerPos) && main.BuildingManager.IsClear(playerPos);
+			var isRepairable = main.BuildingManager.IsType(playerPos, "antenna")
+				|| main.BuildingManager.IsType(playerPos, "computer_system")
+				|| main.BuildingManager.IsType(playerPos, "fuel_pump");
+			isRepairable &= !main.BuildingManager.IsFixed(playerPos);
+			var positionValid = main.BuildingManager.IsClear(playerPos) || isRepairable;
+			
+			var visible = room.BuildableWorldMapTiles.Contains(playerPos) && positionValid;
 			buildPanel.Visible = visible;
 			if (visible)
 			{
 				var buildables = main.BuildingManager.AvailableBuildables(selectedCharacter.GlobalPosition);
+
+				GD.Print("available:");
+                foreach (var item in buildables)
+                {
+					GD.Print($"> {item.Key}");
+                }
+
 				foreach (var buildable in buildables)
 				{
 					Label label;
