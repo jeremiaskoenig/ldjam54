@@ -79,7 +79,11 @@ public partial class WorldGenerator
 					{
 						prefix = "Corner2";
 					}
-					else if ((x == 0)||(x == 1 && (y == 6 || y == 7)))
+					else if (x == 3 && y == 0)
+					{
+						prefix = "HPipe";
+					}
+					else if ((x == 0)||(x == 1 && (y == 6 || y == 7)) || (x == 4 && y == 1) || (x == 7 && y == 3))
                     {
 						prefix = "LSide";
                     }
@@ -87,11 +91,11 @@ public partial class WorldGenerator
 					{
 						prefix = "RSide";
 					}
-					else if (y == 0)
+					else if (y == 0 || (x == 3 && y == 2) || (x == 5 && y == 4) || (x == 6 && y == 4))
 					{
 						prefix = "TSide";
 					}
-					else if (y == worldSize - 1)
+					else if ((y == worldSize - 1) || (x == 5 && y == 2) || (x == 6 && y == 2))
 					{
 						prefix = "DSide";
 					}

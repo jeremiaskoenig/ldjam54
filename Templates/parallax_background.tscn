@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://cq2c0wqi1wpr"]
+
+[ext_resource type="Texture2D" uid="uid://cdcb3jl2wjgre" path="res://Assets/Background/BackdropBlackLittleSparkBlack.png" id="1_oue6v"]
+[ext_resource type="Texture2D" uid="uid://cmmmrxgmmwwd0" path="res://Assets/Background/spaceStation_020.png" id="3_0bkwu"]
+[ext_resource type="Texture2D" uid="uid://eonimeqxp8th" path="res://Assets/Background/planet00.png" id="3_5bc0n"]
+[ext_resource type="Texture2D" uid="uid://kvrdwqso4027" path="res://Assets/Background/planet02.png" id="5_7yr8m"]
+[ext_resource type="Texture2D" uid="uid://5fevwypircv0" path="res://Assets/Background/planet09.png" id="6_413of"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+
+[node name="Space" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(512, 0)
+
+[node name="Stars" type="Sprite2D" parent="Space"]
+texture_repeat = 2
+position = Vector2(-104, -104)
+texture = ExtResource("1_oue6v")
+centered = false
+region_enabled = true
+region_rect = Rect2(-104, -104, 3000, 2200)
+
+[node name="Object" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+
+[node name="Earth" type="Sprite2D" parent="Object"]
+position = Vector2(-161, 212)
+texture = ExtResource("3_5bc0n")
+centered = false
+
+[node name="SpaceStation" type="Sprite2D" parent="Object"]
+position = Vector2(338, 199)
+scale = Vector2(0.444444, 0.448413)
+texture = ExtResource("3_0bkwu")
+centered = false
+
+[node name="Mars" type="Sprite2D" parent="Object"]
+position = Vector2(817, 81)
+texture = ExtResource("5_7yr8m")
+centered = false
+
+[node name="PurplePlanet" type="Sprite2D" parent="Object"]
+position = Vector2(1275, 503)
+texture = ExtResource("6_413of")
+centered = false

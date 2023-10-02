@@ -229,6 +229,10 @@ texture = ExtResource("1_44x0f")
 11:9/0 = 0
 11:9/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 11:9/0/physics_layer_0/angular_velocity = 0.0
+1:9/size_in_atlas = Vector2i(3, 4)
+1:9/0 = 0
+1:9/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:9/0/physics_layer_0/angular_velocity = 0.0
 
 [resource]
 physics_layer_0/collision_layer = 1

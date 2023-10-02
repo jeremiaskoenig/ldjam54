@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bwwv77m441ywj"]
+[gd_scene load_steps=13 format=3 uid="uid://bwwv77m441ywj"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_p0y2m"]
 [ext_resource type="PackedScene" uid="uid://3moy2x8x8ejw" path="res://Templates/room_templates.tscn" id="3_mlili"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b5kq6wicecemw" path="res://Templates/building_prototypes.tscn" id="6_tpjsc"]
 [ext_resource type="Script" path="res://GlobalSelection.cs" id="10_1x5kt"]
 [ext_resource type="PackedScene" path="res://user_interface.tscn" id="10_g0wfa"]
+[ext_resource type="PackedScene" uid="uid://cq2c0wqi1wpr" path="res://Templates/parallax_background.tscn" id="11_r8bu5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jqulp"]
 radius = 5.0
@@ -102,3 +103,5 @@ script = ExtResource("5_6tk66")
 
 [node name="UserInterface" parent="." instance=ExtResource("10_g0wfa")]
 visible = false
+
+[node name="Background" parent="." instance=ExtResource("11_r8bu5")]
