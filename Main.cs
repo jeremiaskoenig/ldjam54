@@ -15,6 +15,7 @@ public partial class Main : Node2D
 	public BuildingManager BuildingManager { get; private set; }
 	public EnergySystem EnergySystem { get; private set; }
 	public EventManager EventManager { get; private set; }
+	public AudioManager AudioManager { get; private set; }
 
 	private readonly Dictionary<string, object> configuration = new();
 	private readonly Dictionary<string, Room> previousRooms = new();
@@ -145,6 +146,7 @@ public partial class Main : Node2D
 		BuildingManager = new(this);
 		EnergySystem = new(this);
 		EventManager = new(this);
+		AudioManager = new(this);
 
 		foreach (string key in GetMetaList())
 		{

@@ -8,8 +8,8 @@ public partial class UserInterface : CanvasLayer
 	private Main main;
 	private Control buildPanel;
 	private Control resourcePanel;
-    private Control oxygenPanel;
-    private Control powerRoomPanel;
+	private Control oxygenPanel;
+	private Control powerRoomPanel;
 	
 	private Dictionary<string, BuildingManager.Buildable> buildables = new()
 	{
@@ -22,25 +22,25 @@ public partial class UserInterface : CanvasLayer
 	private int oxygenPanelClosedOffset = 167;
 	private int oxygenPanelSpeed = 600;
 
-    public bool IsMouseOver { get; private set; }
+	public bool IsMouseOver { get; private set; }
 
 	public bool IsHUDVisible { get; set; } = true;
 
 	public override void _Ready()
-    {
-        main = GetTree().Root.GetNode<Main>("Main");
+	{
+		main = GetTree().Root.GetNode<Main>("Main");
 
-        SetupResourcePanel();
-        SetupBuildPanel();
-        SetupOxygenPanel();
+		SetupResourcePanel();
+		SetupBuildPanel();
+		SetupOxygenPanel();
 		SetupPowerRoomPanel();
 
-        Visible = true;
-        base._Ready();
-    }
+		Visible = true;
+		base._Ready();
+	}
 
-    private void SetupPowerRoomPanel()
-    {
+	private void SetupPowerRoomPanel()
+	{
 		powerRoomPanel = GetNode<Control>("PowerRoomPanel");
 		SetupUIMouseOver(powerRoomPanel);
 
@@ -55,13 +55,13 @@ public partial class UserInterface : CanvasLayer
 	}
 
 	private void SetupResourcePanel()
-    {
-        resourcePanel = GetNode<Control>("Resources");
-        SetupUIMouseOver(resourcePanel);
-    }
+	{
+		resourcePanel = GetNode<Control>("Resources");
+		SetupUIMouseOver(resourcePanel);
+	}
 
-    private void SetupOxygenPanel()
-    {
+	private void SetupOxygenPanel()
+	{
 		oxygenPanel = GetNode<Control>("OxygenPanel");
 		SetupUIMouseOver(oxygenPanel);
 
@@ -74,7 +74,7 @@ public partial class UserInterface : CanvasLayer
 		};
 	}
 
-    private void SetupBuildPanel()
+	private void SetupBuildPanel()
 	{
 		buildPanel = GetNode<Control>("BuildPanel");
 		SetupUIMouseOver(buildPanel);
@@ -143,33 +143,33 @@ public partial class UserInterface : CanvasLayer
 	}
 
 	public override void _Process(double delta)
-    {
+	{
 		if (IsHUDVisible)
-        {
-            ToggleHUD(true);
+		{
+			ToggleHUD(true);
 			UpdateResourcePanel();
 			UpdateBuildPanel();
 			UpdateOxygenPanel((float)delta);
 			UpdatePowerRoomPanel();
-        }
-        else
+		}
+		else
 		{
 			ToggleHUD(false);
 
 		}
 
-        base._Process(delta);
-    }
+		base._Process(delta);
+	}
 
-    private void ToggleHUD(bool visible)
-    {
-        resourcePanel.Visible = visible;
-        buildPanel.Visible = visible;
-        oxygenPanel.Visible = visible;
+	private void ToggleHUD(bool visible)
+	{
+		resourcePanel.Visible = visible;
+		buildPanel.Visible = visible;
+		oxygenPanel.Visible = visible;
 		GetNode<Control>("ToggleOxygenPanel").Visible = visible;
 	}
 
-    private void UpdatePowerRoomPanel()
+	private void UpdatePowerRoomPanel()
 	{
 		var selectedCharacter = main.SelectedCharacter;
 
@@ -198,18 +198,18 @@ public partial class UserInterface : CanvasLayer
 		}
 	}
 
-    private void UpdateResourcePanel()
-    {
-        SetResourceLabel("BuildingMaterials", ResourceType.BuildingMaterials);
-        SetResourceLabel("DuctTape", ResourceType.DuctTape);
-        SetResourceLabel("Chemicals", ResourceType.Chemicals);
-        SetResourceLabel("Tools", ResourceType.Tools);
-        SetResourceLabel("Circuitry", ResourceType.Circuitry);
-        SetResourceLabel("Power", $"{main.EnergySystem.UsedPower}/{main.EnergySystem.TotalPower}");
-    }
+	private void UpdateResourcePanel()
+	{
+		SetResourceLabel("BuildingMaterials", ResourceType.BuildingMaterials);
+		SetResourceLabel("DuctTape", ResourceType.DuctTape);
+		SetResourceLabel("Chemicals", ResourceType.Chemicals);
+		SetResourceLabel("Tools", ResourceType.Tools);
+		SetResourceLabel("Circuitry", ResourceType.Circuitry);
+		SetResourceLabel("Power", $"{main.EnergySystem.UsedPower}/{main.EnergySystem.TotalPower}");
+	}
 
-    private void UpdateOxygenPanel(float delta)
-    {
+	private void UpdateOxygenPanel(float delta)
+	{
 		var step = delta * oxygenPanelSpeed;
 		step *= isOxygenPanelOpened ? -1 : 1;
 		var viewRect = oxygenPanel.GetViewportRect();
@@ -222,14 +222,14 @@ public partial class UserInterface : CanvasLayer
 			var character = main.GetCharacter(oxygenBar.Name);
 
 			if (character != null)
-            {
+			{
 				oxygenBar.Value = character.Oxygen * 0.1;
 
 				oxygenBar.Visible = true;
 				oxygenPanel.GetNode<Control>($"Texts/{oxygenBar.Name}").Visible = true;
-            }
-            else
-            {
+			}
+			else
+			{
 				oxygenBar.Visible = false;
 				oxygenPanel.GetNode<Control>($"Texts/{oxygenBar.Name}").Visible = false;
 			}
@@ -260,10 +260,10 @@ public partial class UserInterface : CanvasLayer
 				var buildables = main.BuildingManager.AvailableBuildables(selectedCharacter.GlobalPosition);
 
 				GD.Print("available:");
-                foreach (var item in buildables)
-                {
+				foreach (var item in buildables)
+				{
 					GD.Print($"> {item.Key}");
-                }
+				}
 
 				foreach (var buildable in buildables)
 				{

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bwwv77m441ywj"]
+[gd_scene load_steps=17 format=3 uid="uid://bwwv77m441ywj"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_p0y2m"]
 [ext_resource type="PackedScene" uid="uid://3moy2x8x8ejw" path="res://Templates/room_templates.tscn" id="3_mlili"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cq2c0wqi1wpr" path="res://Templates/parallax_background.tscn" id="11_r8bu5"]
 [ext_resource type="PackedScene" uid="uid://0i5v10sv17l0" path="res://Assets/Tiles/world_atlas.tscn" id="12_011lf"]
 [ext_resource type="PackedScene" uid="uid://d363nryoxxxmj" path="res://transitionscreen.tscn" id="14_56ii5"]
+[ext_resource type="AudioStream" uid="uid://b8cjfbou6k2du" path="res://Assets/Audio/ville_seppanen-1_g.mp3" id="15_x61rt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jqulp"]
 radius = 5.0
@@ -121,3 +122,7 @@ visible = false
 
 [node name="Transitionscreen" parent="." instance=ExtResource("14_56ii5")]
 visible = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_x61rt")
+autoplay = true

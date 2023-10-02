@@ -38,16 +38,16 @@ public partial class EscapeEvent : Node2D
 		if (eventManager.GetMoveShip())
 		{
 			if(character == null)
-            {
+			{
 				character = eventManager.GetCharacter();
-            }
+			}
 
 			if (waitTimer > 0)
 			{
 				if(waitTimer < 200)
-                {
+				{
 					character.Visible = false;
-                }
+				}
 
 				waitTimer -= 5; 
 				drive1.Scale = new Vector2(0, 1);
@@ -63,9 +63,9 @@ public partial class EscapeEvent : Node2D
 		}
 
 		if (escapeShip.Position == new Vector2(2100, 0))
-        {
+		{
 			eventManager.initiateEndscreen();
-        }
+		}
 		
 		base._PhysicsProcess(delta);
 	}
