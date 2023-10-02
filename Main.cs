@@ -33,7 +33,7 @@ public partial class Main : Node2D
 	}
 
 	public void RefreshRoom(Room room)
-    {
+	{
 		changedRooms.Add(room);
 	}
 
@@ -68,7 +68,7 @@ public partial class Main : Node2D
 	{
 		currentRooms.Clear();
 		foreach (var character in Characters)
-        {
+		{
 			var currentRoom = RoomManager.GetRoom(character.GlobalPosition);
 			currentRooms.Add(currentRoom);
 			var previousRoom = previousRooms.ContainsKey(character.Name) ? previousRooms[character.Name] : null;
@@ -115,8 +115,8 @@ public partial class Main : Node2D
 		base._PhysicsProcess(delta);
 	}
 
-    public void SpawnCharacter(string characterName, Vector2 position)
-    {
+	public void SpawnCharacter(string characterName, Vector2 position)
+	{
 		GD.Print($"Spawning character {characterName}@{position}");
 
 		var newCharacter = Characters.First().Duplicate() as Character;
@@ -126,12 +126,16 @@ public partial class Main : Node2D
 		newCharacter.Selection.Unselect();
 	}
 
+<<<<<<< HEAD
     internal void TriggerFixed(BuildingManager.Buildable buildable, Vector2 position)
     {
         //TODO: do some story stuff
     }
 
     public override void _Ready()
+=======
+	public override void _Ready()
+>>>>>>> 23b1776a004062d55c4b33a4862dc871407d0d21
 	{
 		RoomManager = new(this);
 		CameraManager = new(this);
