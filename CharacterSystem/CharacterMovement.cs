@@ -81,4 +81,9 @@ public partial class CharacterMovement : Node2D
 
 		Vector2 scaled(Vector2 vec) => new((vec.X * tileSize) + (tileSize * 0.5f), (vec.Y * tileSize) + (tileSize * 0.5f));
 	}
+
+	public void EventMovement(Vector2 MovementTarget)
+    {
+		TriggerMovement(MovementTarget);
+    }
 }

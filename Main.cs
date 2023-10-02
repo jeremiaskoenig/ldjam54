@@ -14,6 +14,7 @@ public partial class Main : Node2D
 	public ResourceManager ResourceManager { get; private set; }
 	public BuildingManager BuildingManager { get; private set; }
 	public EnergySystem EnergySystem { get; private set; }
+	public EventManager EventManager { get; private set; }
 
 	private readonly Dictionary<string, object> configuration = new();
 	private readonly Dictionary<string, Room> previousRooms = new();
@@ -86,7 +87,7 @@ public partial class Main : Node2D
 
 			if (character.Selection.IsSelected)
 			{
-				if (CameraManager.GetActiveCamera() != character.Camera)
+				if (CameraManager.GetActiveCamera() != character.Camera && EventManager.GetCameraLock() == false)
 				{
 					Vector2 defaultier = Vector2.Zero;
 					CameraManager.SetActiveCamera(character.Camera);
@@ -96,7 +97,7 @@ public partial class Main : Node2D
 			}
 			else
 			{
-				if (CameraManager.GetActiveCamera() != GetNode<Camera2D>("WorldCamera"))
+				if (CameraManager.GetActiveCamera() != GetNode<Camera2D>("WorldCamera") && EventManager.GetCameraLock() == false)
 				{
 					Vector2 defaultiest = CameraManager.GetActiveCamera().GlobalPosition;
 					CameraManager.SetActiveCamera(GetNode<Camera2D>("WorldCamera"));
@@ -133,6 +134,7 @@ public partial class Main : Node2D
 		ResourceManager = new(this);
 		BuildingManager = new(this);
 		EnergySystem = new(this);
+		EventManager = new(this);
 
 		foreach (string key in GetMetaList())
 		{
@@ -171,6 +173,7 @@ public partial class Main : Node2D
 		var startCamera = GetNode<Camera2D>("WorldCamera");
 		CameraManager.SetActiveCamera(startCamera);
 		CameraManager.SetCameraLimits();
+		EventManager.SetEscapeShipTrigger();
 		worldMap = GetNode<TileMap>("World");
 		overlayMap = GetNode<TileMap>("WorldOverlay");
 		WorldGenerator = new WorldGenerator(this, worldMap, roomTemplates, storyRoomTemplates, lootNodePrototypes, lootNodeContainer);

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bwwv77m441ywj"]
+[gd_scene load_steps=15 format=3 uid="uid://bwwv77m441ywj"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_p0y2m"]
 [ext_resource type="PackedScene" uid="uid://3moy2x8x8ejw" path="res://Templates/room_templates.tscn" id="3_mlili"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://CameraSystem/CameraMovement.cs" id="5_6tk66"]
 [ext_resource type="PackedScene" uid="uid://dk8muclie2cyl" path="res://Templates/loot_node_prototypes.tscn" id="5_d1ta5"]
 [ext_resource type="PackedScene" uid="uid://b5kq6wicecemw" path="res://Templates/building_prototypes.tscn" id="6_tpjsc"]
+[ext_resource type="PackedScene" uid="uid://blijgmo0mjoe1" path="res://escape_ship.tscn" id="7_5d1rn"]
 [ext_resource type="Script" path="res://GlobalSelection.cs" id="10_1x5kt"]
 [ext_resource type="PackedScene" uid="uid://brppm04i21tfx" path="res://user_interface.tscn" id="10_g0wfa"]
 [ext_resource type="PackedScene" uid="uid://cq2c0wqi1wpr" path="res://Templates/parallax_background.tscn" id="11_r8bu5"]
@@ -40,6 +41,11 @@ shape = SubResource("CircleShape2D_jqulp")
 [node name="LootNodePrototypes" parent="." instance=ExtResource("5_d1ta5")]
 
 [node name="BuildingPrototypes" parent="." instance=ExtResource("6_tpjsc")]
+
+[node name="Worldobjects" type="Node" parent="."]
+
+[node name="EscapeShip" parent="Worldobjects" instance=ExtResource("7_5d1rn")]
+visible = false
 
 [node name="World" type="TileMap" parent="."]
 scale = Vector2(1, 1.007)

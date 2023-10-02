@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://blijgmo0mjoe1"]
+
+[ext_resource type="Script" path="res://EventSystem/EscapeEvent.cs" id="1_cuwbr"]
+[ext_resource type="Texture2D" uid="uid://byv3fwkd7dbwa" path="res://Assets/Objects/spaceShips_007.png" id="1_d4g7r"]
+[ext_resource type="Texture2D" uid="uid://dx6l55e4op1u2" path="res://Assets/Objects/spaceEffects_017.png" id="3_l4bhg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ogni"]
+size = Vector2(250.25, 219.25)
+
+[node name="EscapeShip" type="Node2D"]
+script = ExtResource("1_cuwbr")
+
+[node name="Body" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+visible = false
+position = Vector2(-1.125, 0.375)
+shape = SubResource("RectangleShape2D_2ogni")
+
+[node name="Ship" type="Sprite2D" parent="."]
+texture = ExtResource("1_d4g7r")
+
+[node name="Drive1" type="Sprite2D" parent="Ship"]
+position = Vector2(-58, 109)
+scale = Vector2(0.8, 1.43939)
+texture = ExtResource("3_l4bhg")
+
+[node name="Drive2" type="Sprite2D" parent="Ship"]
+position = Vector2(58, 109)
+scale = Vector2(0.8, 1.43939)
+texture = ExtResource("3_l4bhg")
+
+[node name="ShipCamera" type="Camera2D" parent="."]
+limit_left = -104
+limit_top = -104
+limit_right = 2184
+limit_bottom = 1544
+drag_left_margin = 0.0
+drag_top_margin = 0.0
+drag_right_margin = 0.0
+drag_bottom_margin = 0.0
